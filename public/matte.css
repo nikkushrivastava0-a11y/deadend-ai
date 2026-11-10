@@ -1,0 +1,227 @@
+/*
+ * DEADEND / MATTE EDITION
+ * Palette: charcoal, graphite, warm paper, cool steel.
+ * No neon, rainbow gradients, bloom or decorative glitter.
+ * Loaded after the existing styles so review workflows remain untouched.
+ */
+:root {
+  --ink:#e6e3dc;
+  --paper:#101113;
+  --white:#eeece6;
+  --line:#343638;
+  --blue:#c9c6bc;
+  --orange:#999b98;
+  --pale:#1b1d20;
+}
+html{background:#101113}
+body{
+  color:#dfded8;
+  background:#101113!important;
+  background-image:none!important;
+}
+a{color:#d4d1c7}
+a:hover{color:#f1f0ea}
+.sidebar{
+  background:#121315!important;
+  border-color:#35373a!important;
+  box-shadow:none!important;
+}
+.brand{color:#eeeae1}
+.branddot{color:#a8a7a1!important}
+.logo{
+  background:#d6d2c8!important;
+  background-image:none!important;
+  color:#151617!important;
+  box-shadow:none!important;
+  border:1px solid #e5e0d5;
+}
+.workspace-label{color:#8c8d8a}
+.workspace{
+  background:#1b1d1f!important;
+  border:1px solid #383a3d!important;
+  box-shadow:none!important;
+}
+.wicon{background:#2b2d2f!important;color:#cbc9c1!important}
+.workspace b{color:#e2dfd7}
+.workspace small{color:#9da09f!important}
+.nav{
+  color:#a3a5a2!important;
+  border-color:transparent!important;
+  box-shadow:none!important;
+}
+.nav span{color:#b8bab7}
+.nav:hover{background:#25272a!important;color:#eeeae3!important}
+.nav.active{
+  color:#eeeae3!important;
+  background:#292b2e!important;
+  background-image:none!important;
+  border-left-color:#d0cdc3!important;
+}
+.nav.active span{color:#d8d5cc}
+.sidebar-bottom{border-color:#36383a!important}
+.sidebar-bottom p{color:#b4b2a9!important}
+.sidebar-bottom small{color:#989d9b!important}
+.topbar{background:#151618!important;border-color:#343638!important}
+.bread{color:#bcbcb6!important}
+.bread span{color:#6f7473!important}
+.topright{color:#9c9f9b!important}
+.statusdot{background:#bbbdb7!important;box-shadow:none!important}
+.overline{border-color:#393b3d!important;color:#a0a29e!important}
+.overline-mark{background:#bab7af!important;box-shadow:none!important}
+.chapter,.eyebrow{color:#a8aaa5!important}
+.chapter span{color:#cdcac0!important}
+.hero h1,.pagehead h1{color:#f0eee8!important}
+.highlight-word{
+  color:#bcb9b0!important;
+  background:none!important;
+  -webkit-background-clip:initial!important;
+  background-clip:initial!important;
+  -webkit-text-fill-color:#bcb9b0!important;
+  text-shadow:none!important;
+}
+.hero-copy>p,.hero-copy>p strong,.pagehead p{color:#aeb0ad!important}
+.hero-copy>p strong{color:#e9e8e1!important}
+.hero-foot{color:#989994!important}
+.foot-line{background:#656866!important}
+.primary{
+  background:#d3d0c6!important;
+  border:1px solid #d3d0c6!important;
+  background-image:none!important;
+  color:#181a1b!important;
+  border-radius:4px!important;
+  box-shadow:none!important;
+  text-shadow:none!important;
+}
+.primary:hover{background:#eeeae1!important;border-color:#eeeae1!important;box-shadow:none!important}
+.subtle,.text-link{
+  color:#c6c4bd!important;
+  border-color:#797b78!important;
+}
+.subtle:hover,.text-link:hover{color:#f4f1e9!important;border-color:#cfccc3!important}
+.scene-wrap.immersive{
+  background:#17191c!important;
+  background-image:none!important;
+  border:1px solid #3b3e40!important;
+  box-shadow:0 15px 38px rgba(0,0,0,.24)!important;
+}
+.scene-wrap.immersive::before{background:none!important;box-shadow:none!important}
+.scene{
+  background:#17191c!important;
+  background-image:none!important;
+}
+.scene::after{
+  background:repeating-linear-gradient(90deg,transparent 0 79px,rgba(171,170,160,.045) 80px),
+             repeating-linear-gradient(0deg,transparent 0 79px,rgba(171,170,160,.045) 80px)!important;
+  opacity:.13!important;
+}
+.scene-ambient,.scene-glow{display:none!important}
+.scene-head,.scene-caption{color:#8f9390!important;border-color:#363a3c!important}
+.scene-head span:last-child{color:#9a9d98!important}
+.live-indicator,.has-webgl .scene-head .live-indicator{
+  background:#d4d2c8!important;
+  box-shadow:none!important;
+}
+.scene-hud b{color:#c7c7c0!important}
+.scene-hud span{color:#888e8a!important}
+.scene-controls{color:#aaa9a2!important}
+.scene-controls button{
+  color:#c5c3ba!important;
+  background:#222427!important;
+  border:1px solid #47494b!important;
+  box-shadow:none!important;
+}
+.scene-controls button:hover{background:#303235!important}
+.scene-inspector,.trace-picker{border-color:#3d3f40!important}
+.scene-inspector small,.scene-inspector h3{color:#d0cec5!important}
+.scene-inspector p{color:#a3a6a4!important}
+.inspector-action{
+  color:#d2cec5!important;
+  background:#252729!important;
+  border:1px solid #515455!important;
+}
+.inspector-action:hover{background:#333538!important}
+.node3d,
+.has-webgl .node3d{
+  color:#e1e1da!important;
+  background:#272a2c!important;
+  background-image:none!important;
+  border:1px solid #666a6a!important;
+  box-shadow:0 8px 24px rgba(0,0,0,.27)!important;
+  backdrop-filter:none!important;
+  filter:none!important;
+  text-shadow:none!important;
+}
+.node3d::before,.node3d::after{display:none!important}
+.node3d.selected,.node3d:hover,
+.has-webgl .node3d.selected,.has-webgl .node3d:hover{
+  color:#fffef7!important;
+  background:#393c3e!important;
+  background-image:none!important;
+  border-color:#b9b8b0!important;
+  box-shadow:0 8px 24px rgba(0,0,0,.23)!important;
+}
+.node3d strong{color:#e7e6df!important}
+.node-overline,.node-symbol,.n-decision .node-overline,.n-review .node-symbol{
+  color:#c8c5bb!important;
+  text-shadow:none!important;
+}
+.node-caption{color:#aeb0ac!important}
+.scene-wire{background:#686b6a!important;box-shadow:none!important}
+.scene-ground{opacity:.12!important}
+.stats{border-color:#393c3c!important}
+.stats article{background:#17191c!important;border-color:#383b3c!important;box-shadow:none!important}
+.stats article:hover{background:#202224!important}
+.stats b{color:#e6e4dd!important;text-shadow:none!important}
+.stats article>span:last-child{color:#929795!important}
+.stat-kicker,.section-title,.section-title span:last-child{color:#a9aaa4!important}
+.prototyping-note{background:#1a1c1e!important;color:#a8aaa5!important;border-color:#383c3e!important}
+.prototyping-note span{color:#d1cdc2!important}
+.panel,.claim,.handover-entry{
+  color:#e8e7df!important;
+  background:#1c1e21!important;
+  background-image:none!important;
+  border:1px solid #3d4142!important;
+  box-shadow:none!important;
+}
+.panel h2,.claim h3,.handover-entry h3{color:#e7e5dc!important}
+.claim:hover,.handover-entry:hover{border-color:#727672!important}
+.muted,.claimmeta,.empty,blockquote{color:#a4a8a3!important}
+input,select,textarea{
+  background:#141619!important;
+  color:#e6e3d9!important;
+  border:1px solid #4a4d4e!important;
+  box-shadow:none!important;
+}
+input:focus,select:focus,textarea:focus{border-color:#b8b6ab!important}
+input::placeholder,textarea::placeholder{color:#848b88!important}
+.pill{
+  color:#c7c7bf!important;
+  background:#303335!important;
+  background-image:none!important;
+  border-color:#4e5152!important;
+}
+.source-row,.note-row,.source-row small,.note-header{border-color:#383b3d!important}
+.source-row summary{color:#d9d7cd!important}
+.source-row pre{color:#bfc0b9!important}
+.review-actions .action{
+  color:#d2d3cc!important;
+  background:#2b2e30!important;
+  border-color:#535758!important;
+}
+.review-actions .action:hover{background:#373a3c!important}
+.handover-bar{background:#222427!important;border-color:#454849!important}
+.disclosure{background:#1b1e20!important;border-color:#3d4142!important;color:#a8a9a3!important}
+.counter{background:#262728!important;border-left-color:#a7a69c!important;color:#d9d6cb!important}
+.counter a,.real-case-link{color:#d4d3ca!important;border-color:#8c8d86!important}
+.counter a:hover,.real-case-link:hover{color:#faf8f1!important;border-color:#cecdc4!important}
+dialog{background:#1e2022!important;color:#e9e7de!important;border-color:#636664!important;box-shadow:0 20px 60px rgba(0,0,0,.5)!important}
+dialog::backdrop{background:rgba(0,0,0,.73)!important}
+dialog p{color:#c2c0b7!important}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{
+  outline:2px solid #d5d1c8!important;
+  outline-offset:3px!important;
+}
+/* Semantic errors remain red when actually needed; decorative accents do not. */
+@media(prefers-reduced-motion:reduce){
+  .scene-wrap.immersive,.node3d,.nav,.primary{transition:none!important;animation:none!important}
+}
