@@ -1,0 +1,11 @@
+DEADEND AI / Windows quick start
+1. Extract the ZIP using Extract All.
+2. Double-click START_DEADEND_WINDOWS.cmd inside the extracted folder.
+3. Your browser should open automatically to http://localhost:3001 (or 3002 when 3001 is occupied).
+4. Click "Open an example case" -> review a public finding -> approve it -> view handover.
+
+Alternative one PowerShell command when already inside this folder:
+    npm start
+
+This is a prototype. Do not enter private workplace data or passwords.
+It has no sign-in and no durable database. It is not publicly deployed yet.

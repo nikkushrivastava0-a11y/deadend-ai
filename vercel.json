@@ -1,0 +1,9 @@
+{
+  "framework": null,
+  "outputDirectory": "public",
+  "rewrites": [{ "source": "/api/:path*", "destination": "/api/workspace" }],
+  "headers": [{
+    "source": "/api/:path*",
+    "headers": [{ "key": "Cache-Control", "value": "private, no-store" }]
+  }]
+}

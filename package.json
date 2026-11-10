@@ -1,0 +1,13 @@
+{
+  "name": "deadend-round2-mvp",
+  "version": "0.7.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "test": "node --test tests/*.test.js",
+    "check": "node --check server.js && node --check engine.js && node --check public/app.js && npm test"
+  },
+  "engines": {"node": ">=20"}
+}
