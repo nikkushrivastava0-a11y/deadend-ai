@@ -24,3 +24,13 @@
 - Local static viewport inspection on supplied v0.6 HTML/CSS at 390x844, 768x1024 and 1440x900 showed no horizontal page overflow, but the older phone scene clipped cards. Candidate mobile fallback CSS was implemented and a follow-up static phone screenshot showed all five cards readable. This is browser emulation on a local snapshot, **not** verification of the newest deployed build or a physical phone.
 - Browser navigation to live/preview Vercel URLs was unavailable through the available browser/network tools; direct local Chromium navigation was blocked by administrator policy. Actual live UI import and incognito checks are **still unverified**.
 - Next executable steps: re-check CI on head, inspect preview build logs/files, finish submission report with verified vs candidate capabilities, and only release after judge journey is verified.
+
+### 10 November evening — focused real-issue QA (requested window 20:48–00:48 IST)
+- Start time from conversation clock: **20:48 IST, 10 Nov 2026**. Four-hour target: **00:48 IST, 11 Nov 2026**. This is a requested window, not elapsed work time.
+- Confirmed production Vercel deployment READY (dpl_4u2zypMuYZUqsfxkareaB48a2bWe, domain deadend-ai-codersinpune.vercel.app) and baseline main commit f0e57c57553049ea0e1e3f00e1c8ed153d75e12f. Direct unauthenticated HTTP checks from this container were blocked; READY does not prove browser QA.
+- Inspected draft PR #1; production main unchanged.
+- Inspected real public GitHub issue https://github.com/tinyhumansai/openhuman/issues/867 which documents failed webview overlay approaches and reasons. Reproduced extraction gap in supplied local v0.6: only uninformative reverted sentence was found.
+- Branch fix commit 637c97048f03c1cedee200a0fc30cf1950af4435 recognises failed approaches under markdown headings, preserving exact original quotations while displaying heading as context.
+- Regression test commit f7154180ae776ef58362ed3842065da1c0543eff covers markdown headings, distinct comments, exact excerpts and export.
+- Remaining: verify complete CI suite and preview browser; real live import is not yet proven, so do not promote based only on this log.
+- Next executable task: check CI and preview, import public GitHub issue, inspect approval/handover, then merge a verified release. Form submission remains user-authorised only.
