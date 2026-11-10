@@ -2,18 +2,18 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {extractCandidates, verifyClaim, publicHandover} from '../engine.js';
 
-// Public GitHub issue 867, tinyhumansai/openhuman. The quoted wording below is
-// representative of the publicly available source; no synthetic failure is claimed.
+// Public GitHub issue 867, tinyhumansai/openhuman. The failure lines below are verbatim excerpts from the public issue body;
+// non-failure lines are not asserted as a full issue-body reproduction.
 test('named unsuccessful approaches in markdown retain source context and exact evidence',()=>{
  const url='https://github.com/tinyhumansai/openhuman/issues/867';
  const text=[
   '## What we tried (and why it didn\'t work cleanly)',
   'Attempted in-session; reverted before merging.',
   '### Approach 1 — React overlay inside the placeholder div',
-  '- Added an absolute-positioned div with a spinner inside WebviewHost.tsx.',
-  '- **Doesn\'t work**: CEF attaches its native NSView above the WebKit layer, so the overlay is obscured by CEF once it paints anything (even white).',
-  '### Approach 2 — Hide the webview via Webview::hide() during load',
-  '- **Doesn\'t work reliably**: CEF browser creation is asynchronous relative to add_child, so the NSView often does not exist yet.'
+  '- Added an absolute-positioned `<div>` with a spinner inside `WebviewHost.tsx`.',
+  '- **Doesn\'t work**: CEF attaches its native `NSView` subview to the main window\'s view hierarchy. That subview paints *above* the WebKit layer that renders React, so the overlay is obscured by CEF once it paints anything (even white). CSS `z-index` can\'t reach across native layers.',
+  '### Approach 2 — Hide the webview via `Webview::hide()` during load',
+  '- **Doesn\'t work reliably**: on CEF/macOS (`tauri-cef/crates/tauri-runtime-cef/src/cef_webview/macos.rs`), `set_visible(0)` resolves the browser\'s NSView via `self.host()?.window_handle()`. CEF browser creation is asynchronous relative to `add_child`, so when the Hide message is processed the NSView often doesn\'t exist yet and `set_visible` silently no-ops. Retrying in a loop doesn\'t help because `Webview::hide()` always returns Ok (it\'s just queuing a message).'
  ].join('\n');
  const source={id:'issue-867',title:'Webview loader',url,visibility:'public',text,segments:[{text,url}]};
  const findings=extractCandidates(source);
