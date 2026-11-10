@@ -39,7 +39,7 @@ export function extractCandidates(source) {
       const interpretation=context ? `Context: ${context} Evidence: ${sentence}` : sentence;
       records.push({
         id:hash(source.id+':'+segmentIndex+':'+sentenceIndex+':'+sentence),sourceId:source.id,
-        title:(context||sentence).slice(0,95)+((context||sentence).length>95?'…':''),
+        title:context ? (context.length>95?'…'+context.slice(-94):context) : sentence.slice(0,95)+(sentence.length>95?'…':''),
         claim:interpretation,quote:sentence,context,
         sourceUrl:part.url||source.url||null,segmentIndex,sourceAuthor:part.author||null,sourceCreatedAt:part.createdAt||null,sourceTitle:source.title,
         visibility:source.visibility||'public',
