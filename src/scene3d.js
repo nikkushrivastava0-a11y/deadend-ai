@@ -29,8 +29,8 @@ function initialize() {
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.7));
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.45;
-  renderer.setClearColor(0x030812, 0);
+  renderer.toneMappingExposure = 1.13;
+  renderer.setClearColor(0x101114, 0);
   root.prepend(canvas);
 
   const scene = new THREE.Scene();
@@ -38,28 +38,28 @@ function initialize() {
   camera.position.set(0, 0, 13.9);
   camera.lookAt(0, 0, 0);
 
-  scene.add(new THREE.AmbientLight(0xb8d9fa, 1.65));
-  const cyan = new THREE.PointLight(0x40eaff, 58, 23); cyan.position.set(-5, 5, 8); scene.add(cyan);
-  const lilac = new THREE.PointLight(0xbf82ff, 53, 20); lilac.position.set(4, -2, 7); scene.add(lilac);
-  const white = new THREE.DirectionalLight(0xffffff, 2.7); white.position.set(4, 8, 12); scene.add(white);
+  scene.add(new THREE.AmbientLight(0xd8d5cf, 1.05));
+  const cyan = new THREE.PointLight(0xe2dfd6, 25, 23); cyan.position.set(-5, 5, 8); scene.add(cyan);
+  const lilac = new THREE.PointLight(0x919497, 18, 20); lilac.position.set(4, -2, 7); scene.add(lilac);
+  const white = new THREE.DirectionalLight(0xf1eee7, 1.95); white.position.set(4, 8, 12); scene.add(white);
 
   const world = new THREE.Group();
   world.rotation.set(-0.12, -0.10, -0.09);
   scene.add(world);
 
   const configuration = [
-    {key:'source',   title:'SOURCE',     prefix:'01 // CONNECT',accent:0x66eaf7, position:[-3.16, 1.43, -0.68], note:'PROJECT MEMORY', rotation:-0.10},
-    {key:'decision', title:'DEAD END',   prefix:'02 // RECONSTRUCT',accent:0xc99eff,position:[-0.14, 1.68, 0.25], note:'REJECTED PATH',rotation:0.08},
-    {key:'evidence', title:'EVIDENCE',   prefix:'03 // VERIFY',accent:0x62d7eb,position:[2.88, 1.06, -0.34],note:'ORIGINAL QUOTE',rotation:0.11},
-    {key:'review',   title:'HUMAN REVIEW',prefix:'04 // REVIEW',accent:0xd4aaff,position:[-2.18,-1.48,0.82],note:'HUMAN SIGN-OFF',rotation:0.06},
-    {key:'handover', title:'HANDOVER',   prefix:'05 // TRANSFER',accent:0x82f4df,position:[1.19,-1.52,1.12],note:'APPROVED ONLY',rotation:-0.10}
+    {key:'source',   title:'SOURCE',     prefix:'01 // CONNECT',accent:0xb8b6b0, position:[-3.16, 1.43, -0.68], note:'PROJECT MEMORY', rotation:-0.10},
+    {key:'decision', title:'DEAD END',   prefix:'02 // RECONSTRUCT',accent:0xd6d0c5,position:[-0.14, 1.68, 0.25], note:'REJECTED PATH',rotation:0.08},
+    {key:'evidence', title:'EVIDENCE',   prefix:'03 // VERIFY',accent:0xa3aaa9,position:[2.88, 1.06, -0.34],note:'ORIGINAL QUOTE',rotation:0.11},
+    {key:'review',   title:'HUMAN REVIEW',prefix:'04 // REVIEW',accent:0xc0bdb5,position:[-2.18,-1.48,0.82],note:'HUMAN SIGN-OFF',rotation:0.06},
+    {key:'handover', title:'HANDOVER',   prefix:'05 // TRANSFER',accent:0xaab1ae,position:[1.19,-1.52,1.12],note:'APPROVED ONLY',rotation:-0.10}
   ];
   const cards = [];
   const hitMeshes = [];
   const connections = [];
   const hitRay = new THREE.Raycaster();
   const mouse = new THREE.Vector2();
-  const lineMaterial = new THREE.MeshBasicMaterial({color:0x6de8f9,transparent:true,opacity:0.3});
+  const lineMaterial = new THREE.MeshBasicMaterial({color:0x929794,transparent:true,opacity:0.15});
   const accents = {};
 
   for (const option of configuration) {
@@ -71,21 +71,21 @@ function initialize() {
     for (let layer = 2; layer >= 0; layer--) {
       const z = (layer - 2) * -0.13;
       const under = new THREE.Mesh(new THREE.BoxGeometry(2.44,1.65,0.09),
-        new THREE.MeshPhongMaterial({
-          color:layer===0 ? 0x13283d : layer===1 ? 0x182b43 : 0x162536,
-          emissive:option.accent, emissiveIntensity:layer===0 ? 0.10 : 0.035,
-          shininess:125, specular:option.accent, transparent:true,opacity:layer===2?0.94:0.83
+        new THREE.MeshStandardMaterial({
+          color:layer===0 ? 0x2c3034 : layer===1 ? 0x25282c : 0x1e2125,
+          emissive:0x888782, emissiveIntensity:layer===0 ? 0.022 : 0.008,
+          metalness:0.10, roughness:0.88, transparent:true,opacity:layer===2?0.97:0.91
         }));
       under.position.set((2-layer)*0.045, -(2-layer)*0.062, z-0.055);
       group.add(under);
       const edge = new THREE.LineSegments(new THREE.EdgesGeometry(under.geometry),
-        new THREE.LineBasicMaterial({color:option.accent,transparent:true,opacity:layer===0?0.65:0.27}));
+        new THREE.LineBasicMaterial({color:option.accent,transparent:true,opacity:layer===0?0.57:0.24}));
       under.add(edge);
     }
 
     const faceTexture = renderFace(option);
     const face = new THREE.Mesh(new THREE.PlaneGeometry(2.39,1.60),
-      new THREE.MeshBasicMaterial({map:faceTexture,transparent:true,opacity:0.995,side:THREE.DoubleSide,depthWrite:false}));
+      new THREE.MeshBasicMaterial({map:faceTexture,transparent:true,opacity:0.995,side:THREE.DoubleSide,depthWrite:false,toneMapped:false}));
     face.position.z=0.13;
     face.userData.key=option.key;
     face.userData.card=group;
@@ -93,7 +93,7 @@ function initialize() {
     hitMeshes.push(face);
 
     const outline = new THREE.Mesh(new THREE.PlaneGeometry(2.49,1.68),
-      new THREE.MeshBasicMaterial({color:option.accent,transparent:true,opacity:0.045,side:THREE.DoubleSide}));
+      new THREE.MeshBasicMaterial({color:option.accent,transparent:true,opacity:0.012,side:THREE.DoubleSide}));
     outline.position.z=0.1;
     group.add(outline);
 
@@ -113,10 +113,10 @@ function initialize() {
     center.z-=0.38;
     const curve = new THREE.QuadraticBezierCurve3(A.clone().add(new THREE.Vector3(0,0,-0.22)),center,B.clone().add(new THREE.Vector3(0,0,-0.22)));
     const tube = new THREE.Mesh(new THREE.TubeGeometry(curve,48,0.012,7,false),
-      new THREE.MeshBasicMaterial({color:0x6fe5f2,transparent:true,opacity:0.28}));
+      new THREE.MeshBasicMaterial({color:0x8e9391,transparent:true,opacity:0.24}));
     world.add(tube);
-    const pulse = new THREE.Mesh(new THREE.SphereGeometry(0.047,10,10),
-      new THREE.MeshBasicMaterial({color:(a+b)%2?0x8ef8ff:0xcaa2ff}));
+    const pulse = new THREE.Mesh(new THREE.SphereGeometry(0.026,10,10),
+      new THREE.MeshBasicMaterial({color:0xc1c2bb,transparent:true,opacity:0.37}));
     world.add(pulse);connections.push({curve,pulse,speed:0.075+0.025*a,offset:a*0.13});
   }
 
@@ -129,12 +129,12 @@ function initialize() {
   }
   const dotsGeom = new THREE.BufferGeometry();
   dotsGeom.setAttribute('position',new THREE.BufferAttribute(particles,3));
-  world.add(new THREE.Points(dotsGeom,new THREE.PointsMaterial({color:0x7eabc8,size:0.025,transparent:true,opacity:0.45,sizeAttenuation:true})));
+  // No floating particle glitter: let the 3D evidence geometry carry the scene.
 
-  const ground = new THREE.GridHelper(19, 18, 0x294e69, 0x1b344b);
+  const ground = new THREE.GridHelper(19, 18, 0x484c4e, 0x2a2d30);
   ground.rotation.x=Math.PI/2;
   ground.position.set(0,0,-2.9);
-  ground.material.transparent=true;ground.material.opacity=0.18;
+  ground.material.transparent=true;ground.material.opacity=0.09;
   world.add(ground);
 
   // Keep the original five semantic buttons in the DOM for keyboard and fallback.
@@ -249,8 +249,8 @@ function initialize() {
       const entry=cards[i],active=entry.option.key===selectedKey,hovered=entry.option.key===hoveredKey;
       entry.group.position.y=entry.option.position[1]+Math.sin(t*0.78+i*1.23)*0.085;
       entry.group.position.z=THREE.MathUtils.lerp(entry.group.position.z,entry.option.position[2]+(active?0.18:hovered?0.12:0),0.09);
-      entry.glow.material.opacity=THREE.MathUtils.lerp(entry.glow.material.opacity,active?0.18:hovered?0.11:0.016,0.12);
-      entry.under.material.emissiveIntensity=THREE.MathUtils.lerp(entry.under.material.emissiveIntensity,active?0.33:hovered?0.20:0.10,0.10);
+      entry.glow.material.opacity=0; // matte cards do not emit artificial halos
+      entry.under.material.emissiveIntensity=THREE.MathUtils.lerp(entry.under.material.emissiveIntensity,active?0.045:hovered?0.03:0.012,0.10);
     }
     for(const connection of connections){
       const point=connection.curve.getPoint((t*connection.speed+connection.offset)%1);
@@ -272,20 +272,20 @@ function renderFace(item){
   const canvas=document.createElement('canvas');canvas.width=1024;canvas.height=684;
   const c=canvas.getContext('2d');
   const color='#'+item.accent.toString(16).padStart(6,'0');
-  c.fillStyle='#112036';c.fillRect(0,0,1024,684);
+  c.fillStyle=({source:'#414547',decision:'#524f49',evidence:'#45494a',review:'#484647',handover:'#454b47'}[item.key]||'#454749');c.fillRect(0,0,1024,684);
   const grad=c.createLinearGradient(0,0,1024,684);
-  grad.addColorStop(0,'rgba(135,196,229,.19)');grad.addColorStop(0.28,'rgba(48,71,115,.06)');grad.addColorStop(1,'rgba(4,11,28,.18)');
+  grad.addColorStop(0,'rgba(236,232,220,.075)');grad.addColorStop(0.28,'rgba(125,128,127,.03)');grad.addColorStop(1,'rgba(10,12,13,.10)');
   c.fillStyle=grad;c.fillRect(0,0,1024,684);
   c.strokeStyle=color;c.globalAlpha=0.7;c.lineWidth=5;c.strokeRect(12,12,1000,660);c.globalAlpha=1;
   c.fillStyle=color;c.fillRect(36,36,122,6);
-  c.font='600 29px monospace';c.fillStyle='#a4d0e4';c.fillText(item.prefix,37,103);
-  c.font='700 88px sans-serif';c.fillStyle='#f2f9ff';c.fillText(item.title,37,305,960);
-  c.lineWidth=2;c.strokeStyle='#557084';c.beginPath();c.moveTo(37,368);c.lineTo(979,368);c.stroke();
-  c.font='500 37px sans-serif';c.fillStyle='#c1d3e5';let subtitle=item.note||'ORIGINAL SOURCE';
+  c.font='600 29px monospace';c.fillStyle='#a7a9a5';c.fillText(item.prefix,37,103);
+  c.font='700 88px sans-serif';c.fillStyle='#eceae3';c.fillText(item.title,37,305,960);
+  c.lineWidth=2;c.strokeStyle='#686c6b';c.beginPath();c.moveTo(37,368);c.lineTo(979,368);c.stroke();
+  c.font='500 37px sans-serif';c.fillStyle='#c1c1bb';let subtitle=item.note||'ORIGINAL SOURCE';
   if(subtitle.length>40)subtitle=subtitle.slice(0,37)+'...';
   c.fillText(subtitle,37,447,950);
   c.font='700 30px monospace';c.fillStyle=color;c.fillText('SELECT TO INSPECT   /   →',37,616);
-  c.strokeStyle='#668fa0';c.lineWidth=3;c.strokeRect(856,534,119,100);
+  c.strokeStyle='#666b6c';c.lineWidth=3;c.strokeRect(856,534,119,100);
   c.strokeStyle=color;c.beginPath();c.arc(917,584,34,0,Math.PI*2);c.stroke();
   const texture=new THREE.CanvasTexture(canvas);
   texture.colorSpace=THREE.SRGBColorSpace;
