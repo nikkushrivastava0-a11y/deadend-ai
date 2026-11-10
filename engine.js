@@ -25,7 +25,7 @@ export function extractCandidates(source) {
         id:hash(source.id+':'+segmentIndex+':'+sentenceIndex+':'+sentence),sourceId:source.id,
         title:sentence.slice(0,95)+(sentence.length>95?'…':''),
         claim:sentence,quote:sentence,
-        sourceUrl:part.url||source.url||null,segmentIndex,sourceTitle:source.title,
+        sourceUrl:part.url||source.url||null,segmentIndex,sourceAuthor:part.author||null,sourceCreatedAt:part.createdAt||null,sourceTitle:source.title,
         visibility:source.visibility||'public',
         evidenceStatus:reasons?'supported':'needs-context',
         state:reversal.test(sentence)?'disputed':'needs-review',
@@ -50,7 +50,7 @@ export function verifyClaim(claim, source){
 }
 export function publicHandover(state){
   return state.claims.filter(c => c.state==='approved' && c.visibility==='public' && verifyClaim(c,state.sources.find(s=>s.id===c.sourceId)).ok)
-    .map(c=>({id:c.id,title:c.title,claim:c.claim,evidence:c.quote,url:c.sourceUrl,nextStep:c.nextStep,sourceTitle:c.sourceTitle,updates:relatedUpdates(c,state.sources),reviewedAt:c.reviewedAt}));
+    .map(c=>({id:c.id,title:c.title,claim:c.claim,evidence:c.quote,url:c.sourceUrl,nextStep:c.nextStep,sourceTitle:c.sourceTitle,sourceAuthor:c.sourceAuthor||null,sourceCreatedAt:c.sourceCreatedAt||null,updates:relatedUpdates(c,state.sources),reviewedAt:c.reviewedAt}));
 }
 export function sample(){
  const sources=[
