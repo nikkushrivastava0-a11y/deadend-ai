@@ -114,6 +114,7 @@ document.addEventListener('click',e=>{
 });
 $('#editor').onclose=async function(){
  if(this.returnValue!=='save')return;
- try{await api('/api/review','POST',{id:this.dataset.id,state:'needs-review',correction:$('#correctText').value});$('#search').value='';await refresh();notify('Correction saved for review.');}catch(e){notify(e.message,true);}
+ const list=$('#claimList');list.setAttribute('aria-busy','true');notify('Saving correction…');
+ try{await api('/api/review','POST',{id:this.dataset.id,state:'needs-review',correction:$('#correctText').value});$('#search').value='';await refresh();notify('Correction saved for review.');}catch(e){notify(e.message,true);}finally{list.removeAttribute('aria-busy');}
 };
 refresh().catch(e=>notify(e.message,true));
