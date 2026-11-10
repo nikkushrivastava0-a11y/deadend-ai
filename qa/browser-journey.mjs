@@ -27,6 +27,18 @@ try{
   const errors=[];
   page.on('pageerror',e=>errors.push(e.message));
   await page.goto(root,{waitUntil:'networkidle'});
+  const visible=await page.evaluate(()=>{
+    const frame=document.querySelector('#scene').getBoundingClientRect();
+    const nodes=[...document.querySelectorAll('.node3d')].map(node=>{
+      const rect=node.getBoundingClientRect();
+      return {name:node.dataset.node,left:rect.left,right:rect.right,top:rect.top,bottom:rect.bottom,
+        inside:rect.left>=frame.left-2&&rect.right<=frame.right+2&&rect.top>=frame.top-2&&rect.bottom<=frame.bottom+2};
+    });
+    const nav=[...document.querySelectorAll('.nav')].map(node=>node.getBoundingClientRect().right<=window.innerWidth+2);
+    return {nodes,nav};
+  });
+  if(width>600)assert.ok(visible.nodes.every(x=>x.inside),label+' clipped 3D cards: '+JSON.stringify(visible.nodes));
+  else assert.ok(visible.nav.every(Boolean),'mobile navigation is clipped');
   await page.screenshot({path:'qa-output/'+label+'-overview.png',fullPage:true});
   await page.locator('#demoBtn').click();
   await page.waitForFunction(()=>Number(document.querySelector('#statFindings')?.textContent)>0);
