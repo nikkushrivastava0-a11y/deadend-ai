@@ -72,13 +72,15 @@ export function analyzeText(text,title='Uploaded project notes',visibility='publ
 
 // A reversal mentioning the same named technology is a review lead, not proof.
 export function relatedUpdates(item,sources){
- const terms=item.quote.match(/\b(?:[A-Z][a-zA-Z0-9]+|[A-Z]{2,})\b/g)||[];
+ // Historical decisions sometimes say "we reverted it"; use the linked
+ // preceding source sentence when identifying the affected technology.
+ const terms=(item.context||item.quote).match(/\b(?:[A-Z][a-zA-Z0-9]+|[A-Z]{2,})\b/g)||[];
  const names=terms.filter(t=>!['The','We','Our','This','After','However','Later','Team','They','That','Previously'].includes(t));
  const hits=[];
  for(const source of sources.filter(s=>s.visibility===item.visibility)){
   for(const part of source.segments||[{text:source.text,url:source.url}]){
    for(const line of part.text.split(/(?<=[.!?])\s+|\n+/).map(s=>s.trim())){
-    if(line!==item.quote && reversal.test(line) && names.some(name=>line.toLowerCase().includes(name.toLowerCase())))hits.push({quote:line,source:source.title,url:part.url});
+    if(line!==item.quote && reversal.test(line) && names.some(name=>new RegExp('\\\\b'+name+'\\\\b','i').test(line)))hits.push({quote:line,source:source.title,url:part.url});
    }
   }
  }
