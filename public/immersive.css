@@ -45,3 +45,15 @@ body{background:#080d15;color:#eaf0f9;background-image:radial-gradient(ellipse a
  @keyframes ambience-violet{from{opacity:.2;transform:translate(10px,9px)}to{opacity:.3;transform:translate(-14px,-12px)}}
 }
 @media (max-width:600px){.node3d{box-shadow:0 2px 15px rgba(0,0,0,.3)}}
+
+/* Compact/mobile/reduced-motion fallback: readable nodes instead of clipped perspective cards. */
+@media(max-width:700px),(prefers-reduced-motion:reduce){
+ .scene{height:auto!important;min-height:0;overflow:visible;touch-action:auto;cursor:default;padding:24px 4px 48px}
+ .scene-camera{position:relative;inset:auto;perspective:none;pointer-events:auto;transform:none!important}
+ .scene-orbit{width:100%;height:auto;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:stretch;gap:10px;transform:none!important;scale:1!important;pointer-events:auto}
+ .node3d{position:relative!important;left:auto;top:auto;transform:none!important;width:100%;height:auto;min-height:100px;margin:0;padding:12px;box-shadow:0 5px 17px rgba(0,0,0,.35)}
+ .node-symbol{display:block;font-size:23px;flex:none;line-height:1}
+ .node-caption{display:block;overflow-wrap:anywhere}
+ .scene-wire,.scene-ground,.scene-ambient,.scene-hud,.scene-controls{display:none!important}
+}
+@media(max-width:420px){.node3d{min-height:110px;padding:10px}.node-overline{font-size:8px}.node3d strong{font-size:11px}}
