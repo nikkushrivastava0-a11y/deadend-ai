@@ -20,3 +20,8 @@ Optional OPENAI_API_KEY enables schema-constrained quote selection on public imp
 
 ## Provenance
 Round 2 extends the supplied v0.6 prototype. Engineering, design, tests and documentation used AI assistance. Sample discussions are fictional. Real issue imports are explicitly selected by URL.
+
+## Verified 10 November 2026 Round 2 release
+The main branch includes merged PR #1 (commit `9ff5e302`). Its predecessor release candidate `904bb1a` passed **23/23 Node tests** including real public issues #867 and #682. GitHub Actions succeeded. A new production Vercel deployment reported READY, and non-mocked GitHub import, manual review, exact citation, and anonymous handover passed in the public production HTTP API. A real interactive browser and physical mobile QA are not yet claimed.
+
+A six-page release PDF is served at [DeadEnd_Round2.pdf](https://deadend-ai-codersinpune.vercel.app/DeadEnd_Round2.pdf). Public sources: [openhuman#867](https://github.com/tinyhumansai/openhuman/issues/867), [CodeAtlas#682](https://github.com/codeatlasdev/ui/issues/682), [Ruuvi#501](https://github.com/ruuvi/com.ruuvi.station.webui/issues/501). Note that optional AI extraction was not live-configured.

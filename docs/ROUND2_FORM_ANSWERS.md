@@ -1,6 +1,6 @@
 # CodersInPune Round 2 — Team leader form answers
 
-**Status:** Draft based on the tested main release and an unmerged candidate. Before submission, verify the final deployed commit and edit the feature list to match production. The form must be submitted **once by the leader only**.
+**Status:** Production release verified at main merge 9ff5e302 (23 passing tests). Final manual incognito verification and public Google Drive PDF access are still REQUIRED. Team leader submits once for the whole team.
 
 ## Hackathon
 CodersInPune
@@ -25,9 +25,9 @@ https://deadend-ai-codersinpune.vercel.app/
 https://github.com/nikkushrivastava0-a11y/deadend-ai
 
 ## Updated project PDF
-[REPLACE WITH PUBLISHED PUBLIC DRIVE LINK TO THE FINAL UPDATED PDF; must be anyone-with-link Viewer]
+https://drive.google.com/file/d/1oU9KDX4SS6noBpLTMgjrfhN0vqbiErk2/view?usp=drivesdk  — **MUST enable Anyone with link / Viewer first; currently private.** Public hosted report: https://deadend-ai-codersinpune.vercel.app/DeadEnd_Round2.pdf
 
-## Features completed — production baseline
+## Features completed — verified production
 - Responsive evidence investigation desk with interactive CSS-3D constellation
 - Public GitHub issue/PR discussion and permitted-note imports
 - Candidate rejected-approach extraction by explicit language, with precise supporting quotations
@@ -37,7 +37,7 @@ https://github.com/nikkushrivastava0-a11y/deadend-ai
 - Guided fictional Stripe case to demonstrate the workflow
 - Session-isolated, expiring encrypted browser-held workspaces in the hosted demo
 
-Only **after merging/releasing and independently verifying PR #1**, add:
+Now shipped after PR #1 merge (real HTTP and code tests verified; physical browser pending):
 - Different GitHub comments with identical wording have distinct provenance records
 - Finding links expose original author and timestamp
 - Source-linked possible reconsideration warnings and question-style decision lookup
@@ -50,7 +50,7 @@ Node.js HTTP server and Vercel serverless adapter; semantic HTML, vanilla JavaSc
 We narrowed the MVP to one dependable public GitHub discussion-to-handover path rather than a broad enterprise integration ecosystem. Instead of the initially suggested Next.js, Supabase and OpenAI Agents SDK stack, we used a dependency-free Node server and vanilla frontend to make review and evidence reliable in the build window. Interactive CSS perspective replaces promised WebGL; the user receives a functional source-to-approval workflow with honest limitations. No private organisational data was needed.
 
 ## What does not work yet?
-Full authenticated multi-user collaboration, server-side per-role access controls, durable shared storage, cross-source semantic reconciliation and verified live AI generation are not implemented. Public GitHub API limits may block imports; some discussions have no candidate rejection and correctly show an empty state. Preview browser/phone QA of the newest branch remains unverified; use an incognito judge test before declaring release complete.
+Full authenticated multi-user collaboration, server-side per-role access controls, durable shared storage, cross-source semantic reconciliation and verified live AI generation are not implemented. Public GitHub API limits may block imports; some discussions have no candidate rejection and correctly show an empty state. Mobile and browser interaction QA of the latest production release remains unverified; the core production HTTP/API path is verified. Use an incognito judge test before final declaration.
 
 ## Round 3 major improvement 1
 Decision Revalidation Workflow — Add owner-created recheck tasks, current-constraint status, and a dated change history for abandoned approaches. The incoming developer will know whether a historical decision is still applicable.

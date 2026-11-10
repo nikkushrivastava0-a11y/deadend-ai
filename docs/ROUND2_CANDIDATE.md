@@ -64,3 +64,6 @@ Tests use that exact public record. They verify its quotation, source permalink,
 5. Optionally import the genuine Ruuvi issue using Add evidence; compare the original public issue with the extracted candidate.
 
 **Do not use private company data.** Only the team leader submits the Round 2 form. Do not claim branch features have shipped until the release is actually promoted and reverified.
+
+## Release status — updated 10 November evening
+The verification candidate in this historical document was promoted via GitHub PR #1 into main commit `9ff5e302e1768cb9e26a0c391c1c53b8d1c208ea`. The evidence-heading and anaphoric-context fixes were added before merge. Exact branch `904bb1a` passed **23/23** tests, and isolated real GitHub issue imports #867/#682/#501 succeeded. Production deployment `dpl_3JtwJpVKZmzzVJgdVnVGijF1em6D` is READY; production HTTP tests verified a fresh synthetic Stripe and genuine #867 evidence-to-approved-handover journey. The Round 2 report has been updated. Earlier paragraphs below retain the testing history and should not be misread as the current release state. Physical browser QA remains pending.
