@@ -13,3 +13,14 @@
 - Verified Vercel project `deadend-ai-codersinpune` exists and currently reports production deployment READY. Independent incognito HTTP verification remains pending.
 - Selected real public evidence fixture: `https://github.com/ruuvi/com.ruuvi.station.webui/issues/501` documents an abandoned comparative chart approach and its rationale; an explicit later reconsideration is present in the issue.
 - Priority next: capture the extraction result, fix real-data/related-update issues, run regression tests and mobile/desktop browser QA. No form submission authorised.
+
+### 10 November engineering checkpoint
+- Branch: `fix/round2-evidence-ux-20261110`; draft review: https://github.com/nikkushrivastava0-a11y/deadend-ai/pull/1 . Production main remains `f0e57c57553049ea0e1e3f00e1c8ed153d75e12f` and has not been replaced.
+- Public evidence read through GitHub: https://github.com/ruuvi/com.ruuvi.station.webui/issues/501 — exact text documents abandoning a comparison-chart approach, then considering revisiting it. The fixture is public, not a user-private record.
+- Fixed duplicate identical quotations from different comments sharing an ID, added provenance segment verification and model excerpt segment mapping. Added adjacent reconsideration leads and URL-backed update inspection.
+- Added question-style lookup, a one-click synthetic Stripe case, an explicit one-click real public issue import, keyboard orbit and mobile/reduced-motion evidence grid.
+- GitHub Actions succeeded on commit `46ff07e` with **18/18 tests** (including real issue #501, duplicate comments, model-fixture failure, review and session separation). Follow-up frontend commits still require fresh CI result.
+- Vercel isolated preview `dpl_33Lk7bsx7NYS4Le8C9SUq1mpzQXs` reports READY. It was built from the earlier branch state, and is not the current branch head. No promotion or production alias changes have been made.
+- Local static viewport inspection on supplied v0.6 HTML/CSS at 390x844, 768x1024 and 1440x900 showed no horizontal page overflow, but the older phone scene clipped cards. Candidate mobile fallback CSS was implemented and a follow-up static phone screenshot showed all five cards readable. This is browser emulation on a local snapshot, **not** verification of the newest deployed build or a physical phone.
+- Browser navigation to live/preview Vercel URLs was unavailable through the available browser/network tools; direct local Chromium navigation was blocked by administrator policy. Actual live UI import and incognito checks are **still unverified**.
+- Next executable steps: re-check CI on head, inspect preview build logs/files, finish submission report with verified vs candidate capabilities, and only release after judge journey is verified.
