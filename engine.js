@@ -3,7 +3,7 @@ import crypto from 'node:crypto';
 const patterns = [
   /(?:we\s+)?(?:tried|tested|attempted|explored|evaluated|considered|prototyped|used)\b/i,
   /(?:rejected|abandoned|dropped|rolled\s+back|reverted|ruled\s+out|won't\s+use|not\s+using|stopped)\b/i,
-  /(?:blocked|failed|broken|incompatible|unreliable|too\s+slow|rate\s+limit|deprecated)\b/i,
+  /(?:blocked|failed|broken|incompatible|unreliable|too\s+slow|rate\s+limit|deprecated|doesn['’]t\s+work|didn['’]t\s+work|did\s+not\s+work|not\s+viable)\b/i,
 ];
 const reason = /(?:because|due to|since|blocked by|after finding|as a result of|the reason was)\b/i;
 const reversal = /(?:actually|however|now works|fixed|resolved|reconsider|no longer|changed|works now|unblocked)\b/i;
@@ -17,14 +17,25 @@ export function extractCandidates(source) {
   for(const [segmentIndex,part] of segments.entries()){
     if(typeof part.text!=='string')continue;
     const sentences=part.text.split(/(?<=[.!?])\s+|\n+/).map(x=>x.trim());
+    let approachHeading=null;
     for(const [sentenceIndex,sentence] of sentences.entries()){
+      // Headings in the same original comment give failed attempts their names.
+      // Never borrow context across different GitHub comments.
+      if(/^#{2,5}\s+Approach\s+\d+\s*[-—:]/i.test(sentence)){
+        approachHeading=sentence.replace(/^#{2,5}\s+/,'').slice(0,180);
+        continue;
+      }
+      if(/^#{1,5}\s+/.test(sentence))approachHeading=null;
       if(sentence.length<20 || sentence.length>650)continue;
       if(!patterns[1].test(sentence) && !patterns[2].test(sentence))continue;
-      const reasons=reason.test(sentence);
+      const isFailureExplanation=/doesn['’]t\s+work|didn['’]t\s+work|did\s+not\s+work/i.test(sentence) && /:\s*\S.{15,}/.test(sentence);
+      const reasons=reason.test(sentence)||isFailureExplanation;
+      const context=approachHeading && isFailureExplanation ? approachHeading : null;
+      const interpretation=context ? `${context}: ${sentence}` : sentence;
       records.push({
         id:hash(source.id+':'+segmentIndex+':'+sentenceIndex+':'+sentence),sourceId:source.id,
-        title:sentence.slice(0,95)+(sentence.length>95?'…':''),
-        claim:sentence,quote:sentence,
+        title:(context||sentence).slice(0,95)+((context||sentence).length>95?'…':''),
+        claim:interpretation,quote:sentence,context,
         sourceUrl:part.url||source.url||null,segmentIndex,sourceAuthor:part.author||null,sourceCreatedAt:part.createdAt||null,sourceTitle:source.title,
         visibility:source.visibility||'public',
         evidenceStatus:reasons?'supported':'needs-context',
