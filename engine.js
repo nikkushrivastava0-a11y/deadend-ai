@@ -10,25 +10,38 @@ const reversal = /(?:actually|however|now works|fixed|resolved|reconsider|no lon
 export const hash = s => crypto.createHash('sha256').update(s).digest('hex').slice(0,12);
 export function extractCandidates(source) {
   if (!source || typeof source.text !== 'string' || source.text.length > 70000) throw Error('Invalid source or source too large (max 70 KB)');
-  const sentences = source.text.split(/(?<=[.!?])\s+|\n+/).map(x => x.trim()).filter(x=>x.length >= 20 && x.length <= 650);
+  // Inspect each independently linked source segment so an explanation from a
+  // different GitHub comment is never silently used as context.
+  const parts=Array.isArray(source.segments)?source.segments:[{text:source.text,url:source.url||null}];
   const records=[];
-  for (const sentence of sentences) {
-    const matchCount = patterns.filter(p=>p.test(sentence)).length;
-    if (!matchCount) continue;
-    if (!patterns[1].test(sentence) && !patterns[2].test(sentence)) continue;
-    const reasons = reason.test(sentence);
-    const matchingSegment = Array.isArray(source.segments) ? source.segments.find(s=>s.text.includes(sentence)) : null;
-    records.push({
-      id:hash(source.id+':'+sentence),sourceId:source.id,
-      title: sentence.slice(0,95)+(sentence.length>95?'…':''),
-      claim:sentence,quote:sentence,
-      sourceUrl:matchingSegment?.url||source.url||null,sourceTitle:source.title,
-      visibility:source.visibility||'public',
-      evidenceStatus:reasons?'supported':'needs-context',
-      state:reversal.test(sentence)?'disputed': 'needs-review',
-      reviewerNote:'',reviewedAt:null,
-      nextStep:reasons?'Verify whether the original constraint still applies before retrying.':'Ask the previous owner for the missing reason and current status.'
-    });
+  for(let segmentIndex=0;segmentIndex<parts.length;segmentIndex++){
+    const part=parts[segmentIndex];
+    const sentences=String(part.text||'').split(/(?<=[.!?])\s+|\n+/).map(x=>x.trim()).filter(x=>x.length>=20&&x.length<=650);
+    for(let i=0;i<sentences.length;i++){
+      const sentence=sentences[i];
+      if(!patterns[1].test(sentence)&&!patterns[2].test(sentence))continue;
+      const previous=i>0?sentences[i-1]:null;
+      // A quote such as "We reverted it because..." is unhelpful alone.
+      // Preserve the verbatim evidence but supply the preceding sentence as
+      // explicitly labelled context only when the sentence uses an anaphor.
+      const needsContext=/\b(?:it|this|that|the approach|the option)\b/i.test(sentence)
+        && /\b(?:reverted|rejected|abandoned|dropped|rolled\s+back|stopped)\b/i.test(sentence);
+      const context=needsContext&&previous&&patterns[0].test(previous)?previous:null;
+      const claim=context?`Context: ${context.slice(0,240)} Evidence: ${sentence}`:sentence;
+      const title=(context?context:sentence).slice(0,95);
+      const hasReason=reason.test(sentence);
+      records.push({
+        id:hash(source.id+':'+segmentIndex+':'+i+':'+sentence),sourceId:source.id,
+        title:title+(title.length===95?'…':''),
+        claim,quote:sentence,context,
+        sourceUrl:part.url||source.url||null,sourceTitle:source.title,
+        visibility:source.visibility||'public',
+        evidenceStatus:hasReason?'supported':'needs-context',
+        state:reversal.test(sentence)?'disputed':'needs-review',
+        reviewerNote:'',reviewedAt:null,
+        nextStep:hasReason?'Verify whether the original constraint still applies before retrying.':'Ask the previous owner for the missing reason and current status.'
+      });
+    }
   }
   return records;
 }
@@ -59,13 +72,15 @@ export function analyzeText(text,title='Uploaded project notes',visibility='publ
 
 // A reversal mentioning the same named technology is a review lead, not proof.
 export function relatedUpdates(item,sources){
- const terms=item.quote.match(/\b(?:[A-Z][a-zA-Z0-9]+|[A-Z]{2,})\b/g)||[];
+ // Historical decisions sometimes say "we reverted it"; use the linked
+ // preceding source sentence when identifying the affected technology.
+ const terms=(item.context||item.quote).match(/\b(?:[A-Z][a-zA-Z0-9]+|[A-Z]{2,})\b/g)||[];
  const names=terms.filter(t=>!['The','We','Our','This','After','However','Later','Team','They','That','Previously'].includes(t));
  const hits=[];
  for(const source of sources.filter(s=>s.visibility===item.visibility)){
   for(const part of source.segments||[{text:source.text,url:source.url}]){
    for(const line of part.text.split(/(?<=[.!?])\s+|\n+/).map(s=>s.trim())){
-    if(line!==item.quote && reversal.test(line) && names.some(name=>line.toLowerCase().includes(name.toLowerCase())))hits.push({quote:line,source:source.title,url:part.url});
+    if(line!==item.quote && reversal.test(line) && names.some(name=>new RegExp(String.raw`\b`+name+String.raw`\b`,'i').test(line)))hits.push({quote:line,source:source.title,url:part.url});
    }
   }
  }
