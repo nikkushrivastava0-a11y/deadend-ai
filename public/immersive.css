@@ -15,3 +15,33 @@ body{background:#080d15;color:#eaf0f9;background-image:radial-gradient(ellipse a
 .trace-picker{display:flex;align-items:center;gap:1rem;color:#90a9ba;font:12px system-ui;padding:14px 4px 0}.trace-picker select{min-width:0;flex:1}.node-caption{overflow:hidden;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2}.counter{padding:14px 18px;border-left:3px solid #b393eb;background:#201e30;color:#ddcff2}.counter p{margin:6px 0}.hero-foot,.running-strip{display:none}dialog{background:#15202d;color:#edf4fc;border:1px solid #496178;padding:26px;width:min(480px,85vw);border-radius:12px}dialog::backdrop{background:#020611c9}dialog textarea{display:block;width:100%;margin:12px 0}dialog p{line-height:1.5;color:#b5d3db}dialog button{padding:10px;margin-right:8px}.claimmeta,blockquote,.source-row small,.empty{color:#acbdd1}.review-actions .action{background:#1e3043;color:#d9eefe;border:1px solid #47647d}.action:disabled{opacity:.55}button:focus-visible,select:focus-visible{outline:2px solid #9af4ff;outline-offset:2px}
 @media(max-width:600px),(prefers-reduced-motion:reduce){.scene{height:auto;min-height:280px;padding:18px 8px 45px}.scene-camera{position:relative}.scene-orbit{transform:none!important;scale:1;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.node3d{position:static;transform:none;width:100%;height:82px;padding:7px}.node-symbol,.scene-wire,.scene-hud,.scene-controls{display:none}.node-overline,.node-caption{font-size:9px}.scene-head span:last-child{display:none}.scene-wrap,.hero-copy,.hero,.content,.shell main{min-width:0}}
 .source-row summary{cursor:pointer;font-weight:650}.source-row pre{white-space:pre-wrap;overflow-wrap:anywhere;font:14px/1.6 system-ui;color:#b3cbda}.source-row>div{min-width:0}.scene-inspector>div{min-width:0;overflow-wrap:anywhere}
+
+
+/* Investigation room refinements: physical depth, accessible focus and an atmospheric light pass. */
+.scene-wrap.immersive{position:relative;background:
+  radial-gradient(ellipse at 54% 53%,rgba(37,87,134,.27),transparent 66%),
+  linear-gradient(158deg,#111a2a 0%,#080d17 55%,#090e18 100%)}
+.scene-wrap.immersive::before{content:"";position:absolute;inset:-1px;pointer-events:none;
+  border-radius:inherit;background:linear-gradient(125deg,rgba(153,245,255,.10),transparent 34%,rgba(175,127,255,.07) 83%);
+  box-shadow:inset 0 0 0 1px rgba(199,230,255,.07)}
+.scene-wrap.immersive>*{position:relative}
+.scene{background:radial-gradient(ellipse at 49% 51%,rgba(72,91,149,.09),transparent 54%)}
+.node3d{overflow:hidden;box-shadow:0 4px 0 -1px rgba(39,64,94,.78),0 15px 0 -8px rgba(6,19,34,.91),
+  0 28px 52px rgba(1,5,15,.76),0 0 34px rgba(71,211,243,.055),inset 0 1px rgba(231,253,255,.36)}
+.node3d::before{content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;
+  background:linear-gradient(125deg,rgba(214,255,255,.24),transparent 26%,transparent 65%,rgba(100,225,255,.06));
+  opacity:.58}
+.node3d.selected{border-color:#9ef5ff;box-shadow:0 6px 0 -2px #1b3d54,0 17px 0 -7px #102133,
+  0 34px 62px rgba(0,7,22,.8),0 0 32px rgba(98,235,255,.27),inset 0 1px rgba(226,255,255,.75)}
+.n-decision.selected,.n-review.selected{box-shadow:0 6px 0 -2px #362c52,0 17px 0 -7px #1d1834,
+  0 34px 62px rgba(0,7,22,.8),0 0 35px rgba(196,142,255,.26),inset 0 1px rgba(242,225,255,.75)}
+.scene-controls button:focus-visible,.inspector-action:focus-visible{outline:2px solid #aaf5ff;outline-offset:3px}
+.counter a{color:#b9f1ff;text-decoration:underline;text-underline-offset:3px}
+.counter a:hover{color:#f1fbff}
+@media (prefers-reduced-motion:no-preference){
+ .scene-ambient.cyan{animation:ambience-cyan 12s ease-in-out infinite alternate}
+ .scene-ambient.violet{animation:ambience-violet 14s ease-in-out infinite alternate}
+ @keyframes ambience-cyan{from{opacity:.19;transform:translate(-12px,5px)}to{opacity:.32;transform:translate(16px,-13px)}}
+ @keyframes ambience-violet{from{opacity:.2;transform:translate(10px,9px)}to{opacity:.3;transform:translate(-14px,-12px)}}
+}
+@media (max-width:600px){.node3d{box-shadow:0 2px 15px rgba(0,0,0,.3)}}
