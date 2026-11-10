@@ -57,3 +57,8 @@ body{background:#080d15;color:#eaf0f9;background-image:radial-gradient(ellipse a
  .scene-wire,.scene-ground,.scene-ambient,.scene-hud,.scene-controls{display:none!important}
 }
 @media(max-width:420px){.node3d{min-height:110px;padding:10px}.node-overline{font-size:8px}.node3d strong{font-size:11px}}
+
+.public-case-hint{font-size:12px!important;line-height:1.7;margin-top:16px;padding-top:15px;border-top:1px solid #304153}
+.real-case-link{display:inline;background:none;border:0;border-bottom:1px solid #8fefff;color:#a8f4ff;padding:0 1px 2px;text-align:left;font-weight:700;font-size:12px}
+.real-case-link:hover{color:#e5ffff;border-color:#e5ffff}
+.real-case-link:focus-visible{outline:2px solid #9af4ff;outline-offset:3px}
