@@ -28,3 +28,8 @@
 - RESOLVED: proposed security headers, merged via PR #6. Public response headers and PDF reachability verified against production. Earlier PR #4 closed as superseded.
 - **Only submission-time blockers:** Google Drive uploaded PDF file is owner-private until the owner changes General access -> Anyone with the link -> Viewer; Kanishk's full registered name must be entered accurately; official Round 2 Google Form must be submitted by the team leader before 11 Nov 2026 10:00 AM IST.
 - **Future product limitations (not accidental Round 2 blockers):** no live AI API credential configured; no individual role-based auth or durable shared multi-user storage; GitHub import subject to API rate limits; 3D uses CSS perspective, not Three.js/WebGL; real physical mobile/device testing not performed.
+
+## Current Round 2 status after true WebGL release (10 Nov)
+- RESOLVED: CSS-only “3D” limitation; replaced by genuine Three.js WebGL on supported desktop/tablet. Verified keyboard rail, pointer selection, extruded meshes, orbit and four browser E2E flows. The earlier contrary text in this file is historical.
+- STILL PENDING future/full-product scope: ten full pages, authenticated permission-controlled private handovers, persistent multi-user database, verified live AI reasoning and physical device test. These are not represented as finished in Round 2.
+- SUBMISSION-CRITICAL MANUAL ACTION: Share the NEW updated Google Drive PDF https://drive.google.com/file/d/1oVUxQMkIIPwOtjfcWu16dfS0dur9n_Yt/view with Anyone with the link / Viewer. Check the new link in a private browser, not the earlier obsolete PDF link. Confirm Kanishk's registered full name and submit the official form as team leader before the deadline.

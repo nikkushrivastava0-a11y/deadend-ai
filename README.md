@@ -10,7 +10,7 @@ Open an example case, select the Stripe finding and inspect the evidence and lat
 Node 20+; no npm runtime dependencies. Run `npm start` and open http://localhost:3001. On Windows the supplied launcher starts the local server. Run `npm run check` for syntax checks and the integration/unit suite.
 
 ## Architecture and configuration
-The original Node HTTP server hosts a vanilla JavaScript interface with CSS 3D perspective and pointer orbit. The Vercel function reuses that server. Desktop cards follow the selected finding. Narrow screens and reduced-motion clients use a flat grid.
+The original Node HTTP server hosts a vanilla JavaScript interface with a genuine Three.js WebGL evidence atlas and pointer/keyboard orbit. The Vercel function reuses that server. Desktop cards follow the selected finding. Narrow screens and reduced-motion clients use a flat grid.
 
 GitHub issue text, conversation comments and inline PR review comments are separate evidence segments. Before approval and export, the server matches the original quote to its source and, for GitHub data, its comment permalink. An editor changes the interpretation without changing the quote. Possible changes in circumstances use named-term overlap and reversal language. Human review remains necessary.
 
@@ -32,3 +32,11 @@ The latest production release is `7fe3d2c` with frontend navigation fixes (PR #5
 Production headless Chromium browser QA passed at **1440x900 desktop, 768x1024 tablet, 390x844 mobile, 390x844 reduced-motion mobile**: 5 interactive evidence nodes, demo, Stripe lookup, correction, approval, one-item handover, original quotation preserved and Markdown download. No horizontal overflow or page JavaScript errors were observed. These are **emulated viewport/browser checks**, not testing on a physical phone. No live OpenAI model credential or private per-user role-based storage was configured.
 
 **Round 2 submission:** https://forms.gle/gyRiHtQT3AnC3MdV6 (team leader only; do not submit automatically). PDF: https://deadend-ai-codersinpune.vercel.app/DeadEnd_Round2.pdf . Google Drive copy must be shared as Anyone with the link / Viewer separately by its owner.
+
+## Genuine 3D Investigation Atlas — verified production 10 Nov 2026
+- Visual release: commit `b772503`, PR #7. Real Three.js/WebGL graphics (not CSS-only simulated depth), five multilayer extruded evidence slabs, cyan/lilac lighting, animated relationship traces, mouse drag orbit, raycast selection, and compact semantic keyboard step rail. The selection is connected to actual case inspector content.
+- Custom forensic-noir typography and layout use self-hosted DM Sans / Space Grotesk / Space Mono and an ESBuild-bundled Three.js module — no third-party runtime asset CDN.
+- Under 700px, with reduced-motion enabled or without WebGL2, the original semantic HTML evidence grid remains fully usable; do not claim GPU 3D on phone fallback.
+- Node CI `npm run check` passed **25/25**; headless Chromium production end-to-end paths passed at 1440x900, 768x1024, 390x844 and reduced-motion 390x844. All four journeys reached an approved one-item handover and downloaded Markdown without horizontal overflow or page JavaScript errors.
+- This is a *four-view Round 2 MVP*, **not** the requested complete ten-page immersive product. Verified backend evidence/provenance/review preserved. Role-based private organisational sharing, durable cross-user storage, and live LLM extraction are not yet implemented.
+- Updated report: https://deadend-ai-codersinpune.vercel.app/DeadEnd_Round2.pdf . Owner-only Drive copy: https://drive.google.com/file/d/1oVUxQMkIIPwOtjfcWu16dfS0dur9n_Yt/view (needs Anyone with link → Viewer before official submission).
