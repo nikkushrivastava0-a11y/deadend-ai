@@ -18,7 +18,7 @@ export async function enrich(result, request=fetch) {
   for(const row of rows.slice(0,40)){
    const part=parts[row.segment],q=row.quote;
    if(!part||typeof q!=='string'||q.trim().length<20||q.length>650||!part.text.includes(q)||result.claims.some(c=>c.quote===q&&c.sourceUrl===part.url))continue;
-   result.claims.push({id:hash(source.id+row.segment+q),sourceId:source.id,sourceTitle:source.title,sourceUrl:part.url||null,segmentIndex:row.segment,visibility:source.visibility,title:q.slice(0,95),claim:q,quote:q,state:'needs-review',evidenceStatus:'model-selected excerpt',nextStep:'Confirm the original constraint with the source owner before retrying.'});
+   result.claims.push({id:hash(source.id+row.segment+q),sourceId:source.id,sourceTitle:source.title,sourceUrl:part.url||null,segmentIndex:row.segment,sourceAuthor:part.author||null,sourceCreatedAt:part.createdAt||null,visibility:source.visibility,title:q.slice(0,95),claim:q,quote:q,state:'needs-review',evidenceStatus:'model-selected excerpt',nextStep:'Confirm the original constraint with the source owner before retrying.'});
   }
   result.method='rules + model-selected excerpts';
  }catch{result.method='rules (model unavailable)';}
