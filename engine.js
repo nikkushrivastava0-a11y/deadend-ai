@@ -80,7 +80,7 @@ export function relatedUpdates(item,sources){
  for(const source of sources.filter(s=>s.visibility===item.visibility)){
   for(const part of source.segments||[{text:source.text,url:source.url}]){
    for(const line of part.text.split(/(?<=[.!?])\s+|\n+/).map(s=>s.trim())){
-    if(line!==item.quote && reversal.test(line) && names.some(name=>new RegExp('\\\\b'+name+'\\\\b','i').test(line)))hits.push({quote:line,source:source.title,url:part.url});
+    if(line!==item.quote && reversal.test(line) && names.some(name=>new RegExp(String.raw`\b`+name+String.raw`\b`,'i').test(line)))hits.push({quote:line,source:source.title,url:part.url});
    }
   }
  }
