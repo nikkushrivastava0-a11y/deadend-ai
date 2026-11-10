@@ -1,6 +1,6 @@
 # CodersInPune Round 2 — Team leader form answers
 
-**Status:** Production release verified at main merge 9ff5e302 (23 passing tests). Final manual incognito verification and public Google Drive PDF access are still REQUIRED. Team leader submits once for the whole team.
+**Status:** Final production release at main commit 7fe3d2c (24/24 automated tests plus four Chromium viewport/motion journeys passed). Google Drive PDF access and final team-leader form submission are still REQUIRED. Team leader submits once for the whole team.
 
 ## Hackathon
 CodersInPune
@@ -25,7 +25,7 @@ https://deadend-ai-codersinpune.vercel.app/
 https://github.com/nikkushrivastava0-a11y/deadend-ai
 
 ## Updated project PDF
-https://drive.google.com/file/d/1oU9KDX4SS6noBpLTMgjrfhN0vqbiErk2/view?usp=drivesdk  — **MUST enable Anyone with link / Viewer first; currently private.** Public hosted report: https://deadend-ai-codersinpune.vercel.app/DeadEnd_Round2.pdf
+https://drive.google.com/file/d/1oU9KDX4SS6noBpLTMgjrfhN0vqbiErk2/view?usp=drivesdk  — **OWNER ACTION: change General access to Anyone with the link / Viewer; confirmed private as of 10 November.** Public hosted report: https://deadend-ai-codersinpune.vercel.app/DeadEnd_Round2.pdf
 
 ## Features completed — verified production
 - Responsive evidence investigation desk with interactive CSS-3D constellation
@@ -37,7 +37,7 @@ https://drive.google.com/file/d/1oU9KDX4SS6noBpLTMgjrfhN0vqbiErk2/view?usp=drive
 - Guided fictional Stripe case to demonstrate the workflow
 - Session-isolated, expiring encrypted browser-held workspaces in the hosted demo
 
-Now shipped after PR #1 merge (real HTTP and code tests verified; physical browser pending):
+Also shipped and browser-verified in headless Chromium at 1440x900, 768x1024, 390x844 and reduced-motion 390x844:
 - Different GitHub comments with identical wording have distinct provenance records
 - Finding links expose original author and timestamp
 - Source-linked possible reconsideration warnings and question-style decision lookup
@@ -50,7 +50,7 @@ Node.js HTTP server and Vercel serverless adapter; semantic HTML, vanilla JavaSc
 We narrowed the MVP to one dependable public GitHub discussion-to-handover path rather than a broad enterprise integration ecosystem. Instead of the initially suggested Next.js, Supabase and OpenAI Agents SDK stack, we used a dependency-free Node server and vanilla frontend to make review and evidence reliable in the build window. Interactive CSS perspective replaces promised WebGL; the user receives a functional source-to-approval workflow with honest limitations. No private organisational data was needed.
 
 ## What does not work yet?
-Full authenticated multi-user collaboration, server-side per-role access controls, durable shared storage, cross-source semantic reconciliation and verified live AI generation are not implemented. Public GitHub API limits may block imports; some discussions have no candidate rejection and correctly show an empty state. Mobile and browser interaction QA of the latest production release remains unverified; the core production HTTP/API path is verified. Use an incognito judge test before final declaration.
+Full authenticated multi-user collaboration, server-side per-role access controls, durable shared storage, cross-source semantic reconciliation and verified live AI generation are not implemented. Public GitHub API limits may block imports; some discussions have no candidate rejection and correctly show an empty state. Headless Chromium E2E on the final production release passed at desktop/tablet/phone emulation and reduced motion. A physical mobile device and real OpenAI extraction remain unverified. Use your own incognito browser once more before submission.
 
 ## Round 3 major improvement 1
 Decision Revalidation Workflow — Add owner-created recheck tasks, current-constraint status, and a dated change history for abandoned approaches. The incoming developer will know whether a historical decision is still applicable.
@@ -63,3 +63,9 @@ Role-Aware Handover and Recipient Acknowledgement — Add authenticated roles, s
 
 ## Final confirmation
 Do not tick until you personally open functioning app, public repo and PDF Drive link in incognito and verify all claims. Only team leader submits the form. This document is assistance, not the form submission.
+
+## Final verification record
+- Full Node suite 24/24 passed on security-header PR #6; Github Actions successful.
+- Live product: production deployment dpl_v3NCmvFojJKXPdA5EW7CRbzcXrnu READY, site and health API 200, PDF 200.
+- Browser workflow: fresh example -> Stripe inquiry -> correction -> approval -> Markdown download at desktop/tablet/phone/reduced motion, 4/4 headless Chromium checks successful. Physical phone not tested.
+- Secure response headers verified on production; API cache no-store.
