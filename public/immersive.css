@@ -15,3 +15,18 @@ body{background:#080d15;color:#eaf0f9;background-image:radial-gradient(ellipse a
 .trace-picker{display:flex;align-items:center;gap:1rem;color:#90a9ba;font:12px system-ui;padding:14px 4px 0}.trace-picker select{min-width:0;flex:1}.node-caption{overflow:hidden;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2}.counter{padding:14px 18px;border-left:3px solid #b393eb;background:#201e30;color:#ddcff2}.counter p{margin:6px 0}.hero-foot,.running-strip{display:none}dialog{background:#15202d;color:#edf4fc;border:1px solid #496178;padding:26px;width:min(480px,85vw);border-radius:12px}dialog::backdrop{background:#020611c9}dialog textarea{display:block;width:100%;margin:12px 0}dialog p{line-height:1.5;color:#b5d3db}dialog button{padding:10px;margin-right:8px}.claimmeta,blockquote,.source-row small,.empty{color:#acbdd1}.review-actions .action{background:#1e3043;color:#d9eefe;border:1px solid #47647d}.action:disabled{opacity:.55}button:focus-visible,select:focus-visible{outline:2px solid #9af4ff;outline-offset:2px}
 @media(max-width:600px),(prefers-reduced-motion:reduce){.scene{height:auto;min-height:280px;padding:18px 8px 45px}.scene-camera{position:relative}.scene-orbit{transform:none!important;scale:1;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.node3d{position:static;transform:none;width:100%;height:82px;padding:7px}.node-symbol,.scene-wire,.scene-hud,.scene-controls{display:none}.node-overline,.node-caption{font-size:9px}.scene-head span:last-child{display:none}.scene-wrap,.hero-copy,.hero,.content,.shell main{min-width:0}}
 .source-row summary{cursor:pointer;font-weight:650}.source-row pre{white-space:pre-wrap;overflow-wrap:anywhere;font:14px/1.6 system-ui;color:#b3cbda}.source-row>div{min-width:0}.scene-inspector>div{min-width:0;overflow-wrap:anywhere}
+
+/* Visual QA: keep all five cards inside the investigation viewport.
+   The original orbit exceeded its clipping frame at 768 and 1440px. */
+.scene-orbit{scale:.71;transform-origin:center center}
+@media (min-width:601px) and (max-width:1150px){
+ .scene-orbit{scale:.57}
+}
+@media (max-width:700px){
+ nav{overflow:visible;gap:2px}
+ .nav{flex:1 1 0;min-width:0;justify-content:center;gap:4px;padding:10px 3px;font-size:10px}
+ .nav em{display:none}
+}
+@media (max-width:600px),(prefers-reduced-motion:reduce){
+ .scene-orbit{scale:1}
+}
