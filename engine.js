@@ -30,8 +30,13 @@ export function extractCandidates(source) {
       if(!patterns[1].test(sentence) && !patterns[2].test(sentence))continue;
       const isFailureExplanation=/doesn['’]t\s+work|didn['’]t\s+work|did\s+not\s+work/i.test(sentence) && /:\s*\S.{15,}/.test(sentence);
       const reasons=reason.test(sentence)||isFailureExplanation;
-      const context=approachHeading && isFailureExplanation ? approachHeading : null;
-      const interpretation=context ? `${context}: ${sentence}` : sentence;
+      // A statement like 'We reverted it because...' needs its named approach.
+      // Only use the immediately preceding sentence from the SAME source segment.
+      const previous=sentenceIndex>0?sentences[sentenceIndex-1]:null;
+      const anaphoric=/\b(?:it|this|that)\b/i.test(sentence) && /\b(?:reverted|rejected|abandoned|dropped|rolled\s+back|stopped)\b/i.test(sentence);
+      const priorContext=anaphoric && previous && patterns[0].test(previous) ? previous : null;
+      const context=approachHeading && isFailureExplanation ? approachHeading : priorContext;
+      const interpretation=context ? `Context: ${context} Evidence: ${sentence}` : sentence;
       records.push({
         id:hash(source.id+':'+segmentIndex+':'+sentenceIndex+':'+sentence),sourceId:source.id,
         title:(context||sentence).slice(0,95)+((context||sentence).length>95?'…':''),
@@ -80,7 +85,7 @@ export function analyzeText(text,title='Uploaded project notes',visibility='publ
 // Possible reversals and plans to revisit are leads for human review, never proof a blocker is fixed.
 const futureRevisit=/\b(?:revisit|reconsider|should consider|consider (?:this|it)|try (?:this|it) again)\b/i;
 export function relatedUpdates(item,sources){
- const terms=(item.quote.match(/\b(?:[A-Z][a-zA-Z0-9]+|[A-Z]{2,})\b/g)||[])
+ const terms=((item.context||item.quote).match(/\b(?:[A-Z][a-zA-Z0-9]+|[A-Z]{2,})\b/g)||[])
   .filter(t=>!['The','We','Our','This','After','However','Later','Team','They','That','Previously','But','Example'].includes(t));
  const named=(line)=>terms.some(term=>new RegExp('\\b'+term+'\\b','i').test(line));
  const seen=new Set(),hits=[];
