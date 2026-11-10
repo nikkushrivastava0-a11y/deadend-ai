@@ -64,10 +64,10 @@ async function githubImport(input){
  const reviewComments=kind==='pull'?await get(`${api}/pulls/${number}/comments?per_page=100`):[];
  const reviews=kind==='pull'?await get(`${api}/pulls/${number}/reviews?per_page=100`):[];
  const segments=[
-  {text:[issue.title,issue.body].filter(Boolean).join('\n'),url:issue.html_url},
-  ...reviews.filter(c=>c.body).map(c=>({text:c.body,url:c.html_url})),
-  ...comments.filter(c=>c.body).map(c=>({text:c.body,url:c.html_url})),
-  ...reviewComments.filter(c=>c.body).map(c=>({text:c.body,url:c.html_url}))
+  {text:[issue.title,issue.body].filter(Boolean).join('\n'),url:issue.html_url,author:issue.user?.login||null,createdAt:issue.created_at||null},
+  ...reviews.filter(c=>c.body).map(c=>({text:c.body,url:c.html_url,author:c.user?.login||null,createdAt:c.submitted_at||c.created_at||null})),
+  ...comments.filter(c=>c.body).map(c=>({text:c.body,url:c.html_url,author:c.user?.login||null,createdAt:c.created_at||null})),
+  ...reviewComments.filter(c=>c.body).map(c=>({text:c.body,url:c.html_url,author:c.user?.login||null,createdAt:c.created_at||null}))
  ];
  const data=segments.map(s=>s.text).filter(Boolean).join('\n');
  if(data.length>70000)throw Error('GitHub discussion too long for MVP');
