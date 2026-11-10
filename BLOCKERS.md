@@ -16,3 +16,9 @@
 - An updated Round 2 PDF is uploaded to Google Drive but currently private; set access to Anyone with link / Viewer and open in incognito before form submission.
 - Exact registered full name for Kanishk remains unconfirmed; use registration records rather than guessing.
 - Only the team leader may submit the Round 2 form; no submission was made automatically.
+
+## 10 November, 21:48 IST — Browser QA update
+- Earlier notes saying browser navigation was wholly blocked are historical. New isolated Vercel Sandbox with headless Chromium successfully loaded production and captured real 1440x900 and 390x844 screenshots. CSS-3D scene and keyboard orbit executed; normal paced synthetic example -> correction -> approval -> handover worked in targeted desktop and phone runs.
+- **Unresolved:** rapid back-to-back click operations intermittently hit hidden/stale edit or approve buttons before asynchronous client refresh settles. One 768px tablet attempt and reduced-motion full journey were not conclusively passed. The browser sandbox timed out before completion. This is a known UX reliability risk for judges; repeat in a fresh browser and fix before claiming fully verified responsive interaction.
+- A GitHub branch for a navigation-intent safeguard exists, but the attempted script update was blocked by a safety check. No UI patch was pushed; production was not altered. Do not pretend the issue is fixed.
+- The Google Drive PDF remains private until the owner explicitly sets Anyone with the link / Viewer. The public Vercel PDF is verified, but the form specifically requires a public Google Drive link.
