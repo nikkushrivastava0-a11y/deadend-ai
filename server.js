@@ -117,9 +117,9 @@ const app=http.createServer(async(req,res)=>{
   }
   if(pathname==='/api/handover'&&req.method==='GET')return json(res,200,{title:'DeadEnd — Approved Handover',generatedAt:new Date().toISOString(),scope:'Public claims only',items:publicHandover(db),disclosure:'Synthetic records are examples; citations must be checked against original sources.'});
   if(req.method!=='GET')return json(res,405,{error:'Method not allowed'});
-  const lookup={'/':'index.html','/index.html':'index.html','/app.js':'app.js','/style.css':'style.css','/immersive.css':'immersive.css','/atmosphere.css':'atmosphere.css','/scene3d.bundle.js':'scene3d.bundle.js'};
+  const lookup={'/':'index.html','/index.html':'index.html','/app.js':'app.js','/style.css':'style.css','/immersive.css':'immersive.css','/atmosphere.css':'atmosphere.css','/scene3d.bundle.js':'scene3d.bundle.js','/fonts/dm-sans.woff2':'fonts/dm-sans.woff2','/fonts/space-grotesk.woff2':'fonts/space-grotesk.woff2','/fonts/space-mono-400.woff2':'fonts/space-mono-400.woff2','/fonts/space-mono-700.woff2':'fonts/space-mono-700.woff2'};
   const file=lookup[pathname];if(!file)return json(res,404,{error:'Not found'});
-  const mime=file.endsWith('.js')?'text/javascript':file.endsWith('.css')?'text/css':'text/html';
+  const mime=file.endsWith('.woff2')?'font/woff2':file.endsWith('.js')?'text/javascript':file.endsWith('.css')?'text/css':'text/html';
   res.writeHead(200,{'Content-Type':mime+'; charset=utf-8','X-Content-Type-Options':'nosniff','Content-Security-Policy':"default-src 'self'; style-src 'self'; script-src 'self'; connect-src 'self'; img-src 'self' data:; font-src 'self'; base-uri 'none'; form-action 'self'"});
   fs.createReadStream(path.join(root,'public',file)).pipe(res);
  }catch(err){json(res,400,{error:err.message||'Unexpected error'});}
