@@ -33,6 +33,13 @@ $('#stripeJourney').addEventListener('click',async()=>{
 });
 $('#demoBtn').addEventListener('click',async()=>{if(state.sources.length && !confirm('Replace current workspace with synthetic demo data?'))return;try{const r=await api('/api/demo','POST');await refresh();show('overview');document.querySelector('[data-node=decision]').click();scene.scrollIntoView({block:'center'});}catch(err){notify(err.message,true);}});
 $('#notesForm').addEventListener('submit',async e=>{e.preventDefault();try{const r=await api('/api/import-notes','POST',{title:$('#noteTitle').value,text:$('#noteText').value,visibility:$('#visibility').value});await refresh();show('findings');notify(`${r.count} candidate findings from the supplied text. Review exact evidence before approval.`);}catch(err){notify(err.message,true);}});
+$('#realCaseBtn')?.addEventListener('click',async()=>{
+ try{
+  const r=await api('/api/import-github','POST',{url:'https://github.com/ruuvi/com.ruuvi.station.webui/issues/501'});
+  await refresh();show('findings');$('#filter').value='all';$('#search').value='compare multiple units';renderClaims();
+  notify('Real public GitHub case imported. Inspect the original source, then review its historical decision and possible reconsideration.');
+ }catch(err){notify('Public example could not be imported: '+err.message,true);}
+});
 $('#githubForm').addEventListener('submit',async e=>{e.preventDefault();try{const r=await api('/api/import-github','POST',{url:$('#githubUrl').value});await refresh();show('findings');notify(`${r.count} candidate findings imported from the public GitHub discussion.`);}catch(err){notify(err.message,true);}});
 $('#search').addEventListener('input',renderClaims);$('#filter').addEventListener('change',renderClaims);
 $('#downloadBtn').addEventListener('click',async()=>{const d=await api('/api/handover');const lines=['# DeadEnd — Approved Handover','',`Generated: ${d.generatedAt}`,'Scope: Public evidence only','',...d.items.flatMap((x,i)=>[`## ${i+1}. ${x.title}`,'',x.claim,'',`Evidence: ${x.evidence}`,`Source: ${x.url||x.sourceTitle}`,...(x.updates||[]).map(u=>`Recheck: ${u.quote} (${u.source})${u.url?` — ${u.url}`:""}`),`Next action: ${x.nextStep}`,''])];const blob=new Blob([lines.join('\n')],{type:'text/markdown'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='deadend-handover.md';a.click();URL.revokeObjectURL(a.href);});
