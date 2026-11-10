@@ -34,3 +34,10 @@
 - Regression test commit f7154180ae776ef58362ed3842065da1c0543eff covers markdown headings, distinct comments, exact excerpts and export.
 - Remaining: verify complete CI suite and preview browser; real live import is not yet proven, so do not promote based only on this log.
 - Next executable task: check CI and preview, import public GitHub issue, inspect approval/handover, then merge a verified release. Form submission remains user-authorised only.
+
+#### Evening QA checkpoint — 21:04 IST
+- Reproduced old extraction behavior on an actual public issue description: the previous parser emitted the generic reverted sentence but skipped two separate 'Doesn't work' approach explanations.
+- Added branch changes for markdown failed approaches and heading context; corrected a follow-up bug where the markdown heading itself was mistakenly classified as a failed finding. Current branch commits: 36238716e74934cc83e6fc251fb1d0333db8317b and regression 395618fd9b8a5b2b07ba81235183fa57a4077c1a.
+- Equivalent local v0.6-derived Node harness with the same extraction patch and correction endpoint: npm run check 11/11 passed, including an HTTP import-to-approved-handover fixture with verbatim public issue excerpts and stubbed GitHub HTTP. This is NOT the complete current PR branch test suite.
+- Static Chromium screenshots at 390x844, 768x1024, 1440x900 were captured using inline local HTML/CSS because browser navigation (even localhost) is blocked by the environment. No page-level horizontal overflow in the static render. The old mobile fallback visually clipped 3D cards despite no page overflow; applying the equivalent fallback already present in the draft PR produced a readable 2-column mobile node grid. This does not prove the full interactive branch was browser-tested.
+- The new complete branch CI and unauthenticated deployed journey are still unverified, and the PR remains draft. Production main was not changed.
