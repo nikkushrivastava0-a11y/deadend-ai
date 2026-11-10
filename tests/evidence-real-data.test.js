@@ -6,16 +6,16 @@ import {extractCandidates,relatedUpdates,verifyClaim,publicHandover} from '../en
 const url='https://github.com/ruuvi/com.ruuvi.station.webui/issues/501';
 const body="Compare multiple units in comparison chart\nDescription:\n\nPreviously we abandoned idea to compare multiple units in single chart, because there are obvious limitations and we didn't find a pretty solution.\n\nBut we should consider this in the future.\n\nExample: show temperature and dew point in same chart.";
 test('public issue #501 yields supported finding, accurate URL and separate reconsideration',()=>{
- const src={id:'ruuvi-501',title:'Compare multiple units in comparison chart',url,visibility:'public',text:body,segments:[{text:body,url}]};
+ const src={id:'ruuvi-501',title:'Compare multiple units in comparison chart',url,visibility:'public',text:body,segments:[{text:body,url,author:'markoaamunkajo',createdAt:'2025-04-24T06:26:42Z'}]};
  const claims=extractCandidates(src);assert.equal(claims.length,1);
- assert.equal(claims[0].sourceUrl,url);assert.equal(verifyClaim(claims[0],src).ok,true);
+ assert.equal(claims[0].sourceUrl,url);assert.equal(claims[0].sourceAuthor,'markoaamunkajo');assert.match(claims[0].sourceCreatedAt,/2025-04-24/);assert.equal(verifyClaim(claims[0],src).ok,true);
  const updates=relatedUpdates(claims[0],[src]);assert.equal(updates.length,1);
  assert.equal(updates[0].quote,'But we should consider this in the future.');
  claims[0].claim='This chart approach was abandoned historically; re-evaluate before retrying.';
  claims[0].state='approved';
  const handover=publicHandover({sources:[src],claims});
  assert.equal(handover.length,1);assert.equal(handover[0].evidence,claims[0].quote);
- assert.equal(handover[0].updates[0].url,url);
+ assert.equal(handover[0].updates[0].url,url);assert.equal(handover[0].sourceAuthor,'markoaamunkajo');
 });
 test('identical quotes in two comments produce unique reviewable findings with bound provenance',()=>{
  const quote='We dropped the old cache because it served stale values.';
