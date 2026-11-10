@@ -79,13 +79,13 @@ function initialize() {
       under.position.set((2-layer)*0.045, -(2-layer)*0.062, z-0.055);
       group.add(under);
       const edge = new THREE.LineSegments(new THREE.EdgesGeometry(under.geometry),
-        new THREE.LineBasicMaterial({color:option.accent,transparent:true,opacity:layer===0?0.40:0.15}));
+        new THREE.LineBasicMaterial({color:option.accent,transparent:true,opacity:layer===0?0.57:0.24}));
       under.add(edge);
     }
 
     const faceTexture = renderFace(option);
     const face = new THREE.Mesh(new THREE.PlaneGeometry(2.39,1.60),
-      new THREE.MeshBasicMaterial({map:faceTexture,transparent:true,opacity:0.995,side:THREE.DoubleSide,depthWrite:false}));
+      new THREE.MeshBasicMaterial({map:faceTexture,transparent:true,opacity:0.995,side:THREE.DoubleSide,depthWrite:false,toneMapped:false}));
     face.position.z=0.13;
     face.userData.key=option.key;
     face.userData.card=group;
@@ -272,9 +272,9 @@ function renderFace(item){
   const canvas=document.createElement('canvas');canvas.width=1024;canvas.height=684;
   const c=canvas.getContext('2d');
   const color='#'+item.accent.toString(16).padStart(6,'0');
-  c.fillStyle='#24272b';c.fillRect(0,0,1024,684);
+  c.fillStyle=({source:'#414547',decision:'#524f49',evidence:'#45494a',review:'#484647',handover:'#454b47'}[item.key]||'#454749');c.fillRect(0,0,1024,684);
   const grad=c.createLinearGradient(0,0,1024,684);
-  grad.addColorStop(0,'rgba(210,208,202,.07)');grad.addColorStop(0.28,'rgba(122,125,124,.025)');grad.addColorStop(1,'rgba(9,10,11,.13)');
+  grad.addColorStop(0,'rgba(236,232,220,.075)');grad.addColorStop(0.28,'rgba(125,128,127,.03)');grad.addColorStop(1,'rgba(10,12,13,.10)');
   c.fillStyle=grad;c.fillRect(0,0,1024,684);
   c.strokeStyle=color;c.globalAlpha=0.7;c.lineWidth=5;c.strokeRect(12,12,1000,660);c.globalAlpha=1;
   c.fillStyle=color;c.fillRect(36,36,122,6);
