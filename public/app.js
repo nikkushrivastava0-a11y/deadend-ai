@@ -31,7 +31,7 @@ $('#stripeJourney').addEventListener('click',async()=>{
   show('findings');$('#filter').value='all';$('#search').value='Should we try Stripe again?';renderClaims();$('#search').focus();
  }catch(err){notify(err.message,true);}
 });
-$('#demoBtn').addEventListener('click',async()=>{if(state.sources.length && !confirm('Replace current workspace with synthetic demo data?'))return;try{const r=await api('/api/demo','POST');await refresh();show('overview');document.querySelector('[data-node=decision]').click();scene.scrollIntoView({block:'center'});}catch(err){notify(err.message,true);}});
+$('#demoBtn').addEventListener('click',async()=>{if(state.sources.length && !confirm('Replace current workspace with synthetic demo data?'))return;$('#demoBtn').disabled=true;$('#stripeJourney').disabled=true;try{await api('/api/demo','POST');await refresh();show('overview');document.querySelector('[data-node=decision]').click();scene.scrollIntoView({block:'center'});}catch(err){notify(err.message,true);}finally{$('#demoBtn').disabled=false;$('#stripeJourney').disabled=false;}});
 $('#notesForm').addEventListener('submit',async e=>{e.preventDefault();try{const r=await api('/api/import-notes','POST',{title:$('#noteTitle').value,text:$('#noteText').value,visibility:$('#visibility').value});await refresh();show('findings');notify(`${r.count} candidate findings from the supplied text. Review exact evidence before approval.`);}catch(err){notify(err.message,true);}});
 $('#realCaseBtn')?.addEventListener('click',async()=>{
  try{
