@@ -56,6 +56,34 @@ try{
   assert.match(markdown,/Approved Handover/);
   assert.match(markdown,/Evidence:/);
   await page.screenshot({path:'qa-output/'+label+'-handover.png',fullPage:true});
+  if(label==='desktop'){
+    // Real public evidence: do not replace its wording with a synthetic fixture.
+    const actual='https://github.com/codeatlasdev/ui/issues/682';
+    await page.locator('[data-view="sources"]').click();
+    await page.locator('#githubUrl').fill(actual);
+    await page.locator('#githubForm button[type="submit"]').click();
+    await page.waitForFunction(()=>document.querySelector('#notice')?.textContent.includes('candidate findings imported'),{timeout:30000});
+    const caseFile=page.locator('.claim').filter({hasText:'Kanban'}).first();
+    assert.ok(await caseFile.count()===1,'real GitHub issue should create a Kanban finding');
+    assert.ok(await caseFile.locator('blockquote').innerText().then(s=>s.includes('We reverted it because')),'preserve original issue sentence');
+    assert.equal(await caseFile.locator('a[href*="/issues/682"]').first().getAttribute('href'),actual);
+    await caseFile.locator('[data-edit]').click();
+    await page.locator('#correctText').fill('The Kanban replacement was reverted because visual and keyboard behaviour differed from the old board; re-evaluate after confirming those gaps were addressed.');
+    await page.locator('#editor button[value="save"]').click();
+    await page.waitForTimeout(200);
+    await page.locator('.claim').filter({hasText:'Kanban'}).first().locator('[data-review="approved"]').click();
+    await page.locator('[data-view="handover"]').click();
+    assert.ok(await page.locator('.handover-entry').filter({hasText:'Kanban'}).count()>0,'corrected real issue should enter the handover');
+    const downloadReady=page.waitForEvent('download');
+    await page.locator('#downloadBtn').click();
+    const realFile=await (await downloadReady).path();
+    const realMarkdown=await readFile(realFile,'utf8');
+    assert.match(realMarkdown,/We reverted it because the default look/);
+    assert.match(realMarkdown,/The Kanban replacement was reverted because/);
+    await page.screenshot({path:'qa-output/real-github-handover.png',fullPage:true});
+    console.log(JSON.stringify({realGitHubIssue:actual,import:'completed',evidence:'exact quote verified',correction:'approved',markdown:'verified'}));
+  }
+
   const dimensions=await page.evaluate(()=>({width:window.innerWidth,scrollWidth:document.documentElement.scrollWidth}));
   assert.ok(dimensions.scrollWidth<=dimensions.width+2,label+' horizontal overflow '+JSON.stringify(dimensions));
   assert.deepEqual(errors,[],label+' client errors');
