@@ -30,3 +30,5 @@ body{background:#080d15;color:#eaf0f9;background-image:radial-gradient(ellipse a
 @media (max-width:600px),(prefers-reduced-motion:reduce){
  .scene-orbit{scale:1}
 }
+
+@media (min-width:1151px){.scene-orbit{translate:0 -34px}}
