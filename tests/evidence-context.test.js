@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {extractCandidates,verifyClaim,publicHandover} from '../engine.js';
+import {extractCandidates,verifyClaim,publicHandover,relatedUpdates} from '../engine.js';
 
 const issue='https://github.com/codeatlasdev/ui/issues/682';
 const first='We tried to replace a ~190-line board (cross-column drag, pan, fade, mobile status tabs) with `Kanban`.';
@@ -34,4 +34,11 @@ test('context never crosses from one GitHub commenter into another',()=>{
  const [item]=extractCandidates(src);
  assert.equal(item.context,null);
  assert.doesNotMatch(item.claim,/Kanban/);
+});
+
+test('reversal matching uses contextual technology name, not name substrings',()=>{
+ const original={id:'a',title:'original',url:issue,visibility:'public',text:'We tried to replace the board with Kanban. We reverted it because keyboard controls did not work.',segments:[{text:'We tried to replace the board with Kanban. We reverted it because keyboard controls did not work.',url:issue}]};
+ const [item]=extractCandidates(original);
+ const later={id:'b',title:'later',url:issue,visibility:'public',text:'Kanban now works with keyboard navigation. Kanbanoodle now works in staging.',segments:[{text:'Kanban now works with keyboard navigation. Kanbanoodle now works in staging.',url:issue+'#issuecomment-3'}]};
+ assert.deepEqual(relatedUpdates(item,[original,later]).map(x=>x.quote),['Kanban now works with keyboard navigation.']);
 });
