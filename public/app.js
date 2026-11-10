@@ -24,11 +24,13 @@ async function renderHandover(){const d=await api('/api/handover');$('#handoverC
 let navRevision=0;
 document.addEventListener('click',async e=>{const nav=e.target.closest('[data-view],[data-goto]');if(nav){navRevision++;show(nav.dataset.view||nav.dataset.goto);return;}const btn=e.target.closest('[data-review]');if(!btn)return;const id=btn.dataset.id,stateValue=btn.dataset.review;let note='';if(stateValue==='disputed')note=prompt('Why is this evidence disputed? (optional)')||'';try{await api('/api/review','POST',{id,state:stateValue,note});await refresh();notify(`Finding marked ${stateValue}.`);}catch(err){notify(err.message,true);}});
 $('#stripeJourney').addEventListener('click',async()=>{
+ const revision=++navRevision;
  try{
   if(!state.claims.some(c=>/\bStripe\b/i.test(c.claim))){
    if(state.sources.length && !confirm('Replace this workspace with the synthetic Stripe example?'))return;
    await api('/api/demo','POST');await refresh();
   }
+  if(revision!==navRevision)return;
   show('findings');$('#filter').value='all';$('#search').value='Should we try Stripe again?';renderClaims();$('#search').focus();
  }catch(err){notify(err.message,true);}
 });
