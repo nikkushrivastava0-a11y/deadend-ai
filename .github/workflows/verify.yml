@@ -9,7 +9,7 @@ permissions:
 jobs:
   test:
     runs-on: ubuntu-latest
-    timeout-minutes: 8
+    timeout-minutes: 15
     steps:
       - name: Checkout
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
@@ -21,3 +21,16 @@ jobs:
           node-version: '22'
       - name: Verify syntax and evidence workflow
         run: npm run check
+      - name: Install browser test tools
+        run: |
+          npm install --no-save playwright@1.56.1
+          npx playwright install --with-deps chromium
+      - name: Exercise desktop, tablet, phone, review and Markdown export
+        run: node qa/browser-journey.mjs
+      - name: Save QA screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: deadend-browser-qa
+          path: qa-output/*.png
+          if-no-files-found: ignore
