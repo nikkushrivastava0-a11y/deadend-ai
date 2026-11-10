@@ -66,11 +66,23 @@ body {
 .trace-picker{margin-top:5px;padding:19px 4px 1px;border-top:1px solid #263e50;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.5px}
 .trace-picker select{min-height:42px}
 .evidence-webgl-canvas{position:absolute;inset:0;display:block;width:100%;height:100%;z-index:3;outline:none;touch-action:pan-y}
+/* A tactile keyboard/click rail accompanies the WebGL geometry. */
 .has-webgl .scene-camera{
- position:absolute!important;width:1px!important;height:1px!important;
- clip-path:inset(50%)!important;overflow:hidden!important;opacity:0!important;
- pointer-events:none!important;
+ position:absolute!important;inset:auto 0 57px!important;width:100%!important;height:47px!important;
+ clip-path:none!important;overflow:visible!important;opacity:1!important;
+ perspective:none!important;transform:none!important;z-index:7;pointer-events:none!important;
 }
+.has-webgl .scene-orbit{display:flex!important;align-items:center;justify-content:center;gap:6px;height:100%;width:100%;transform:none!important;scale:1!important;pointer-events:none!important;padding:0 10px}
+.has-webgl .node3d{position:relative!important;left:auto!important;top:auto!important;width:auto!important;min-width:77px;height:34px!important;min-height:0!important;padding:7px 11px!important;
+ display:flex!important;align-items:center;justify-content:center;flex-direction:row;transform:none!important;
+ background:rgba(8,21,35,.92)!important;border:1px solid #3a5468;border-radius:3px;
+ box-shadow:none!important;backdrop-filter:blur(8px);pointer-events:auto!important}
+.has-webgl .node3d strong{font:700 10px 'Space Grotesk',sans-serif;letter-spacing:.55px;white-space:nowrap}
+.has-webgl .node3d .node-overline,.has-webgl .node3d .node-symbol,.has-webgl .node3d .node-caption{display:none!important}
+.has-webgl .node3d::after,.has-webgl .node3d::before{display:none}
+.has-webgl .node3d:hover,.has-webgl .node3d.selected{background:rgba(42,73,96,.95)!important;border-color:#86eaf5;filter:none}
+.has-webgl .node3d:focus-visible{outline:2px solid #c7fff8;outline-offset:3px}
+
 .has-webgl .scene-ambient,.has-webgl .scene-ground,.has-webgl .scene-wire{display:none!important}
 .has-webgl .scene-hud,.has-webgl .scene-controls{pointer-events:none}
 .has-webgl .scene-controls button{pointer-events:auto}
