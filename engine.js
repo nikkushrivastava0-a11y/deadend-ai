@@ -10,25 +10,29 @@ const reversal = /(?:actually|however|now works|fixed|resolved|reconsider|no lon
 export const hash = s => crypto.createHash('sha256').update(s).digest('hex').slice(0,12);
 export function extractCandidates(source) {
   if (!source || typeof source.text !== 'string' || source.text.length > 70000) throw Error('Invalid source or source too large (max 70 KB)');
-  const sentences = source.text.split(/(?<=[.!?])\s+|\n+/).map(x => x.trim()).filter(x=>x.length >= 20 && x.length <= 650);
+  // Keep comment-level provenance: two reviewers may independently write the same sentence.
+  const segments=Array.isArray(source.segments) && source.segments.length
+    ? source.segments : [{text:source.text,url:source.url||null}];
   const records=[];
-  for (const sentence of sentences) {
-    const matchCount = patterns.filter(p=>p.test(sentence)).length;
-    if (!matchCount) continue;
-    if (!patterns[1].test(sentence) && !patterns[2].test(sentence)) continue;
-    const reasons = reason.test(sentence);
-    const matchingSegment = Array.isArray(source.segments) ? source.segments.find(s=>s.text.includes(sentence)) : null;
-    records.push({
-      id:hash(source.id+':'+sentence),sourceId:source.id,
-      title: sentence.slice(0,95)+(sentence.length>95?'…':''),
-      claim:sentence,quote:sentence,
-      sourceUrl:matchingSegment?.url||source.url||null,sourceTitle:source.title,
-      visibility:source.visibility||'public',
-      evidenceStatus:reasons?'supported':'needs-context',
-      state:reversal.test(sentence)?'disputed': 'needs-review',
-      reviewerNote:'',reviewedAt:null,
-      nextStep:reasons?'Verify whether the original constraint still applies before retrying.':'Ask the previous owner for the missing reason and current status.'
-    });
+  for(const [segmentIndex,part] of segments.entries()){
+    if(typeof part.text!=='string')continue;
+    const sentences=part.text.split(/(?<=[.!?])\s+|\n+/).map(x=>x.trim());
+    for(const [sentenceIndex,sentence] of sentences.entries()){
+      if(sentence.length<20 || sentence.length>650)continue;
+      if(!patterns[1].test(sentence) && !patterns[2].test(sentence))continue;
+      const reasons=reason.test(sentence);
+      records.push({
+        id:hash(source.id+':'+segmentIndex+':'+sentenceIndex+':'+sentence),sourceId:source.id,
+        title:sentence.slice(0,95)+(sentence.length>95?'…':''),
+        claim:sentence,quote:sentence,
+        sourceUrl:part.url||source.url||null,segmentIndex,sourceTitle:source.title,
+        visibility:source.visibility||'public',
+        evidenceStatus:reasons?'supported':'needs-context',
+        state:reversal.test(sentence)?'disputed':'needs-review',
+        reviewerNote:'',reviewedAt:null,
+        nextStep:reasons?'Verify whether the original constraint still applies before retrying.':'Ask the previous owner for the missing reason and current status.'
+      });
+    }
   }
   return records;
 }
@@ -36,7 +40,12 @@ export function verifyClaim(claim, source){
   if(!claim||!source) return {ok:false,reason:'Source is missing'};
   if(!claim.quote || !source.text.includes(claim.quote))return {ok:false,reason:'Evidence quotation not found in source'};
   if(claim.visibility!==source.visibility)return {ok:false,reason:'Source visibility mismatch'};
-  if(Array.isArray(source.segments) && !source.segments.some(s=>s.url===claim.sourceUrl && s.text.includes(claim.quote))) return {ok:false,reason:'Original comment link does not support quotation'};
+  if(Array.isArray(source.segments)){
+    if(Number.isInteger(claim.segmentIndex)){
+      const segment=source.segments[claim.segmentIndex];
+      if(!segment || segment.url!==claim.sourceUrl || !segment.text.includes(claim.quote))return {ok:false,reason:'Claim is not supported by its original comment segment'};
+    }else if(!source.segments.some(s=>s.url===claim.sourceUrl && s.text.includes(claim.quote)))return {ok:false,reason:'Original comment link does not support quotation'};
+  }
   return {ok:true,reason:'Exact supporting quotation found'};
 }
 export function publicHandover(state){
@@ -57,15 +66,24 @@ export function analyzeText(text,title='Uploaded project notes',visibility='publ
  return {source:src,claims:extractCandidates(src)};
 }
 
-// A reversal mentioning the same named technology is a review lead, not proof.
+// Possible reversals and plans to revisit are leads for human review, never proof a blocker is fixed.
+const futureRevisit=/\b(?:revisit|reconsider|should consider|consider (?:this|it)|try (?:this|it) again)\b/i;
 export function relatedUpdates(item,sources){
- const terms=item.quote.match(/\b(?:[A-Z][a-zA-Z0-9]+|[A-Z]{2,})\b/g)||[];
- const names=terms.filter(t=>!['The','We','Our','This','After','However','Later','Team','They','That','Previously'].includes(t));
- const hits=[];
+ const terms=(item.quote.match(/\b(?:[A-Z][a-zA-Z0-9]+|[A-Z]{2,})\b/g)||[])
+  .filter(t=>!['The','We','Our','This','After','However','Later','Team','They','That','Previously','But','Example'].includes(t));
+ const named=(line)=>terms.some(term=>new RegExp('\\b'+term+'\\b','i').test(line));
+ const seen=new Set(),hits=[];
  for(const source of sources.filter(s=>s.visibility===item.visibility)){
   for(const part of source.segments||[{text:source.text,url:source.url}]){
-   for(const line of part.text.split(/(?<=[.!?])\s+|\n+/).map(s=>s.trim())){
-    if(line!==item.quote && reversal.test(line) && names.some(name=>line.toLowerCase().includes(name.toLowerCase())))hits.push({quote:line,source:source.title,url:part.url});
+   const sentences=part.text.split(/(?<=[.!?])\s+|\n+/).map(s=>s.trim()).filter(Boolean);
+   for(let i=0;i<sentences.length;i++){
+    const line=sentences[i];
+    if(line===item.quote)continue;
+    const adjacentRevisit=sentences[i-1]===item.quote && futureRevisit.test(line) && /\b(?:this|it|again|approach|idea)\b/i.test(line);
+    if(!adjacentRevisit && !(reversal.test(line)&&named(line)))continue;
+    const key=[source.id,part.url,line].join('|');
+    if(seen.has(key))continue;seen.add(key);
+    hits.push({quote:line,source:source.title,url:part.url||source.url||null});
    }
   }
  }
