@@ -25,7 +25,7 @@ export function extractCandidates(source) {
         approachHeading=sentence.replace(/^#{2,5}\s+/,'').slice(0,180);
         continue;
       }
-      if(/^#{1,5}\s+/.test(sentence))approachHeading=null;
+      if(/^#{1,5}\s+/.test(sentence)){approachHeading=null;continue;} // headings describe context, not standalone evidence
       if(sentence.length<20 || sentence.length>650)continue;
       if(!patterns[1].test(sentence) && !patterns[2].test(sentence))continue;
       const isFailureExplanation=/doesn['’]t\s+work|didn['’]t\s+work|did\s+not\s+work/i.test(sentence) && /:\s*\S.{15,}/.test(sentence);
