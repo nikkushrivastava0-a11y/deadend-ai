@@ -116,12 +116,20 @@ const app=http.createServer(async(req,res)=>{
    return json(res,200,{ok:true,claim:item});
   }
   if(pathname==='/api/handover'&&req.method==='GET')return json(res,200,{title:'DeadEnd — Approved Handover',generatedAt:new Date().toISOString(),scope:'Public claims only',items:publicHandover(db),disclosure:'Synthetic records are examples; citations must be checked against original sources.'});
-  if(req.method!=='GET')return json(res,405,{error:'Method not allowed'});
-  const lookup={'/':'index.html','/index.html':'index.html','/app.js':'app.js','/style.css':'style.css','/immersive.css':'immersive.css','/atmosphere.css':'atmosphere.css','/matte.css':'matte.css','/scene3d.bundle.js':'scene3d.bundle.js','/fonts/dm-sans.woff2':'fonts/dm-sans.woff2','/fonts/space-grotesk.woff2':'fonts/space-grotesk.woff2','/fonts/space-mono-400.woff2':'fonts/space-mono-400.woff2','/fonts/space-mono-700.woff2':'fonts/space-mono-700.woff2'};
-  const file=lookup[pathname];if(!file)return json(res,404,{error:'Not found'});
-  const mime=file.endsWith('.woff2')?'font/woff2':file.endsWith('.js')?'text/javascript':file.endsWith('.css')?'text/css':'text/html';
-  res.writeHead(200,{'Content-Type':mime+'; charset=utf-8','X-Content-Type-Options':'nosniff','Content-Security-Policy':"default-src 'self'; style-src 'self'; script-src 'self'; connect-src 'self'; img-src 'self' data:; font-src 'self'; base-uri 'none'; form-action 'self'"});
-  fs.createReadStream(path.join(root,'public',file)).pipe(res);
+  if(req.method!=='GET' && req.method!=='HEAD')return json(res,405,{error:'Method not allowed'});
+  const lookup={'/':'index.html','/index.html':'index.html','/app.js':'app.js','/style.css':'style.css','/immersive.css':'immersive.css','/atmosphere.css':'atmosphere.css','/matte.css':'matte.css','/site.bundle.css':'site.bundle.css','/site-polish.css':'site-polish.css','/about.html':'about.html','/privacy.html':'privacy.html','/404.html':'404.html','/favicon.svg':'favicon.svg','/favicon.png':'favicon.png','/apple-touch-icon.png':'apple-touch-icon.png','/og-deadend.png':'og-deadend.png','/robots.txt':'robots.txt','/sitemap.xml':'sitemap.xml','/llms.txt':'llms.txt','/LLMs.txt':'LLMs.txt','/scene3d.bundle.js':'scene3d.bundle.js','/fonts/dm-sans.woff2':'fonts/dm-sans.woff2','/fonts/space-grotesk.woff2':'fonts/space-grotesk.woff2','/fonts/space-mono-400.woff2':'fonts/space-mono-400.woff2','/fonts/space-mono-700.woff2':'fonts/space-mono-700.woff2'};
+  const file=lookup[pathname]||null;
+  if(!file && pathname.startsWith('/api/'))return json(res,404,{error:'Unknown API route'});
+  const target=file||'404.html';
+  const mime=target.endsWith('.woff2')?'font/woff2':target.endsWith('.js')?'text/javascript':target.endsWith('.css')?'text/css':target.endsWith('.svg')?'image/svg+xml':target.endsWith('.png')?'image/png':target.endsWith('.xml')?'application/xml':target.endsWith('.txt')?'text/plain':'text/html';
+  // Permit only our exact, non-executable JSON-LD snippet under the CSP.
+  const source=fs.readFileSync(path.join(root,'public','index.html'),'utf8');
+  const ld=source.match(/<script type="application\\/ld\\+json">([\\s\\S]*?)<\\/script>/);
+  const ldHash=ld?' \\'sha256-'+crypto.createHash('sha256').update(ld[1]).digest('base64')+'\\'':'';
+  const policy="default-src 'self'; style-src 'self'; script-src 'self'"+ldHash+"; connect-src 'self'; img-src 'self' data:; font-src 'self'; object-src 'none'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'";
+  res.writeHead(file?200:404,{'Content-Type':mime+'; charset=utf-8','X-Content-Type-Options':'nosniff','Content-Security-Policy':policy});
+  if(req.method==='HEAD')return res.end();
+  fs.createReadStream(path.join(root,'public',target)).pipe(res);
  }catch(err){json(res,400,{error:err.message||'Unexpected error'});}
 });
 if(process.env.NODE_ENV!=='test' && process.env.VERCEL!=='1')app.listen(port,()=>console.log(`DeadEnd MVP: http://localhost:${port}`));
