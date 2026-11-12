@@ -34,10 +34,10 @@ test('navigation is accessible and the 3D bundle is not eager-loaded on mobile',
  assert.match(html,/href="\/" aria-label="DeadEnd AI home"/);
  assert.match(html,/aria-label="Footer links"/);
  assert.match(html,/href="mailto:nikkushrivastava0@gmail\.com"/);
- assert.equal((html.match(/data-view="/g)||[]).length,4);
+ assert.equal((html.match(/data-view="/g)||[]).length,4);assert.match(html,/<a class="subtle secondary-link" href="#sources"/);assert.match(html,/id="downloadBtn" disabled/);
  assert.doesNotMatch(html,/<script src="\/scene3d\.bundle\.js"/);
  const js=read('app.js');assert.match(js,/lazilyLoadWebGL/);assert.match(js,/menuToggle/);
- assert.match(js,/handoverCount/);
+ assert.match(js,/handoverCount/);assert.match(js,/Nothing ready to export/);assert.match(js,/new Option\('Load an example case to explore findings'/);assert.match(js,/finally\{btn.disabled=false;/);
  const css=read('site.bundle.css');assert.ok(css.length<65000);assert.doesNotMatch(css,/Space Mono/);
  assert.match(css,/\.skip-link/);
 });
