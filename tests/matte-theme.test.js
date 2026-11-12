@@ -6,7 +6,7 @@ const {app} = await import('../server.js');
 
 test('matte graphite theme loads after old CSS and WebGL uses neutral studio lighting', async()=>{
  const html=readFileSync(new URL('../public/index.html',import.meta.url),'utf8');
- assert.ok(html.indexOf('/matte.css')>html.indexOf('/atmosphere.css'));
+ assert.match(html,/\/site\.bundle\.css/); const compiled=readFileSync(new URL('../public/site.bundle.css',import.meta.url),'utf8'); assert.match(compiled,/#101113/); assert.ok(compiled.length<65000);
  const css=readFileSync(new URL('../public/matte.css',import.meta.url),'utf8');
  assert.match(css,/--paper:#101113/);
  assert.match(css,/\.highlight-word\s*\{/);

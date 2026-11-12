@@ -6,7 +6,7 @@ const {app}=await import('../server.js');
 
 test('The evidence atlas ships compiled WebGL locally with an accessible semantic fallback',async()=>{
  const html=readFileSync(new URL('../public/index.html',import.meta.url),'utf8');
- assert.match(html,/scene3d\.bundle\.js/);
+ assert.doesNotMatch(html,/<script src="\/scene3d\.bundle\.js"/); const app=readFileSync(new URL('../public/app.js',import.meta.url),'utf8'); assert.match(app,/lazilyLoadWebGL/);
  assert.match(html,/atmosphere\.css/);
  assert.match(html,/data-node="source"/);
  assert.match(html,/data-node="evidence"/);
