@@ -7,4 +7,4 @@ const files=[
   ['@fontsource-variable/space-grotesk/files/space-grotesk-latin-wght-normal.woff2','space-grotesk.woff2']
 ];
 for(const [from,to] of files){copyFileSync(resolve('node_modules',from),resolve(output,to));}
-console.log('Local fonts prepared: DM Sans / Space Grotesk');
+console.log('Local fonts prepared: DM Sans for UI; Space Grotesk kept as an unused compatibility asset');

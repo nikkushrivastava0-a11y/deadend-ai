@@ -4,8 +4,8 @@ import sharp from 'sharp';
 import {openSync} from 'fontkit';
 const parts=['style.css','immersive.css','atmosphere.css','matte.css','site-polish.css'];
 let css=parts.map(name=>readFileSync('public/'+name,'utf8')).join('\n');
-// Exactly two font families: Space Grotesk headlines and DM Sans UI/body.
-css=css.replace(/@font-face\{font-family:'Space Mono';[^}]*\}/g,'').replaceAll("'Space Mono'","'DM Sans'");
+// One sans-serif at runtime (DM Sans); system monospace only for evidence and code.
+css=css.replace(/@font-face\{font-family:'Space Mono';[^}]*\}/g,'').replace(/@font-face\{font-family:'Space Grotesk';[^}]*\}/g,'').replaceAll("'Space Grotesk'","'DM Sans'").replaceAll("'Space Mono'","'ui-monospace'");
 const result=await transform(css,{loader:'css',minify:true,target:'chrome105'});
 writeFileSync('public/site.bundle.css',result.code);
 // Build the Open Graph artwork from real glyph paths so it renders correctly
