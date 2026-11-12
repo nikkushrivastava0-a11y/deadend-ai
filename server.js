@@ -124,8 +124,11 @@ const app=http.createServer(async(req,res)=>{
   const mime=target.endsWith('.woff2')?'font/woff2':target.endsWith('.js')?'text/javascript':target.endsWith('.css')?'text/css':target.endsWith('.svg')?'image/svg+xml':target.endsWith('.png')?'image/png':target.endsWith('.xml')?'application/xml':target.endsWith('.txt')?'text/plain':'text/html';
   // Permit only our exact, non-executable JSON-LD snippet under the CSP.
   const source=fs.readFileSync(path.join(root,'public','index.html'),'utf8');
-  const ld=source.match(/<script type="application\\/ld\\+json">([\\s\\S]*?)<\\/script>/);
-  const ldHash=ld?' \\'sha256-'+crypto.createHash('sha256').update(ld[1]).digest('base64')+'\\'':'';
+  const marker='<script type="application/ld+json">';
+  const offset=source.indexOf(marker);
+  const close=offset>=0?source.indexOf('</script>',offset+marker.length):-1;
+  const ld=close>offset?source.slice(offset+marker.length,close):null;
+  const ldHash=ld?" 'sha256-"+crypto.createHash('sha256').update(ld).digest('base64')+"'":'';
   const policy="default-src 'self'; style-src 'self'; script-src 'self'"+ldHash+"; connect-src 'self'; img-src 'self' data:; font-src 'self'; object-src 'none'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'";
   res.writeHead(file?200:404,{'Content-Type':mime+'; charset=utf-8','X-Content-Type-Options':'nosniff','Content-Security-Policy':policy});
   if(req.method==='HEAD')return res.end();
