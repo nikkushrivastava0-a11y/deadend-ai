@@ -1,7 +1,7 @@
 import {readFileSync,writeFileSync} from 'node:fs';
 import {transform} from 'esbuild';
 import sharp from 'sharp';
-import fontkit from 'fontkit';
+import {openSync} from 'fontkit';
 const parts=['style.css','immersive.css','atmosphere.css','matte.css','site-polish.css'];
 let css=parts.map(name=>readFileSync('public/'+name,'utf8')).join('\n');
 // Exactly two font families: Space Grotesk headlines and DM Sans UI/body.
@@ -10,8 +10,8 @@ const result=await transform(css,{loader:'css',minify:true,target:'chrome105'});
 writeFileSync('public/site.bundle.css',result.code);
 // Build the Open Graph artwork from real glyph paths so it renders correctly
 // in CI and on Vercel even if the operating system has NO fonts installed.
-const heading=fontkit.openSync('node_modules/@fontsource-variable/space-grotesk/files/space-grotesk-latin-wght-normal.woff2');
-const body=fontkit.openSync('node_modules/@fontsource-variable/dm-sans/files/dm-sans-latin-wght-normal.woff2');
+const heading=openSync('node_modules/@fontsource-variable/space-grotesk/files/space-grotesk-latin-wght-normal.woff2');
+const body=openSync('node_modules/@fontsource-variable/dm-sans/files/dm-sans-latin-wght-normal.woff2');
 function lettering(font,text,x,baseline,size,fill){
  const layout=font.layout(text),scale=size/font.unitsPerEm;
  let dx=0;const paths=[];
