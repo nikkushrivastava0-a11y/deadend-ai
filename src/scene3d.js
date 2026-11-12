@@ -8,7 +8,7 @@ import * as THREE from 'three';
 const root = document.querySelector('#scene');
 const fallbackNodes = [...document.querySelectorAll('#sceneOrbit [data-node]')];
 const mediaReduced = window.matchMedia('(prefers-reduced-motion: reduce)');
-const mediaNarrow = window.matchMedia('(max-width: 700px)');
+const mediaNarrow = window.matchMedia('(max-width: 760px)');
 
 if (root && fallbackNodes.length === 5 && !mediaReduced.matches && !mediaNarrow.matches) {
   try { initialize(); }
@@ -48,11 +48,11 @@ function initialize() {
   scene.add(world);
 
   const configuration = [
-    {key:'source',   title:'SOURCE',     prefix:'01 // CONNECT',accent:0xb8b6b0, position:[-3.16, 1.43, -0.68], note:'PROJECT MEMORY', rotation:-0.10},
-    {key:'decision', title:'DEAD END',   prefix:'02 // RECONSTRUCT',accent:0xd6d0c5,position:[-0.14, 1.68, 0.25], note:'REJECTED PATH',rotation:0.08},
-    {key:'evidence', title:'EVIDENCE',   prefix:'03 // VERIFY',accent:0xa3aaa9,position:[2.88, 1.06, -0.34],note:'ORIGINAL QUOTE',rotation:0.11},
-    {key:'review',   title:'HUMAN REVIEW',prefix:'04 // REVIEW',accent:0xc0bdb5,position:[-2.18,-1.48,0.82],note:'HUMAN SIGN-OFF',rotation:0.06},
-    {key:'handover', title:'HANDOVER',   prefix:'05 // TRANSFER',accent:0xaab1ae,position:[1.19,-1.52,1.12],note:'APPROVED ONLY',rotation:-0.10}
+    {key:'source',   title:'SOURCE',     prefix:'01',accent:0xb8b6b0, position:[-3.16, 1.43, -0.68], note:'PROJECT MEMORY', rotation:-0.10},
+    {key:'decision', title:'DEAD END',   prefix:'02',accent:0xd6d0c5,position:[-0.14, 1.68, 0.25], note:'REJECTED PATH',rotation:0.08},
+    {key:'evidence', title:'EVIDENCE',   prefix:'03',accent:0xa3aaa9,position:[2.88, 1.06, -0.34],note:'ORIGINAL QUOTE',rotation:0.11},
+    {key:'review',   title:'HUMAN REVIEW',prefix:'04',accent:0xc0bdb5,position:[-2.18,-1.48,0.82],note:'HUMAN SIGN-OFF',rotation:0.06},
+    {key:'handover', title:'HANDOVER',   prefix:'05',accent:0xaab1ae,position:[1.19,-1.52,1.12],note:'APPROVED ONLY',rotation:-0.10}
   ];
   const cards = [];
   const hitMeshes = [];
@@ -152,6 +152,7 @@ function initialize() {
   function readSelection() {
     const chosen=fallbackNodes.find(n=>n.classList.contains('selected'));
     selectedKey=chosen?.dataset.node || 'decision';
+    requestRender();
   }
   for(const node of fallbackNodes){
     node.addEventListener('click',()=>{
@@ -189,6 +190,7 @@ function initialize() {
     camera.fov=width<650?47:41;
     camera.updateProjectionMatrix();
     renderer.setSize(width,height,false);
+    requestRender();
   }
   const resize=new ResizeObserver(bounds);resize.observe(root);bounds();
 
@@ -213,6 +215,7 @@ function initialize() {
     }
     hoveredKey=raycast(e);
     canvas.style.cursor=hoveredKey?'pointer':isDragging?'grabbing':'grab';
+    requestRender();
   });
   root.addEventListener('pointerup',e=>{
     if(!isDragging)return;
@@ -230,40 +233,37 @@ function initialize() {
     if(!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(e.key))return;
     targetYaw=THREE.MathUtils.clamp(targetYaw+(e.key==='ArrowLeft'?-0.10:e.key==='ArrowRight'?0.10:0),-0.65,0.53);
     targetPitch=THREE.MathUtils.clamp(targetPitch+(e.key==='ArrowUp'?-0.08:e.key==='ArrowDown'?0.08:0),-0.48,0.30);
+    requestRender();
   });
-  document.getElementById('resetCamera')?.addEventListener('click',()=>{targetYaw=-0.10;targetPitch=-0.12;});
+  document.getElementById('resetCamera')?.addEventListener('click',()=>{targetYaw=-0.10;targetPitch=-0.12;requestRender();});
   const observer=new IntersectionObserver(entries=>{
     visible=entries[0]?.isIntersecting??false;
-    if(visible&&!renderId)renderId=requestAnimationFrame(frame);
+    if(visible)requestRender();
   },{threshold:0.02});
   observer.observe(root);
 
-  const clock=new THREE.Clock();
+  // Render on interaction or content changes. No decorative perpetual motion.
+  function requestRender(){
+    if(visible&&!document.hidden&&!renderId)renderId=requestAnimationFrame(frame);
+  }
   function frame(){
     renderId=0;
     if(!visible||document.hidden)return;
-    const t=clock.getElapsedTime();
-    world.rotation.x=THREE.MathUtils.lerp(world.rotation.x,targetPitch,0.060);
-    world.rotation.y=THREE.MathUtils.lerp(world.rotation.y,targetYaw,0.060);
-    for(let i=0;i<cards.length;i++){
-      const entry=cards[i],active=entry.option.key===selectedKey,hovered=entry.option.key===hoveredKey;
-      entry.group.position.y=entry.option.position[1]+Math.sin(t*0.78+i*1.23)*0.085;
-      entry.group.position.z=THREE.MathUtils.lerp(entry.group.position.z,entry.option.position[2]+(active?0.18:hovered?0.12:0),0.09);
-      entry.glow.material.opacity=0; // matte cards do not emit artificial halos
-      entry.under.material.emissiveIntensity=THREE.MathUtils.lerp(entry.under.material.emissiveIntensity,active?0.045:hovered?0.03:0.012,0.10);
+    world.rotation.x=targetPitch;
+    world.rotation.y=targetYaw;
+    for(const entry of cards){
+      const active=entry.option.key===selectedKey,hovered=entry.option.key===hoveredKey;
+      entry.group.position.y=entry.option.position[1];
+      entry.group.position.z=entry.option.position[2]+(active?0.14:hovered?0.09:0);
+      entry.glow.material.opacity=0;
+      entry.under.material.emissiveIntensity=active?0.035:0.01;
     }
-    for(const connection of connections){
-      const point=connection.curve.getPoint((t*connection.speed+connection.offset)%1);
-      connection.pulse.position.copy(point);
-    }
-    cyan.position.x=-5+Math.sin(t*0.21)*0.5;
-    lilac.position.y=-2+Math.cos(t*0.18)*0.4;
+    for(const connection of connections)connection.pulse.visible=false;
     updateTexts();
     renderer.render(scene,camera);
-    renderId=requestAnimationFrame(frame);
   }
-  document.addEventListener('visibilitychange',()=>{if(!document.hidden&&!renderId&&visible)renderId=requestAnimationFrame(frame);});
-  renderId=requestAnimationFrame(frame);
+  document.addEventListener('visibilitychange',requestRender);
+  requestRender();
   document.getElementById('sceneMode')?.setAttribute('title','Live WebGL depth: original evidence remains in accessible review panels.');
 }
 
@@ -273,9 +273,7 @@ function renderFace(item){
   const c=canvas.getContext('2d');
   const color='#'+item.accent.toString(16).padStart(6,'0');
   c.fillStyle=({source:'#414547',decision:'#524f49',evidence:'#45494a',review:'#484647',handover:'#454b47'}[item.key]||'#454749');c.fillRect(0,0,1024,684);
-  const grad=c.createLinearGradient(0,0,1024,684);
-  grad.addColorStop(0,'rgba(236,232,220,.075)');grad.addColorStop(0.28,'rgba(125,128,127,.03)');grad.addColorStop(1,'rgba(10,12,13,.10)');
-  c.fillStyle=grad;c.fillRect(0,0,1024,684);
+  // Flat surfaces keep the geometry legible without cinematic gradients.
   c.strokeStyle=color;c.globalAlpha=0.7;c.lineWidth=5;c.strokeRect(12,12,1000,660);c.globalAlpha=1;
   c.fillStyle=color;c.fillRect(36,36,122,6);
   c.font='600 29px monospace';c.fillStyle='#a7a9a5';c.fillText(item.prefix,37,103);
@@ -284,7 +282,7 @@ function renderFace(item){
   c.font='500 37px sans-serif';c.fillStyle='#c1c1bb';let subtitle=item.note||'ORIGINAL SOURCE';
   if(subtitle.length>40)subtitle=subtitle.slice(0,37)+'...';
   c.fillText(subtitle,37,447,950);
-  c.font='700 30px monospace';c.fillStyle=color;c.fillText('SELECT TO INSPECT   /   →',37,616);
+  c.font='700 30px monospace';c.fillStyle=color;c.fillText('SELECT',37,616);
   c.strokeStyle='#666b6c';c.lineWidth=3;c.strokeRect(856,534,119,100);
   c.strokeStyle=color;c.beginPath();c.arc(917,584,34,0,Math.PI*2);c.stroke();
   const texture=new THREE.CanvasTexture(canvas);
