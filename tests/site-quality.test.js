@@ -26,6 +26,8 @@ test('SEO metadata, canonical URLs, meaningful schema and social assets are publ
  assert.match(read('llms.txt'),/deterministic/);
  assert.ok(statSync(new URL('../public/og-deadend.png',import.meta.url)).size>8000,'Social artwork must have legible glyph paths');
  assert.ok(statSync(new URL('../public/favicon.png',import.meta.url)).size>500);
+ assert.ok(statSync(new URL('../public/team-lead.jpg',import.meta.url)).size>6000);
+ assert.match(read('about.html'),/alt="Portrait from the project lead's public GitHub profile"/);
 });
 
 test('navigation is accessible and the 3D bundle is not eager-loaded on mobile',()=>{
@@ -46,7 +48,7 @@ test('all public routes, SEO resources, 404 pages and HEAD requests have correct
  await new Promise(resolve=>app.listen(0,'127.0.0.1',resolve));
  const base='http://127.0.0.1:'+app.address().port;
  try{
-  for(const [route,mime] of [['/','text/html'],['/about.html','text/html'],['/privacy.html','text/html'],['/sitemap.xml','application/xml'],['/robots.txt','text/plain'],['/llms.txt','text/plain'],['/LLMs.txt','text/plain'],['/og-deadend.png','image/png'],['/favicon.svg','image/svg+xml'],['/site.bundle.css','text/css']]){
+  for(const [route,mime] of [['/','text/html'],['/about.html','text/html'],['/privacy.html','text/html'],['/sitemap.xml','application/xml'],['/robots.txt','text/plain'],['/llms.txt','text/plain'],['/LLMs.txt','text/plain'],['/og-deadend.png','image/png'],['/team-lead.jpg','image/jpeg'],['/favicon.svg','image/svg+xml'],['/site.bundle.css','text/css']]){
    const res=await fetch(base+route);assert.equal(res.status,200,route);assert.ok(res.headers.get('content-type').startsWith(mime),route);
   }
   const notFound=await fetch(base+'/broken-page');assert.equal(notFound.status,404);assert.match(await notFound.text(),/This trail ends here/);
