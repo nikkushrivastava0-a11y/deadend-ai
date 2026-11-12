@@ -1,0 +1,95 @@
+/* DeadEnd — visual polish, navigation, and mobile interaction */
+:root { color-scheme: dark; }
+body { font-family:'DM Sans',Arial,sans-serif; overflow-x:clip; }
+.shell { max-width:100%; }
+main { width:100%; min-width:0; }
+.brand-link { display:flex; align-items:center; gap:10px; color:inherit!important; text-decoration:none; }
+.brand-link:hover {color:#fff!important;}
+.brand-link:focus-visible {outline:2px solid #e5e2d9; outline-offset:6px;}
+.menu-toggle {display:none; align-items:center; gap:9px; min-height:44px; padding:9px 12px; color:#edeae2; background:#27292a; border:1px solid #545756; border-radius:6px; font-size:12px; font-weight:700;}
+.menu-toggle .lines{display:grid; gap:4px; width:16px}
+.menu-toggle .lines i {width:16px;height:2px;background:currentColor;display:block;border-radius:3px}
+.breadcrumbs {display:flex; flex-wrap:wrap; align-items:center; gap:9px; color:#c5c4bd; font-size:11px; letter-spacing:.08em; text-transform:uppercase}
+.breadcrumbs a {color:#dedbd3; text-decoration:none}
+.breadcrumbs a:hover{text-decoration:underline;text-underline-offset:4px}
+.breadcrumbs span[aria-hidden]{color:#717676}
+.topright {font-size:10px; letter-spacing:.045em}
+.content {max-width:1650px;}
+.hero {gap:clamp(30px,4vw,68px); margin-top:13px;}
+.hero-copy>p,.pagehead p {max-width:48ch;line-height:1.7;}
+.hero h1 {font-size:clamp(68px,6.9vw,116px); line-height:.93;}
+.heroactions {gap:16px 25px;}
+.primary, .inspector-action {min-height:44px; font-weight:700; border-radius:6px!important;}
+.subtle {font-weight:600; text-underline-offset:3px;}
+.pagehead {margin-bottom:32px;}
+.pagehead h1 {font-size:clamp(41px,5.1vw,75px); line-height:1.05;}
+.panel {padding:clamp(20px,2.5vw,34px);}
+.site-footer {border-top:1px solid #383a3b; margin:48px 0 0; padding:26px 0 6px;display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;color:#c4c4bc;font-size:12px;}
+.site-footer nav {display:flex;flex-direction:row;gap:18px; flex-wrap:wrap;}
+.site-footer nav a {color:#c4c4bc; text-decoration:none; border-bottom:1px solid transparent;}
+.site-footer nav a:hover {color:#fff; border-bottom-color:#ccc;}
+.site-footer small {color:#afb0a9; font-size:11px;}
+#notice:not(:empty) {position:relative;z-index:2; background:#252b27!important; border:1px solid #82978a!important;color:#e1f3e5!important; border-radius:6px; line-height:1.5;}
+#notice.error {background:#332521!important;border-color:#b78676!important;color:#ffdcd3!important;}
+.informational {min-height:100vh;display:flex;flex-direction:column;background:#101113;color:#e7e5de;padding:0 clamp(20px,4vw,58px);}
+.informational header {max-width:1080px; width:100%;margin:0 auto;padding:30px 0;border-bottom:1px solid #3d4040;display:flex;align-items:center;justify-content:space-between;gap:20px;}
+.informational .brand-link {font:700 24px 'Space Grotesk',Arial,sans-serif;letter-spacing:-.045em;}
+.informational main {width:100%;max-width:900px;margin:clamp(40px,8vw,100px) auto 40px;}
+.informational .eyebrow {font-size:12px;letter-spacing:.15em}
+.informational h1 {font:700 clamp(48px,7vw,92px)/1.0 'Space Grotesk',Arial,sans-serif;letter-spacing:-.065em;margin:23px 0 32px;}
+.informational h2 {font-size:24px;margin:43px 0 12px;color:#eeeae1;}
+.informational p,.informational li{font-size:17px;line-height:1.7;color:#c3c4bd;max-width:72ch;}
+.informational a {color:#e2ded4; text-decoration:underline;text-underline-offset:4px}
+.informational .back-link {display:inline-block; margin:30px 0; background:#d3d0c6; color:#17191a;padding:13px 18px;border-radius:6px;text-decoration:none;font-weight:700;}
+.informational footer {max-width:1080px;width:100%;margin:auto auto 20px;border-top:1px solid #3d4040;padding-top:20px;color:#acada8;}
+@media (max-width:700px) {
+ .shell {display:block;}
+ .sidebar {width:100%!important;padding:12px 16px!important;position:relative;z-index:20;display:flex!important;align-items:center;justify-content:space-between;flex-wrap:wrap;min-height:70px;}
+ .sidebar .brand{padding:0;font-size:23px;}
+ .menu-toggle{display:inline-flex;}
+ .sidebar #sidebarNav {display:none!important; width:100%; flex:0 0 100%; flex-direction:column!important; overflow:visible!important; gap:5px!important;margin:12px 0 4px; padding:9px 0 0;border-top:1px solid #393b3d;}
+ .sidebar.menu-open #sidebarNav {display:flex!important;}
+ .sidebar #sidebarNav .nav{width:100%;justify-content:flex-start; padding:13px!important; min-height:44px;}
+ .sidebar #sidebarNav .nav em{margin-left:auto;}
+ .workspace,.workspace-label,.sidebar-bottom{display:none!important;}
+ .topbar {height:auto;min-height:51px;padding:12px 18px; gap:10px;}
+ .breadcrumbs {font-size:10px;}
+ .topright {font-size:9px;white-space:nowrap;}
+ .content {padding:22px 18px 54px!important;}
+ .overline-right{display:none;}
+ .hero {display:flex!important;flex-direction:column;gap:15px;}
+ .hero-copy{padding:16px 0 6px;}
+ .hero h1 {font-size:clamp(57px,12vw,79px)!important;letter-spacing:-.077em;}
+ .heroactions {gap:12px; align-items:flex-start;}
+ .heroactions .primary{white-space:normal;}
+ .scene-wrap.immersive{width:100%;overflow:hidden;}
+ .scene{width:100%;max-width:100%;}
+ .scene-inspector{padding-top:16px;}
+ .stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));}
+ .stats article{min-width:0;}
+ .panel,.claim,.handover-entry{max-width:100%;min-width:0;overflow-wrap:anywhere;}
+ .filterbar{flex-wrap:wrap;}
+ .filterbar>input,.filterbar>select{max-width:100%;min-width:0;}
+ .review-actions{display:flex;flex-wrap:wrap;gap:8px;}
+ .review-actions .action{min-height:42px;}
+ .site-footer{display:block;margin-top:30px;padding-top:20px;}
+ .site-footer nav{gap:12px 20px;margin:12px 0;}
+ .informational header {padding:20px 0;}
+ .informational h1 {font-size:clamp(49px,12vw,75px);}
+}
+@media (max-width:380px) {
+ .topright #date{display:none;}
+ .hero h1{font-size:54px!important;}
+ .breadcrumbs{max-width:55%;}
+ .topbar{align-items:start;}
+}
+@media(prefers-reduced-motion:reduce) {*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important;}}
+
+/* Skip link is shown only to keyboard users. A single consistent line icon style. */
+.skip-link{position:fixed;z-index:9999;top:-90px;left:12px;padding:11px 18px;border:2px solid #ede9de;border-radius:7px;background:#171819;color:#fff;}
+.skip-link:focus{top:12px;}
+.nav-icon{flex:none;display:inline-block;color:inherit;opacity:.95;vertical-align:middle;}
+.sidebar #sidebarNav .nav{display:flex;align-items:center;gap:12px;}
+button:disabled{cursor:not-allowed;opacity:.58;}
+.breadcrumbs{min-width:0;}
+.breadcrumbs span{overflow-wrap:anywhere;}

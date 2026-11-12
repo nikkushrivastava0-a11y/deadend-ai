@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Sitemap: https://deadend-ai-codersinpune.vercel.app/sitemap.xml
