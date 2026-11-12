@@ -1,0 +1,24 @@
+# DeadEnd AI
+
+> A working prototype that finds and preserves why technical approaches were rejected, with inspectable public GitHub evidence and human review.
+
+Website: https://deadend-ai-codersinpune.vercel.app/
+Source code: https://github.com/nikkushrivastava0-a11y/deadend-ai
+About and product limitations: https://deadend-ai-codersinpune.vercel.app/about.html
+Privacy and permitted inputs: https://deadend-ai-codersinpune.vercel.app/privacy.html
+
+## What the product does
+- Import an individual public GitHub issue or pull request, including relevant comments, or paste permitted project notes.
+- Identify explicitly rejected technical approaches and preserve exact evidence quotations and source links.
+- Let a person correct, approve, dispute or reject findings.
+- Download a Markdown handover containing approved public findings.
+- Explore the evidence workflow through an interactive 3D visual or accessible mobile fallback.
+
+## Important limitations
+- It is a public/synthetic demonstration, not an authenticated enterprise workspace.
+- Its live extraction is deterministic; a production AI model is not configured.
+- It cannot authenticate private repositories or provide durable shared team storage.
+- A GitHub import can return no candidates when it lacks explicit evidence.
+
+## How to verify
+Try the example case in the web app, inspect its source quotation, approve a finding, then download the handover. More information: https://deadend-ai-codersinpune.vercel.app/about.html
