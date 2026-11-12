@@ -84,3 +84,12 @@ main { width:100%; min-width:0; }
  .topbar{align-items:start;}
 }
 @media(prefers-reduced-motion:reduce) {*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important;}}
+
+/* Skip link is shown only to keyboard users. A single consistent line icon style. */
+.skip-link{position:fixed;z-index:9999;top:-90px;left:12px;padding:11px 18px;border:2px solid #ede9de;border-radius:7px;background:#171819;color:#fff;}
+.skip-link:focus{top:12px;}
+.nav-icon{flex:none;display:inline-block;color:inherit;opacity:.95;vertical-align:middle;}
+.sidebar #sidebarNav .nav{display:flex;align-items:center;gap:12px;}
+button:disabled{cursor:not-allowed;opacity:.58;}
+.breadcrumbs{min-width:0;}
+.breadcrumbs span{overflow-wrap:anywhere;}
