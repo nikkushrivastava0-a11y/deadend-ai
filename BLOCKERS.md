@@ -38,3 +38,5 @@
 - Individual role-aware handover is now implemented and API-tested on a local dedicated server with temporary disk, but NOT hosted. Existing public Vercel capsules cannot be a shared authority for independent recipients. Need a dedicated single-process service with a durable directory and configured individual accounts over HTTPS. No paid infrastructure was created.
 - Current new-workflow browser proof is desktop (1363px); physical mobile and authenticated role UI still pending.
 - Final Round 3 PDF and hosted regression verification must reflect actual release status. Submitted Round 2 report remains unchanged as historical evidence.
+
+- 14 November: revalidation and disagreement flows passed fresh unauthenticated production HTTP end-to-end on 28263e1b. Authenticated team storage remains the principal release blocker. Both Supabase connections have no explicitly dedicated DeadEnd project.

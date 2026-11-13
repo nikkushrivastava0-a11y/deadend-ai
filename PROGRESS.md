@@ -87,3 +87,14 @@
 - Browser preview at 1363px: anonymous demo → dated unknown recheck → two-source comparison → human context-dependent resolution → approval → handover with both excerpts → Markdown download. Reload preserved state; DOM check showed no horizontal overflow. Physical mobile and role UI not browser-tested.
 - Build and 36 Node tests passed before final documentation changes; new tests cover all three workflows and private restart recovery. Final rerun recorded below.
 - Next: inspect PR CI/preview; verify public capsule deployment; choose an authorised durable team deployment before calling commitment 3 hosted-complete. Do not submit the final form.
+
+### Hosted verification checkpoint
+- PR #12 CI succeeded on b2709fc. Vercel preview dpl_5VXh7LzBGouQYj3LY4Aqspgwbfek reported READY for this exact commit.
+- Hosted Python HTTP test passed demo -> dated recheck -> disagreement -> resolution -> approval -> one-item handover; original quote and both-source reconciliation preserved, encrypted capsule state reloaded correctly. No authenticated team mode was enabled.
+- Preview encryption now uses a separate preview-only secret; production secret unchanged. Branch-scoped configuration was unavailable because the Vercel project has no connected Git repository; deployments are explicit Git-source deployments.
+- PR #12 merged as 28263e1b1197c0ce3084776f7f852f03bd1f9920. Production deployment and final public check are the next step.
+
+### Production verified — 14 November 2026
+- Deployment dpl_BGgb7EDfbmE31LcMaHjcH4Djk9Ef is READY and serves the public project domain from merge commit 28263e1b.
+- Fresh unauthenticated production HTTP session completed demo, dated recheck, two-source disagreement, human reconciliation, fresh approval and one-item handover. Original quote, dated status and two citations retained; capsules=true and teamMode=false. Frontend workflow-ui.js returned successfully.
+- Rechecked both Supabase connections: no dedicated DeadEnd project. No unrelated project modified. Dedicated storage selection remains required for hosted authenticated handover.
