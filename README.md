@@ -40,3 +40,8 @@ Production headless Chromium browser QA passed at **1440x900 desktop, 768x1024 t
 - Node CI `npm run check` passed **25/25**; headless Chromium production end-to-end paths passed at 1440x900, 768x1024, 390x844 and reduced-motion 390x844. All four journeys reached an approved one-item handover and downloaded Markdown without horizontal overflow or page JavaScript errors.
 - This is a *four-view Round 2 MVP*, **not** the requested complete ten-page immersive product. Verified backend evidence/provenance/review preserved. Role-based private organisational sharing, durable cross-user storage, and live LLM extraction are not yet implemented.
 - Updated report: https://deadend-ai-codersinpune.vercel.app/DeadEnd_Round2.pdf . Owner-only Drive copy: https://drive.google.com/file/d/1oVUxQMkIIPwOtjfcWu16dfS0dur9n_Yt/view (needs Anyone with link → Viewer before official submission).
+
+## Round 3 workflows (release candidate)
+Dated owner rechecks, explicit two-source human reconciliation and a dedicated-server authenticated recipient handover are implemented. See [workflow setup, role matrix and limits](docs/ROUND3_WORKFLOWS.md). The anonymous public demo supports rechecks and reconciliation; shared authenticated receipts require the documented durable team server. Never treat browser capsules as cross-user permissions.
+
+Build and check: `npm ci` then `npm run check`. Start locally with `npm start`. Local proof is not evidence that team roles are enabled in production.

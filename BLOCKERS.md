@@ -33,3 +33,8 @@
 - RESOLVED: CSS-only “3D” limitation; replaced by genuine Three.js WebGL on supported desktop/tablet. Verified keyboard rail, pointer selection, extruded meshes, orbit and four browser E2E flows. The earlier contrary text in this file is historical.
 - STILL PENDING future/full-product scope: ten full pages, authenticated permission-controlled private handovers, persistent multi-user database, verified live AI reasoning and physical device test. These are not represented as finished in Round 2.
 - SUBMISSION-CRITICAL MANUAL ACTION: Share the NEW updated Google Drive PDF https://drive.google.com/file/d/1oVUxQMkIIPwOtjfcWu16dfS0dur9n_Yt/view with Anyone with the link / Viewer. Check the new link in a private browser, not the earlier obsolete PDF link. Confirm Kanishk's registered full name and submit the official form as team leader before the deadline.
+
+## Round 3 deployment boundary
+- Individual role-aware handover is now implemented and API-tested on a local dedicated server with temporary disk, but NOT hosted. Existing public Vercel capsules cannot be a shared authority for independent recipients. Need a dedicated single-process service with a durable directory and configured individual accounts over HTTPS. No paid infrastructure was created.
+- Current new-workflow browser proof is desktop (1363px); physical mobile and authenticated role UI still pending.
+- Final Round 3 PDF and hosted regression verification must reflect actual release status. Submitted Round 2 report remains unchanged as historical evidence.
