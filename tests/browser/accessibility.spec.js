@@ -6,7 +6,7 @@ async function audit(page,name,results){
  const r=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21a','wcag21aa']).analyze();
  const row={page:name,violations:r.violations.map(v=>({id:v.id,impact:v.impact,help:v.help,nodes:v.nodes.map(n=>({target:n.target,failureSummary:n.failureSummary}))})),incomplete:r.incomplete.map(v=>({id:v.id,nodes:v.nodes.map(n=>({target:n.target}))}))};results.push(row);
  await mkdir('docs/evidence',{recursive:true});await writeFile('docs/evidence/axe-results.json',JSON.stringify({date:new Date().toISOString(),engine:r.testEngine,scope:'Automated axe checks; manual keyboard is separate',results},null,2));
- expect(row.violations.filter(v=>['serious','critical'].includes(v.impact))).toEqual([]);
+
 }
 async function tabTo(page,target){
  for(let n=0;n<220;n++){
@@ -27,6 +27,7 @@ test('axe audits public views, team sign-in and signed-in owner workspace',async
  await page.goto('/team.html');await audit(page,'team-sign-in',results);
  const name='axe_'+randomBytes(5).toString('hex');await page.getByLabel('Handle',{exact:true}).fill(name);await page.getByLabel('Password',{exact:true}).fill(randomBytes(24).toString('hex'));await page.getByRole('button',{name:'Create account',exact:true}).click();await expect(page.locator('#signed-in')).toContainText(name);
  await page.locator('form[data-team=create] input').fill('Synthetic accessibility audit');await page.getByRole('button',{name:'Create workspace as owner'}).click();await expect(page.locator('#team-notice')).toContainText('Saved');await page.getByRole('button',{name:'Load fictional Stripe case'}).click();await expect(page.locator('#team-notice')).toContainText('Fictional example saved');await audit(page,'team-owner-loaded',results);
+ expect(results.flatMap(r=>r.violations.filter(v=>['serious','critical'].includes(v.impact)))).toEqual([]);
 });
 
 test('keyboard-only public journey and team registration, workspace, invitation and review',async({page})=>{
