@@ -1,6 +1,7 @@
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let sandboxToken=sessionStorage.getItem('deadend-judge-sandbox')||'';
+let sandboxQueue=Promise.resolve();
 let selected=new URLSearchParams(location.search).get('workspace')||'',room=null,session=null;
 function notice(message,error=false){$('#retry-team').hidden=true;$('#team-notice').textContent=message;$('#team-notice').classList.toggle('error',error);$('#team-notice').setAttribute('role',error?'alert':'status');}
 function reportError(error){const stale=error.status===409&&/changed|refresh/i.test(error.message);notice(stale?'This workspace changed. Refresh the latest saved version, then try again.':error.message,true);$('#retry-team').hidden=!stale&&error.status!==503&&!error.network;}
@@ -67,7 +68,6 @@ load().then(()=>notice('Choose the next step in the judge guide above.')).catch(
 
 document.addEventListener('click',async e=>{const button=e.target.closest('[data-copy-invite]');if(!button)return;const field=document.querySelector('#invite-result input');try{await navigator.clipboard.writeText(field.value);notice('Invitation code copied. Share privately with the intended teammate.');}catch{field.focus();field.select();notice('Copy is unavailable here. The invitation code is selected; press Ctrl+C or Command+C.');}});
 
-let sandboxQueue=Promise.resolve();
 function sandboxRequest(path,data){
  // Each response replaces the entire capsule. A delayed read must not overwrite a newer write.
  const action=async()=>{const response=await fetch('/api/sandbox',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({path,token:sandboxToken,data})});const result=await response.json();if(!response.ok)throw Object.assign(Error(result.error||'Sandbox unavailable'),{status:response.status});sandboxToken=result.token;sessionStorage.setItem('deadend-judge-sandbox',sandboxToken);$('#sandbox-expiry').textContent='Synthetic sandbox expires at '+new Date(result.expiresAt).toLocaleTimeString()+'. Changes stay in this browser tab.';return result;};
