@@ -6,7 +6,7 @@ const viewports=[{width:1440,height:900},{width:390,height:844},{width:768,heigh
 const stripe='We tried Stripe checkout';
 const quote='The blocked Stripe environment was fixed later, however the production decision has not been revisited.';
 const notice=p=>p.locator('#team-notice');
-async function capture(page,name){await mkdir('docs/evidence',{recursive:true});await page.screenshot({path:`docs/evidence/${name}.png`,fullPage:true,mask:[page.locator('input[type=password]'),page.locator('input[aria-label="Invitation code"]')]});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
+async function capture(page,name){await mkdir('docs/evidence',{recursive:true});await page.screenshot({path:`docs/evidence/${name}.png`,fullPage:true,mask:[page.locator('input[type=password]'),page.locator('input[aria-label="Invitation code"],input[name="code"]')]});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
 async function saved(page){await expect(notice(page)).toContainText(/Saved to the shared database|candidate findings saved|Fictional example saved|Receipt saved/);}
 async function refresh(page){await page.getByRole('button',{name:'Refresh workspace',exact:true}).click();await expect(notice(page)).toHaveText('Latest saved revision loaded.');}
 const claim=p=>p.locator('article.claim').filter({has:p.locator('blockquote').filter({hasText:stripe})}).first();
