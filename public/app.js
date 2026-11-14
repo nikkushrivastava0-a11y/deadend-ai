@@ -99,7 +99,7 @@ const sceneInfo={
  source:['SOURCE / 01','Start with authorised evidence.','Import a public GitHub discussion or a permitted project note. The source text is retained so every candidate has an original quotation.','sources','Import source'],
  decision:['RECONSTRUCT / 02','Recover the abandoned approach.','The extractor identifies candidate rejected approaches and blockers. It does not claim a closed pull request proves a failed approach.','findings','Review findings'],
  evidence:['VERIFY / 03','No quotation, no conclusion.','Exact supporting excerpts are checked against the imported source. Contradictions and missing reasoning remain open questions.','findings','Inspect evidence'],
- review:['REVIEW / 04','A human makes the call.','An authorised reviewer must inspect and approve a finding. This prototype does not implement identity-based reviewer authentication.','findings','Review findings'],
+ review:['REVIEW / 04','A human makes the call.','Inspect the evidence before approval. This public demo uses an anonymous browser session; Team workspace provides individual reviewer accounts and shared handovers.','findings','Review findings'],
  handover:['HANDOVER / 05','Pass on the reason.','Only approved findings from public sources enter the generated handover. Restricted examples are excluded.','handover','Open handover']
 };
 function positionScene(){if(orbit)orbit.style.transform=`rotateX(${rotX}deg) rotateY(${rotY}deg)`;}
@@ -166,7 +166,7 @@ async function initialiseCaseRoom(){
   try{
     await refresh();
     if(!state.sources.length&&!state.claims.length){
-      if((await capabilities).teamMode)return;
+      if((await capabilities).legacyTeamMode)return;
       await api('/api/demo','POST');sessionStorage.setItem('deadend-example-seeded','1');await refresh();
     }
   }catch(err){notify('Could not load the example: '+err.message,true);}

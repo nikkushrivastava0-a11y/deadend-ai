@@ -1,0 +1,24 @@
+{
+  "sourceCommit": "db7f84efdbbbcc1ac3ad6fe3badbc64d006a2588",
+  "ciRun": "https://github.com/nikkushrivastava0-a11y/deadend-ai/actions/runs/43582879289",
+  "evidence": "observed in browser",
+  "automatedAxeViolations": 0,
+  "screens": [
+    "public-overview",
+    "public-sources",
+    "public-findings",
+    "public-handover",
+    "team-sign-in",
+    "team-owner-loaded",
+    "team-owner-after-issue",
+    "team-reviewer-after-resolution",
+    "team-recipient-after-acknowledgement"
+  ],
+  "keyboard": "Public route plus complete owner/reviewer/recipient route using Tab/Enter/native select keys and text typing",
+  "physicalPhone": false,
+  "limits": [
+    "Local Node and real disposable PostgreSQL via test RPC adapter, not hosted Supabase browser evidence",
+    "Axe incomplete checks still require human review; zero automated violations is not WCAG conformance",
+    "No physical device or screen-reader claim"
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "observedInBrowser": [
+    "Public: load, edit dialog, save, approve, navigate, download using Tab/Enter",
+    "Team: signup, workspace, sample import, invitation and review using keyboard; multi-role keyboard completion remains unverified"
+  ],
+  "limits": [
+    "Desktop keyboard only",
+    "No physical phone",
+    "Multi-role keyboard completion not yet proven"
+  ]
+}
