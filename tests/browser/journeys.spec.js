@@ -53,7 +53,7 @@ test('owner → reviewer → recipient browser journeys, viewport matrix and acc
     await refresh(recipient);await capture(recipient,'team-recipient-'+tag);const download=recipient.waitForEvent('download');await recipient.getByRole('button',{name:'Download brief',exact:true}).click();const file=await download;const content=await readFile(await file.path(),'utf8');expect(content).toContain(quote);expect(content).toContain('Production constraints');
     await recipient.getByRole('button',{name:'Acknowledge receipt',exact:true}).dblclick();await saved(recipient);await expect(recipient.getByText('Acknowledged by '+users[2].username,{exact:false})).toBeVisible();await capture(recipient,'team-receipt-'+tag);
     await recipient.getByRole('button',{name:'Sign out',exact:true}).click();await auth(recipient,users[2],'Sign in');await recipient.locator('#workspace-choice').selectOption(new URL(url).searchParams.get('workspace'));await expect(recipient.getByText('Acknowledged by '+users[2].username,{exact:false})).toBeVisible();
-    await review(owner,'rejected');await saved(owner);await refresh(recipient);await expect(recipient.getByRole('heading',{name:/Brief version/})).toHaveCount(1);await expect(recipient.locator('#team-room')).toContainText(quote);
+    await review(owner,'rejected');await expect(notice(owner)).toContainText(/changed|Refresh/i);await refresh(owner);await review(owner,'rejected');await saved(owner);await refresh(recipient);await expect(recipient.getByRole('heading',{name:/Brief version/})).toHaveCount(1);await expect(recipient.locator('#team-room')).toContainText(quote);
    });
   }
   expect(errors).toEqual([]);
