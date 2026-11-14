@@ -45,3 +45,6 @@ Production headless Chromium browser QA passed at **1440x900 desktop, 768x1024 t
 Dated owner rechecks, explicit two-source human reconciliation and a dedicated-server authenticated recipient handover are implemented. See [workflow setup, role matrix and limits](docs/ROUND3_WORKFLOWS.md). The anonymous public demo supports rechecks and reconciliation; shared authenticated receipts require the documented durable team server. Never treat browser capsules as cross-user permissions.
 
 Build and check: `npm ci` then `npm run check`. Start locally with `npm start`. Local proof is not evidence that team roles are enabled in production.
+
+## Hosted team workspaces
+Open `/team.html` for individual handle/password accounts, shared PostgreSQL state, owner-controlled reviewer/recipient invitations and versioned approved briefs with recipient acknowledgement. The public demo remains separate. See [hosted setup and limits](docs/HOSTED_TEAM.md). This path uses custom scrypt accounts and HttpOnly sessions, not Supabase Auth.

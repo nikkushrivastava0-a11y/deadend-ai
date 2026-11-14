@@ -98,3 +98,15 @@
 - Deployment dpl_BGgb7EDfbmE31LcMaHjcH4Djk9Ef is READY and serves the public project domain from merge commit 28263e1b.
 - Fresh unauthenticated production HTTP session completed demo, dated recheck, two-source disagreement, human reconciliation, fresh approval and one-item handover. Original quote, dated status and two citations retained; capsules=true and teamMode=false. Frontend workflow-ui.js returned successfully.
 - Rechecked both Supabase connections: no dedicated DeadEnd project. No unrelated project modified. Dedicated storage selection remains required for hosted authenticated handover.
+
+## Hosted team integration — 14 November 2026
+- User delegated organization selection; dedicated Supabase deadend-ai (gyozcrvgqfnvxmvzhbtj) created in TrustLoop AI organization, Mumbai; project creation quote was $0/month.
+- Added private RLS-enabled tables, server-capability RPC, durable custom scrypt accounts/sessions, membership/invitations and versioned workspace CAS saves. No service-role key in application.
+- Added /team.html login, workspace creation/join, imports, reviews/revalidation/reconciliation, versioned handovers, recipient download and acknowledgement.
+- Live local-to-Supabase harness encountered transport timeouts; do not count it as passing. Local build/regression and role/error-boundary fixtures pass; hosted preview verification pending.
+
+### Hosted verification completed
+- Revised preview c222ad0 passed actual registration/login, one-use role invitations, workspace isolation, restricted-source filtering, dated recheck, two-source human resolution, fresh approval, immutable brief versions, recipient-bound idempotent receipt, logout and durable relogin recovery. Synthetic workspace 65e75d42-fa9e-4329-8324-b07302e5c5ae.
+- Fixed a real persistence bug: JSONB key ordering invalidated JSON.stringify equality and duplicated issued briefs. Now deep equality preserves idempotency across database round-trips; regression test included.
+- npm run check passed 38/38; GitHub CI on c222ad0 succeeded. Desktop browser inspected team sign-in page at 1363px with no document overflow. Full signed-in browser journey and physical mobile are not claimed; signed-in journey was verified through real HTTP API accounts.
+- Production release and fresh production verification are next.

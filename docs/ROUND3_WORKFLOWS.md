@@ -1,3 +1,7 @@
+# Current hosted option
+
+The new `/team.html` workflow provides individual custom accounts, durable PostgreSQL storage and recipient receipts on Vercel. See [HOSTED_TEAM.md](HOSTED_TEAM.md) for setup and current limits. The dedicated disk-backed service described below remains an alternative deployment; its earlier hosted limitation does not describe the new PostgreSQL path.
+
 # Round 3 review workflows
 
 Implements the three commitments on page 6 of the submitted Round 2 report. This is an extension of main `30f1d0f`, not a replacement product.

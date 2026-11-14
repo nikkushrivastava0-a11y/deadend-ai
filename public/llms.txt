@@ -17,7 +17,9 @@ Privacy and permitted inputs: https://deadend-ai-codersinpune.vercel.app/privacy
 ## Important limitations
 - It is a public/synthetic demonstration, not an authenticated enterprise workspace.
 - Its live extraction is deterministic; a production AI model is not configured.
-- It cannot authenticate private repositories or provide durable shared team storage.
+- Private GitHub repository authentication is not implemented.
+- Separate /team.html supports individual custom scrypt accounts, role invitations, durable shared PostgreSQL records and recipient receipts. The anonymous demo remains browser-scoped.
+- Team accounts have no email verification, password recovery, MFA or OAuth.
 - A GitHub import can return no candidates when it lacks explicit evidence.
 
 ## How to verify

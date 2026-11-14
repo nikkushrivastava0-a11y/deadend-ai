@@ -1,3 +1,4 @@
+import {isDeepStrictEqual} from 'node:util';
 import {randomUUID} from 'node:crypto';
 import {verifyClaim, publicHandover} from './engine.js';
 
@@ -80,7 +81,7 @@ export function issueBrief(db,input,actor,recipients) {
   const items=handoverItems(db);
   if(!items.length)fail('Approve public findings before issuing a brief',409);
   db.briefs??=[];
-  const existing=db.briefs.findLast(b=>b.recipient===recipient&&JSON.stringify(b.items)===JSON.stringify(items));
+  const existing=db.briefs.findLast(b=>b.recipient===recipient&&isDeepStrictEqual(b.items,items));
   if(existing)return existing;
   if(db.briefs.length>=100)fail('Brief version limit reached');
   const record={id:randomUUID(),version:db.briefs.length+1,recipient,issuedBy:actor,issuedAt:new Date().toISOString(),items:structuredClone(items),receipt:null};

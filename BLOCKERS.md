@@ -40,3 +40,7 @@
 - Final Round 3 PDF and hosted regression verification must reflect actual release status. Submitted Round 2 report remains unchanged as historical evidence.
 
 - 14 November: revalidation and disagreement flows passed fresh unauthenticated production HTTP end-to-end on 28263e1b. Authenticated team storage remains the principal release blocker. Both Supabase connections have no explicitly dedicated DeadEnd project.
+
+## Hosted team storage implementation — 14 November
+- Dedicated Supabase database and hosted custom account/membership/session path now implemented and preview-tested end to end. This resolves the earlier lack of shared hosted storage once the verified release is promoted.
+- Remaining scope limits: no account recovery, verified email, MFA/OAuth, private GitHub import, full signed-in browser E2E or physical-phone QA. Use unique strong passwords.
