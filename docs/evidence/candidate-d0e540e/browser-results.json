@@ -1,0 +1,50 @@
+{
+  "status": "passed",
+  "date": "2026-11-14T10:11:18.703Z",
+  "target": "local Node server + real disposable PostgreSQL via RPC adapter",
+  "physicalPhone": false,
+  "tests": [
+    {
+      "test": "axe audits public views, team sign-in and signed-in owner workspace",
+      "status": "passed",
+      "durationMs": 3877,
+      "failure": []
+    },
+    {
+      "test": "keyboard-only public journey and team registration, workspace, invitation and review",
+      "status": "passed",
+      "durationMs": 3331,
+      "failure": []
+    },
+    {
+      "test": "complete three-role team journey using only keyboard input, with reviewer/recipient axe scans",
+      "status": "passed",
+      "durationMs": 6278,
+      "failure": []
+    },
+    {
+      "test": "UI handles stale-write 409 and database 503 without losing an unsaved draft",
+      "status": "passed",
+      "durationMs": 984,
+      "failure": []
+    },
+    {
+      "test": "owner → reviewer → recipient browser journeys, viewport matrix and access failures",
+      "status": "passed",
+      "durationMs": 20393,
+      "failure": []
+    },
+    {
+      "test": "public demo review, correction and download at all emulated sizes",
+      "status": "passed",
+      "durationMs": 4190,
+      "failure": []
+    },
+    {
+      "test": "one browser can judge all synthetic roles without any real account",
+      "status": "passed",
+      "durationMs": 1171,
+      "failure": []
+    }
+  ]
+}
