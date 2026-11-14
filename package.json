@@ -10,17 +10,21 @@
     "check": "npm run build && node --check hosted-team.js && node --check public/team.js && node --check server.js && node --check workflows.js && node --check identity.js && node --check public/workflow-ui.js && node --check engine.js && node --check public/app.js && npm test",
     "build": "esbuild src/scene3d.js --bundle --minify --format=iife --platform=browser --target=es2020 --outfile=public/scene3d.bundle.js && node scripts/copy-fonts.mjs && node scripts/build-assets.mjs",
     "prestart": "npm run build",
-    "verify:hosted": "node scripts/verify-hosted-team.mjs"
+    "verify:hosted": "node scripts/verify-hosted-team.mjs",
+    "verify:browser": "playwright test"
   },
   "engines": {
     "node": ">=20"
   },
   "devDependencies": {
-    "esbuild": "0.25.12",
-    "three": "0.180.0",
+    "@axe-core/playwright": "4.10.2",
     "@fontsource-variable/dm-sans": "5.3.0",
     "@fontsource-variable/space-grotesk": "5.3.0",
+    "@playwright/test": "1.56.1",
+    "esbuild": "0.25.12",
+    "fontkit": "2.0.4",
+    "pg": "8.16.3",
     "sharp": "0.34.4",
-    "fontkit": "2.0.4"
+    "three": "0.180.0"
   }
 }
