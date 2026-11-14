@@ -1,4 +1,6 @@
-# Round 3 review handoff - 14 November 2026
+# Round 3 pre-approval review handoff - 14 November 2026
+
+This is the historical review snapshot. Use [ROUND3_RELEASE.md](ROUND3_RELEASE.md) for the merged, deployed and verified release status.
 
 ## Release boundary
 

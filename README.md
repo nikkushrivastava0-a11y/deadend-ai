@@ -83,6 +83,8 @@ npm run verify:browser
 
 Label evidence as **observed in browser**, **API-tested**, **source-read** or **unverified**. Viewports are emulated; no physical-phone testing is claimed. Historical results and commits are in [CHANGELOG.md](CHANGELOG.md), not mixed into the current setup instructions.
 
+Current release results, exact source identities and remaining limits are recorded in [the release handoff](docs/ROUND3_RELEASE.md).
+
 ## Limitations and roadmap
 
 - No email verification, password recovery, OAuth or MFA. Save a unique password; handles do not prove real-world identity. Single-use recovery codes remain planned until their complete lifecycle is securely implemented/tested.

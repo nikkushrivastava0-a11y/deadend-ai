@@ -1,0 +1,40 @@
+{
+  "applicationSource": "c5c1d757c3beffe48c7e433ee73c28d920a83e9e",
+  "evidence": "observed in browser",
+  "target": "https://deadend-ai-codersinpune.vercel.app",
+  "nodeVersion": "22.x",
+  "nodeTests": {
+    "passed": 42,
+    "failed": 0
+  },
+  "browserTests": {
+    "passed": 8,
+    "failed": 0
+  },
+  "localBrowserRun": "https://github.com/nikkushrivastava0-a11y/deadend-ai/actions/runs/43587054177",
+  "localTestSource": "bc9b961481b6c996d37bec9172d97540c5a8e5c5",
+  "hostedBrowserRun": "https://github.com/nikkushrivastava0-a11y/deadend-ai/actions/runs/43587286050",
+  "hostedTestSource": "0e907e560f41bbe97502724bf3b654498818e8b9",
+  "hostedArtifactId": 14110844631,
+  "hostedArtifactDigest": "sha256:832fc67acaf9ce5ba7be6ccad015be199d738c4d484881e617ef42746a353ab6",
+  "axeReportedViolations": 0,
+  "axeIncomplete": "See raw axe reports; not a conformance claim. Owner sandbox textarea was separately observed at 14.12:1.",
+  "emulatedViewports": [
+    "390x844",
+    "768x1024",
+    "1440x900",
+    "390x844 reduced motion"
+  ],
+  "screenshots": 21,
+  "manualBrowserScreenshot": "manual-sandbox-receipt.jpg",
+  "physicalPhone": false,
+  "screenReader": false,
+  "pdfSha256": "adba33d2b08d1716e0b7b5bf1eff867364bf9eb7d7be0e106cf1229f55405551",
+  "limits": [
+    "Expired-invite SQL manipulation is local-test-only.",
+    "409/503 browser cases use intentional response fixtures.",
+    "No email verification or password recovery.",
+    "Extraction is deterministic.",
+    "A daily health request does not guarantee uptime or prevent every pause."
+  ]
+}

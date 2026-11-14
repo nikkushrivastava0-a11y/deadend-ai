@@ -1,3 +1,11 @@
+# Changelog
+
+## 14 November 2026 - Round 3 release
+
+Source-read: application source c5c1d757c3beffe48c7e433ee73c28d920a83e9e combines the approved browser/accessibility proof, judge guide, expiring synthetic sandbox, feedback states, DB-aware health, daily probe, current README and Node 22.x package identity. Hosted testing found a capsule-response race; PR #28 serializes requests and locks role transitions.
+
+API-tested: 42/42 Node tests. Observed in browser: 8/8 local and hosted Playwright tests, zero reported axe violations with documented incomplete checks, emulated viewport/reduced-motion and keyboard evidence. The five-page product report was regenerated after text approval; see docs/ROUND3_RELEASE.md for exact commands and limits.
+
 # Historical release notes
 
 The text below is the historical README through 14 November 2026. It records earlier releases and superseded limitations; use README.md for the current checked-out implementation. Historical verification applies only to its named revision.

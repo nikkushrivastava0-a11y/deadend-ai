@@ -1,0 +1,92 @@
+{
+  "date": "2026-11-14T10:53:06.655Z",
+  "engine": {
+    "name": "axe-core",
+    "version": "4.10.3"
+  },
+  "scope": "Automated axe checks; manual keyboard is separate",
+  "results": [
+    {
+      "page": "public-overview",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "page": "public-sources",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "nodes": [
+            {
+              "target": [
+                "#noteText"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "page": "public-findings",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "page": "public-handover",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "page": "team-sign-in",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "page": "team-owner-loaded",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-prohibited-attr",
+          "nodes": [
+            {
+              "target": [
+                "span"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "color-contrast",
+          "nodes": [
+            {
+              "target": [
+                "form[data-id=\"c182d60e29e8\"][data-team=\"review\"] > label:nth-child(1) > textarea[name=\"correction\"][maxlength=\"650\"][required=\"\"]"
+              ]
+            },
+            {
+              "target": [
+                "form[data-id=\"2a1ecc840858\"][data-team=\"review\"] > label:nth-child(1) > textarea[name=\"correction\"][maxlength=\"650\"][required=\"\"]"
+              ]
+            },
+            {
+              "target": [
+                "form[data-id=\"55df068b338c\"][data-team=\"review\"] > label:nth-child(1) > textarea[name=\"correction\"][maxlength=\"650\"][required=\"\"]"
+              ]
+            },
+            {
+              "target": [
+                "form[data-id=\"b816321f45ff\"][data-team=\"review\"] > label:nth-child(1) > textarea[name=\"correction\"][maxlength=\"650\"][required=\"\"]"
+              ]
+            },
+            {
+              "target": [
+                "form[data-id=\"0f75e95c65aa\"][data-team=\"review\"] > label:nth-child(1) > textarea[name=\"correction\"][maxlength=\"650\"][required=\"\"]"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
