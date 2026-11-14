@@ -1,0 +1,33 @@
+name: Release browser smoke
+on:
+  pull_request:
+    paths: ['.github/workflows/release-smoke.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: deadend-production-browser-proof
+  cancel-in-progress: false
+jobs:
+  production-browser:
+    if: github.event_name == 'workflow_dispatch' || github.head_ref == 'release/round3-live-proof'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      DEADEND_BROWSER_BASE_URL: https://deadend-ai-codersinpune.vercel.app
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with: {node-version: '22'}
+      - run: npm ci --no-audit --no-fund
+      - run: npm run check
+      - run: npx playwright install --with-deps chromium
+      - name: Exercise deployed app with disposable accounts and synthetic workspaces
+        run: npm run verify:browser
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: production-browser-proof
+          path: docs/evidence/
+          retention-days: 14
