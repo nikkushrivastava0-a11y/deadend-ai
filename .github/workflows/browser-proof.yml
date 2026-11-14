@@ -7,7 +7,7 @@ permissions:
   contents: read
 jobs:
   browser:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 20
     services:
       postgres:
@@ -18,7 +18,7 @@ jobs:
           POSTGRES_DB: deadend_test_browser
         ports: ['5432:5432']
         options: >-
-          --health-cmd pg_isready --health-interval 5s --health-timeout 5s --health-retries 10
+          --health-cmd "pg_isready -U deadend" --health-interval 5s --health-timeout 5s --health-retries 10
     env:
       DEADEND_TEST_DATABASE_URL: postgresql://deadend:disposable-ci-only@127.0.0.1:5432/deadend_test_browser
     steps:
