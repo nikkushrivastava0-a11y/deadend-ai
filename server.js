@@ -1,3 +1,4 @@
+import {sandboxHandler} from './sandbox.js';
 import {teamHandler,hostedConfigured} from './hosted-team.js';
 import {revalidate,openDisagreement,resolveDisagreement,handoverItems,issueBrief,acknowledgeBrief,fail} from './workflows.js';
 import {loadTeam,authenticate,permit,visibleDB} from './identity.js';
@@ -99,6 +100,7 @@ async function githubImport(input){
 const app=http.createServer(async(req,res)=>{
  try{
  let pathname=new URL(req.url,'http://localhost').pathname;
+ if(pathname==='/api/sandbox')return sandboxHandler(req,res);
  if(pathname.startsWith('/api/team/'))return teamHandler(req,res,{githubImport});
  const actor=authenticate(teamUsers,req.headers.authorization);
  if(teamUsers&&!actor){res.setHeader('WWW-Authenticate','Basic realm="DeadEnd team"');return json(res,401,{error:'Team sign-in required'});}
