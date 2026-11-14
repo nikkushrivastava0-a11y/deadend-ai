@@ -15,7 +15,7 @@ The Browser proof PR workflow supplies disposable PostgreSQL automatically. No p
 
 `DEADEND_BROWSER_BASE_URL` can optionally target an authorised deployed test instance. That mode skips direct SQL expiry manipulation; expired-invite browser verification remains local-only. No production invite is edited. Four accounts are registered once and reused across four workspace journeys to respect the normal authentication rate limit.
 
-Evidence is pending until a run produces browser-results.json and screenshots. Viewports are emulated 390×844, 768×1024, 1440×900 and 390×844 reduced motion. No physical-phone claim. Axe and full keyboard evidence are a separate task.
+Committed evidence is bound to the source revision and CI run in its manifest. A new run produces browser-results.json and screenshots for its own checkout. Viewports are emulated 390×844, 768×1024, 1440×900 and 390×844 reduced motion. No physical-phone claim. Axe and keyboard evidence are in accessibility-manifest.json, axe-results.json, axe-role-results.json and keyboard-team-results.json.
 
 ## Accessibility
 
