@@ -2,7 +2,7 @@
 
 Verified on 14 November 2026 (IST).
 
-Source-read: the verified application source is **c5c1d757c3beffe48c7e433ee73c28d920a83e9e**. The PDF quotes this application commit. A later documentation-only commit packages the report and evidence; it does not change the tested application. Production project: `deadend-ai-codersinpune`, Node 22.x.
+Source-read: the verified application source is **c5c1d757c3beffe48c7e433ee73c28d920a83e9e**. The PDF quotes this application commit. Later report/publication commits package the evidence, add visible report links and clarify anonymous-demo copy; they do not change tested workflow or security logic. Production project: `deadend-ai-codersinpune`, Node 22.x.
 
 Public demo: https://deadend-ai-codersinpune.vercel.app/
 
