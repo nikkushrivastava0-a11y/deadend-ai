@@ -57,7 +57,7 @@ test('owner → reviewer → recipient browser journeys, viewport matrix and acc
    });
   }
   expect(errors).toEqual([]);
- }finally{for(const c of contexts)await c.close();}
+ }catch(error){for(let i=0;i<pages.length;i++)await capture(pages[i],'failure-role-'+i).catch(()=>{});throw error;}finally{for(const c of contexts)await c.close();}
 });
 
 test('public demo review, correction and download at all emulated sizes',async({browser,baseURL})=>{
