@@ -24,7 +24,7 @@ const gateway=http.createServer(async(req,res)=>{
  }catch(e){res.writeHead(e.code==='40001'?409:400,{'Content-Type':'application/json'}).end(JSON.stringify({code:e.code,message:e.message}));}
 });
 await new Promise(r=>gateway.listen(0,'127.0.0.1',r));
-Object.assign(process.env,{NODE_ENV:'test',DEADEND_SUPABASE_URL:'http://127.0.0.1:'+gateway.address().port,DEADEND_SUPABASE_KEY:'disposable-local-test',DEADEND_BACKEND_KEY:capability});
+Object.assign(process.env,{NODE_ENV:'test',DEADEND_STATE_KEY:randomBytes(32).toString('hex'),DEADEND_SUPABASE_URL:'http://127.0.0.1:'+gateway.address().port,DEADEND_SUPABASE_KEY:'disposable-local-test',DEADEND_BACKEND_KEY:capability});
 const {app}=await import('../server.js');
 await new Promise(r=>app.listen(3001,'127.0.0.1',r));
 console.log('Disposable browser test server ready at http://127.0.0.1:3001');
