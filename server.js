@@ -103,7 +103,7 @@ const app=http.createServer(async(req,res)=>{
  if(pathname==='/api/health'){
   if(!['GET','HEAD'].includes(req.method))return json(res,405,{error:'Method not allowed'});
   const database=await hostedHealth();const ok=!database.configured||database.reachable;
-  return json(res,ok?200:503,{ok,publicDemo:true,teamMode:database.configured||!!teamUsers,teamAvailable:database.configured?database.reachable:!!teamUsers,database,capsules:!!process.env.DEADEND_STATE_KEY,aiConfigured:!!process.env.OPENAI_API_KEY});
+  return json(res,ok?200:503,{ok,publicDemo:true,teamMode:database.configured||!!teamUsers,legacyTeamMode:!!teamUsers,teamAvailable:database.configured?database.reachable:!!teamUsers,database,capsules:!!process.env.DEADEND_STATE_KEY,aiConfigured:!!process.env.OPENAI_API_KEY});
  }
  if(pathname==='/api/sandbox')return sandboxHandler(req,res);
  if(pathname.startsWith('/api/team/'))return teamHandler(req,res,{githubImport});
