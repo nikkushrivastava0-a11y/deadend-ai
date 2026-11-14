@@ -13,7 +13,7 @@ export async function gateway(action,payload={}){
  try{response=await fetch(process.env.DEADEND_SUPABASE_URL+'/rest/v1/rpc/deadend_gateway',{
   method:'POST',headers:{apikey:process.env.DEADEND_SUPABASE_KEY,'Content-Type':'application/json'},
   body:JSON.stringify({p_secret:process.env.DEADEND_BACKEND_KEY,p_action:action,p_payload:payload}),signal:AbortSignal.timeout(12000)
- });}catch{fail('Team database is unavailable. Your changes were not saved.',503);}
+ });}catch{fail('Team database is unavailable. Could not confirm the save; refresh before retrying.',503);}
  const data=await response.json();
  if(!response.ok){
   const status={'42501':403,'28000':401,'40001':409,'23505':409}[data.code]||400;
@@ -121,4 +121,15 @@ export async function teamHandler(req,res,{githubImport}){
  await gateway('save',{sessionHash,workspaceId:row.id,version:row.version,db});
  return send(res,200,result);
  }catch(e){if(e.status===401)setCookie(req,res,'');return send(res,e.status||400,{error:e.message||'Team request failed'});}
+}
+
+let healthCache=null;
+export async function hostedHealth({force=false}={}){
+ if(!hostedConfigured())return {configured:false,reachable:false,checkedAt:null};
+ const key=process.env.DEADEND_SUPABASE_URL;
+ if(!force&&healthCache?.key===key&&Date.now()-healthCache.time<10000)return healthCache.result;
+ let reachable=false;
+ try{await gateway('login-info',{username:'__deadend_health_probe__'});reachable=true;}catch{}
+ const result={configured:true,reachable,checkedAt:new Date().toISOString()};
+ healthCache={key,time:Date.now(),result};return result;
 }

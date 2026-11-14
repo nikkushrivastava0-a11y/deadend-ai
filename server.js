@@ -1,4 +1,5 @@
-import {teamHandler,hostedConfigured} from './hosted-team.js';
+import {sandboxHandler} from './sandbox.js';
+import {teamHandler,hostedConfigured,hostedHealth} from './hosted-team.js';
 import {revalidate,openDisagreement,resolveDisagreement,handoverItems,issueBrief,acknowledgeBrief,fail} from './workflows.js';
 import {loadTeam,authenticate,permit,visibleDB} from './identity.js';
 import {seal,unseal} from './capsule.js';
@@ -99,6 +100,12 @@ async function githubImport(input){
 const app=http.createServer(async(req,res)=>{
  try{
  let pathname=new URL(req.url,'http://localhost').pathname;
+ if(pathname==='/api/health'){
+  if(!['GET','HEAD'].includes(req.method))return json(res,405,{error:'Method not allowed'});
+  const database=await hostedHealth();const ok=!database.configured||database.reachable;
+  return json(res,ok?200:503,{ok,publicDemo:true,teamMode:database.configured||!!teamUsers,legacyTeamMode:!!teamUsers,teamAvailable:database.configured?database.reachable:!!teamUsers,database,capsules:!!process.env.DEADEND_STATE_KEY,aiConfigured:!!process.env.OPENAI_API_KEY});
+ }
+ if(pathname==='/api/sandbox')return sandboxHandler(req,res);
  if(pathname.startsWith('/api/team/'))return teamHandler(req,res,{githubImport});
  const actor=authenticate(teamUsers,req.headers.authorization);
  if(teamUsers&&!actor){res.setHeader('WWW-Authenticate','Basic realm="DeadEnd team"');return json(res,401,{error:'Team sign-in required'});}
@@ -120,7 +127,6 @@ const app=http.createServer(async(req,res)=>{
   }else{session=teamUsers?sharedWorkspace():workspace(req,res);}
   let db=session.db;
   if(req.method==='POST'&&!res.snapshot)res.persistSession=session;
-  if(pathname==='/api/health')return json(res,200,{ok:true,hostedTeam:hostedConfigured(),mode:dataDir?'disk-backed session':'in-memory session',capsules:!teamUsers&&!!process.env.DEADEND_STATE_KEY,teamMode:!!teamUsers,actor,privateInstance:!!password,aiConfigured:!!process.env.OPENAI_API_KEY});
   if(pathname.startsWith('/api/')&&req.method==='POST'){
    permit(actor,pathname==='/api/acknowledge'?['recipient']:['owner','reviewer']);
    if(['/api/reset','/api/demo','/api/import-notes','/api/import-github','/api/revalidate','/api/issue-brief'].includes(pathname))permit(actor,['owner']);
