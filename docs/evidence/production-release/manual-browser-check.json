@@ -1,0 +1,17 @@
+{
+  "evidence": "observed in browser",
+  "applicationSource": "c5c1d757c3beffe48c7e433ee73c28d920a83e9e",
+  "journey": [
+    "start synthetic sandbox",
+    "reviewer approval using native select keyboard",
+    "owner issue",
+    "recipient download",
+    "acknowledge",
+    "reload restores receipt"
+  ],
+  "textareaForeground": "rgb(230,227,217)",
+  "textareaBackground": "rgb(20,22,25)",
+  "textareaContrast": 14.1161320070048,
+  "physicalPhone": false,
+  "screenReader": false
+}

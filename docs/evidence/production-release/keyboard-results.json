@@ -1,0 +1,11 @@
+{
+  "observedInBrowser": [
+    "Public: load, edit dialog, save, approve, navigate, download using Tab/Enter",
+    "Team: signup, workspace, sample import, invitation and review using keyboard; full role coverage is recorded in keyboard-team-results.json"
+  ],
+  "limits": [
+    "Desktop keyboard only",
+    "No physical phone",
+    "Full role coverage is a separate test recorded in keyboard-team-results.json"
+  ]
+}
