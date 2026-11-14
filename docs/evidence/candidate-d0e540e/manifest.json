@@ -1,0 +1,23 @@
+{
+  "sourceCommit": "d0e540e6a727060d80f4671bddd07d0853e8fa05",
+  "date": "2026-11-14",
+  "evidence": "observed in browser",
+  "ciRun": "https://github.com/nikkushrivastava0-a11y/deadend-ai/actions/runs/43583943908",
+  "artifactId": 14109034685,
+  "artifactDigest": "sha256:9a3054b5f76e89929944c7c10e5476ac433279746fc06d191a7dbd84dc88d622",
+  "screenshots": 21,
+  "nodeTests": {
+    "passed": 42
+  },
+  "browserTests": {
+    "passed": 7
+  },
+  "axe": {
+    "version": "4.10.3",
+    "reportedViolations": 0,
+    "incomplete": "See raw axe reports: textarea contrast and role-label checks still require human review."
+  },
+  "target": "Node server + actual checked-in SQL gateway through test-only adapter on disposable PostgreSQL",
+  "physicalPhone": false,
+  "hostedCandidate": false
+}

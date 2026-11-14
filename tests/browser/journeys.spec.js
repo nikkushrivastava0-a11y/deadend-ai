@@ -6,10 +6,16 @@ const viewports=[{width:1440,height:900},{width:390,height:844},{width:768,heigh
 const stripe='We tried Stripe checkout';
 const quote='The blocked Stripe environment was fixed later, however the production decision has not been revisited.';
 const notice=p=>p.locator('#team-notice');
-async function capture(page,name){await mkdir('docs/evidence',{recursive:true});await page.screenshot({path:`docs/evidence/${name}.png`,fullPage:true,mask:[page.locator('input[type=password]'),page.locator('input[aria-label="Invitation code"]')]});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
+async function capture(page,name){await mkdir('docs/evidence',{recursive:true});await page.screenshot({path:`docs/evidence/${name}.png`,fullPage:true,mask:[page.locator('input[type=password]'),page.locator('input[aria-label="Invitation code"],input[name="code"]')]});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
 async function saved(page){await expect(notice(page)).toContainText(/Saved to the shared database|candidate findings saved|Fictional example saved|Receipt saved/);}
 async function refresh(page){await page.getByRole('button',{name:'Refresh workspace',exact:true}).click();await expect(notice(page)).toHaveText('Latest saved revision loaded.');}
 const claim=p=>p.locator('article.claim').filter({has:p.locator('blockquote').filter({hasText:stripe})}).first();
+async function signOut(page){
+ const response=page.waitForResponse(r=>new URL(r.url()).pathname==='/api/team/logout'&&r.request().method()==='POST');
+ await page.getByRole('button',{name:'Sign out',exact:true}).click();
+ expect((await response).ok()).toBe(true);
+ await expect(page.getByLabel('Handle',{exact:true})).toBeVisible();
+}
 async function auth(page,user,mode){await page.goto('/team.html');await page.getByLabel('Handle',{exact:true}).fill(user.username);await page.getByLabel('Password',{exact:true}).fill(user.password);await page.getByRole('button',{name:mode,exact:true}).click();await expect(page.locator('#signed-in')).toContainText(user.username);}
 async function invite(page,role){const f=page.locator('form[data-team=invite]');await f.getByLabel('Invite role').selectOption(role);await f.getByRole('button').click();await expect(notice(page)).toContainText('Invitation ready.');return page.getByLabel('Invitation code',{exact:true}).last().inputValue();}
 async function join(page,code){await page.locator('form[data-team=join] input').fill(code);await page.getByRole('button',{name:'Join invited workspace',exact:true}).click();await saved(page);}
@@ -25,7 +31,7 @@ test('owner → reviewer → recipient browser journeys, viewport matrix and acc
  try{
   await test.step('Register four disposable accounts in isolated browser contexts',async()=>{for(let i=0;i<4;i++)await auth(pages[i],users[i],'Create account');});
   await test.step('Wrong password is refused in the browser',async()=>{
-   await outsider.getByRole('button',{name:'Sign out',exact:true}).click();await outsider.getByLabel('Handle',{exact:true}).fill(users[3].username);await outsider.getByLabel('Password',{exact:true}).fill(randomBytes(24).toString('hex'));await outsider.getByRole('button',{name:'Sign in',exact:true}).click();await expect(notice(outsider)).toContainText('incorrect');await auth(outsider,users[3],'Sign in');
+   await signOut(outsider);await outsider.getByLabel('Handle',{exact:true}).fill(users[3].username);await outsider.getByLabel('Password',{exact:true}).fill(randomBytes(24).toString('hex'));await outsider.getByRole('button',{name:'Sign in',exact:true}).click();await expect(notice(outsider)).toContainText('incorrect');await auth(outsider,users[3],'Sign in');
   });
   for(let index=0;index<viewports.length;index++){
    const size=viewports[index],tag=`${size.width}x${size.height}${size.reducedMotion?'-reduced-motion':''}`;
@@ -52,7 +58,7 @@ test('owner → reviewer → recipient browser journeys, viewport matrix and acc
     const issue=owner.getByRole('button',{name:'Issue approved handover',exact:true});await issue.dblclick();await saved(owner);await expect(owner.getByRole('heading',{name:/Brief version/})).toHaveCount(1);await issue.click();await saved(owner);await expect(owner.getByRole('heading',{name:/Brief version/})).toHaveCount(1);
     await refresh(recipient);await capture(recipient,'team-recipient-'+tag);const download=recipient.waitForEvent('download');await recipient.getByRole('button',{name:'Download brief',exact:true}).click();const file=await download;const content=await readFile(await file.path(),'utf8');expect(content).toContain(quote);expect(content).toContain('Production constraints');
     await recipient.getByRole('button',{name:'Acknowledge receipt',exact:true}).dblclick();await saved(recipient);await expect(recipient.getByText('Acknowledged by '+users[2].username,{exact:false})).toBeVisible();await capture(recipient,'team-receipt-'+tag);
-    await recipient.getByRole('button',{name:'Sign out',exact:true}).click();await auth(recipient,users[2],'Sign in');await recipient.locator('#workspace-choice').selectOption(new URL(url).searchParams.get('workspace'));await expect(recipient.getByText('Acknowledged by '+users[2].username,{exact:false})).toBeVisible();
+    await signOut(recipient);await auth(recipient,users[2],'Sign in');await recipient.locator('#workspace-choice').selectOption(new URL(url).searchParams.get('workspace'));await expect(recipient.getByText('Acknowledged by '+users[2].username,{exact:false})).toBeVisible();
     await review(owner,'rejected');await expect(notice(owner)).toContainText(/changed|Refresh/i);await refresh(owner);await review(owner,'rejected');await saved(owner);await refresh(recipient);await expect(recipient.getByRole('heading',{name:/Brief version/})).toHaveCount(1);await expect(recipient.locator('#team-room')).toContainText(quote);
    });
   }

@@ -1,54 +1,98 @@
-## Round 3 final report
+# DeadEnd AI
 
-[Product report PDF](https://deadend-ai-codersinpune.vercel.app/DeadEnd_Round3.pdf) · [Team workspace](https://deadend-ai-codersinpune.vercel.app/team.html)
+Recover why a technical approach was rejected, check its original evidence, and pass a reviewed decision to the next developer. Built for CodersInPune 2026 by Nitanshu Shrivastav and Kanishk Baghel (team NIKKUSHRIVASTAVA0).
 
-# DeadEnd AI | CodersInPune 2026
-Team NIKKUSHRIVASTAVA0 · Lead: Nitanshu Shrivastav
+[Public demo](https://deadend-ai-codersinpune.vercel.app/) · [Team workspace](https://deadend-ai-codersinpune.vercel.app/team.html) · [Product PDF](https://deadend-ai-codersinpune.vercel.app/DeadEnd_Round3.pdf)
 
-Live investigation workspace: https://deadend-ai-codersinpune.vercel.app/
+## Quickstart
 
-## Try it
-Open an example case, select the Stripe finding and inspect the evidence and later update. Choose Review finding, edit the interpretation, and approve or reject it. Open Handover and download the approved public lessons. Restricted examples stay out. For your own investigation, use Add evidence with a public GitHub issue or PR URL or authorised notes. An import can correctly produce zero findings.
+Use **Node.js 22.x** and npm. No database, API credential or environment file is needed for the local anonymous demo.
 
-## Run
-Node 20+; no npm runtime dependencies. Run `npm start` and open http://localhost:3001. On Windows the supplied launcher starts the local server. Run `npm run check` for syntax checks and the integration/unit suite.
+```sh
+git clone https://github.com/nikkushrivastava0-a11y/deadend-ai.git
+cd deadend-ai
+npm ci
+npm run check
+npm start
+```
 
-## Architecture and configuration
-The original Node HTTP server hosts a vanilla JavaScript interface with a genuine Three.js WebGL evidence atlas and pointer/keyboard orbit. The Vercel function reuses that server. Desktop cards follow the selected finding. Narrow screens and reduced-motion clients use a flat grid.
+Open **http://localhost:3001**. `npm start` builds the bundled assets before starting the server. Stop with Ctrl+C. To use another port, set `PORT` in your shell or run `node server.js --port 3002` after building.
 
-GitHub issue text, conversation comments and inline PR review comments are separate evidence segments. Before approval and export, the server matches the original quote to its source and, for GitHub data, its comment permalink. An editor changes the interpretation without changing the quote. Possible changes in circumstances use named-term overlap and reversal language. Human review remains necessary.
+`npm run check` builds assets, checks JavaScript syntax and runs the Node unit/API suite. Tests are local and use fixtures or temporary storage; they do not alter production workspaces. Exact results belong to their tested commit, not to every future revision. Run `git rev-parse HEAD` to identify your checkout.
 
-The public Vercel deployment uses DEADEND_STATE_KEY to authenticate and encrypt a workspace held in sessionStorage. AES-256-GCM snapshots expire two hours after their last write. Rotation invalidates previous snapshots. Closing the tab can clear the case. These are individual sessions, not team storage. For a single-process local deployment, DEADEND_DATA_DIR enables atomic JSON snapshots on a persistent volume. Use a dedicated deployment behind HTTPS with DEADEND_WORKSPACE_PASSWORD to gate the Node service using HTTP Basic authentication (username reviewer). This is a shared access gate, not individual identity or role-based access control.
+## Try the anonymous demo
 
-Optional OPENAI_API_KEY enables schema-constrained quote selection on public imports. DEADEND_MODEL overrides gpt-4o-mini. Treat imported text as untrusted. Segment index and exact quote are independently checked. Invalid candidates are discarded. Outages preserve deterministic results. Restricted notes never go to the model. Public imports may go to the configured provider; obtain permission first.
+1. Choose **Trace the Stripe case**. The example is fictional.
+2. Read the original quotation and possible later update. Edit the interpretation and save it for review.
+3. Approve a public finding. Open **Handover** and download Markdown.
+4. In **Findings**, record a dated recheck or compare two sources. Resolve disagreements and approve again before exporting.
 
-## Provenance
-Round 2 extends the supplied v0.6 prototype. Engineering, design, tests and documentation used AI assistance. Sample discussions are fictional. Real issue imports are explicitly selected by URL.
+Quotes remain unchanged when interpretations change. Restricted notes never enter public handovers. An import can legitimately return zero findings. Public GitHub issues/PRs and authorised pasted notes are supported; private repositories are not.
 
-## Verified 10 November 2026 Round 2 release
-The main branch includes merged PR #1 (commit `9ff5e302`). Its predecessor release candidate `904bb1a` passed **23/23 Node tests** including real public issues #867 and #682. GitHub Actions succeeded. A new production Vercel deployment reported READY, and non-mocked GitHub import, manual review, exact citation, and anonymous handover passed in the public production HTTP API. A real interactive browser and physical mobile QA are not yet claimed.
+The anonymous demo is separate from team accounts. Locally, its default session state is in memory. Hosted anonymous capsules are encrypted/authenticated, kept in this tab's sessionStorage and expire after two hours from the last write. They do not grant cross-user access.
 
-A six-page release PDF is served at [DeadEnd_Round2.pdf](https://deadend-ai-codersinpune.vercel.app/DeadEnd_Round2.pdf). Public sources: [openhuman#867](https://github.com/tinyhumansai/openhuman/issues/867), [CodeAtlas#682](https://github.com/codeatlasdev/ui/issues/682), [Ruuvi#501](https://github.com/ruuvi/com.ruuvi.station.webui/issues/501). Note that optional AI extraction was not live-configured.
+## Hosted team mode
 
-## Final 10 November 2026 deployment — verification
-The latest production release is `7fe3d2c` with frontend navigation fixes (PR #5) and HTTP security headers (PR #6). On the exact PR #6 branch, `npm run check` passed **24/24 tests** and GitHub Actions completed successfully. Vercel production reports READY. Direct public HTTP confirmed the app, health API and six-page PDF all respond with status 200; security response headers are present and API responses include no-store.
+Open **Team workspace** and create an individual handle/password account. Create a workspace as owner, load the example or import evidence, then invite a reviewer and a recipient. Each joins from their own account. Use independent browser profiles or private sessions; normal tabs share sign-in, and private tabs can share a private session too.
 
-Production headless Chromium browser QA passed at **1440x900 desktop, 768x1024 tablet, 390x844 mobile, 390x844 reduced-motion mobile**: 5 interactive evidence nodes, demo, Stripe lookup, correction, approval, one-item handover, original quotation preserved and Markdown download. No horizontal overflow or page JavaScript errors were observed. These are **emulated viewport/browser checks**, not testing on a physical phone. No live OpenAI model credential or private per-user role-based storage was configured.
+The owner records rechecks and issues an approved brief. A reviewer inspects public evidence, resolves disagreement and saves a review. The addressed recipient downloads and acknowledges the immutable brief. Reloading or signing in again recovers shared database state. A receipt confirms delivery, not technical correctness.
 
-**Round 2 submission:** https://forms.gle/gyRiHtQT3AnC3MdV6 (team leader only; do not submit automatically). PDF: https://deadend-ai-codersinpune.vercel.app/DeadEnd_Round2.pdf . Google Drive copy must be shared as Anyone with the link / Viewer separately by its owner.
+The Node backend uses custom salted-scrypt accounts and hashed, revocable eight-hour sessions with HttpOnly/SameSite cookies (Secure over HTTPS). **This is not Supabase Auth.** Roles come from current database membership. No service-role key is used or sent to the browser.
 
-## Genuine 3D Investigation Atlas — verified production 10 Nov 2026
-- Visual release: commit `b772503`, PR #7. Real Three.js/WebGL graphics (not CSS-only simulated depth), five multilayer extruded evidence slabs, cyan/lilac lighting, animated relationship traces, mouse drag orbit, raycast selection, and compact semantic keyboard step rail. The selection is connected to actual case inspector content.
-- Custom forensic-noir typography and layout use self-hosted DM Sans / Space Grotesk / Space Mono and an ESBuild-bundled Three.js module — no third-party runtime asset CDN.
-- Under 700px, with reduced-motion enabled or without WebGL2, the original semantic HTML evidence grid remains fully usable; do not claim GPU 3D on phone fallback.
-- Node CI `npm run check` passed **25/25**; headless Chromium production end-to-end paths passed at 1440x900, 768x1024, 390x844 and reduced-motion 390x844. All four journeys reached an approved one-item handover and downloaded Markdown without horizontal overflow or page JavaScript errors.
-- This is a *four-view Round 2 MVP*, **not** the requested complete ten-page immersive product. Verified backend evidence/provenance/review preserved. Role-based private organisational sharing, durable cross-user storage, and live LLM extraction are not yet implemented.
-- Updated report: https://deadend-ai-codersinpune.vercel.app/DeadEnd_Round2.pdf . Owner-only Drive copy: https://drive.google.com/file/d/1oVUxQMkIIPwOtjfcWu16dfS0dur9n_Yt/view (needs Anyone with link → Viewer before official submission).
+### Server configuration
 
-## Round 3 workflows (release candidate)
-Dated owner rechecks, explicit two-source human reconciliation and a dedicated-server authenticated recipient handover are implemented. See [workflow setup, role matrix and limits](docs/ROUND3_WORKFLOWS.md). The anonymous public demo supports rechecks and reconciliation; shared authenticated receipts require the documented durable team server. Never treat browser capsules as cross-user permissions.
+Apply `database/hosted-team.sql` once to a **dedicated empty Supabase PostgreSQL project**. Provision a high-entropy server capability privately and insert only its SHA-256 hash into the private backend-key table as described in [hosted setup](docs/HOSTED_TEAM.md). Configure these values on the server; never commit or log them.
 
-Build and check: `npm ci` then `npm run check`. Start locally with `npm start`. Local proof is not evidence that team roles are enabled in production.
+| Variable | Needed for | Purpose |
+|---|---|---|
+| `PORT` | Optional locally | HTTP port; default 3001 |
+| `DEADEND_SUPABASE_URL` | Team mode | Dedicated project's HTTPS API origin |
+| `DEADEND_SUPABASE_KEY` | Team mode | Publishable API key used by the backend RPC client |
+| `DEADEND_BACKEND_KEY` | Team mode | Secret scoped capability; only its hash is stored in the database |
+| `DEADEND_STATE_KEY` | Hosted anonymous capsules and sandbox | Secret encryption/authentication key; keep stable across instances |
+| `OPENAI_API_KEY` | Optional extraction integration | Enables optional structured model selection; not configured on the submitted deterministic deployment |
+| `DEADEND_MODEL` | Optional extraction integration | Optional model override |
 
-## Hosted team workspaces
-Open `/team.html` for individual handle/password accounts, shared PostgreSQL state, owner-controlled reviewer/recipient invitations and versioned approved briefs with recipient acknowledgement. The public demo remains separate. See [hosted setup and limits](docs/HOSTED_TEAM.md). This path uses custom scrypt accounts and HttpOnly sessions, not Supabase Auth.
+With no team configuration, team endpoints fail closed and the local anonymous demo still works. The hosted team UI does not depend on the historical shared-password/disk deployment. That older option is retained for compatibility and described in historical notes, not as the current architecture.
+
+## Judge sandbox
+
+An optional **Start disposable judge sandbox** button demonstrates reviewer → owner → recipient in one browser. All data is fictional, the roles are pre-wired, state expires after 15 minutes, and the server enforces the selected synthetic principal. Real individual accounts remain the primary path.
+
+The sandbox cannot import real notes, access a real workspace, invite real users or acknowledge a real brief. It creates no durable account/workspace records. Its encrypted state belongs only to this tab and can replay/fork fictional history until expiry; it is not a substitute for real multi-user persistence. Creation is rate-limited and requires the configured database limiter plus state key. See [sandbox boundary](docs/JUDGE_SANDBOX.md).
+
+## Architecture
+
+- **Browser:** vanilla HTML/CSS/JavaScript; self-hosted fonts and an ESBuild-bundled Three.js evidence atlas. Small screens, reduced motion and unsupported WebGL use the semantic fallback.
+- **Backend:** Node HTTP server reused by the Vercel function. Exact quotation/source checks gate approval and export. Revalidation and two-source reconciliation are dated human decisions.
+- **Shared storage:** private PostgreSQL tables with RLS and no direct client-table privileges. A fixed capability-gated RPC handles custom accounts, sessions, membership and optimistic workspace revisions. Conflicts require refreshing before retrying.
+- **Briefs:** only approved public findings are frozen into versions. Later source/review changes do not rewrite issued briefs. The recipient identity gates receipts.
+
+Health distinguishes team configuration, actual database reachability and public-demo availability. The optional daily workflow makes a read-only health request; free-tier services and scheduled jobs are best effort, not an uptime guarantee. See [operations and live smoke checklist](docs/OPERATIONS.md).
+
+## Verification and evidence
+
+```sh
+npm run check
+npx playwright install --with-deps chromium
+# Supply an empty disposable LOCAL PostgreSQL database privately:
+npm run verify:browser
+```
+
+[Browser evidence instructions](docs/evidence/README.md) explain `DEADEND_TEST_DATABASE_URL`, the test-only local RPC adapter and CI artifacts. Browser tests exercise the UI and actual checked-in SQL gateway on disposable PostgreSQL. That does not by itself verify the hosted Supabase transport. Axe results and keyboard coverage are recorded separately. Test output does not include passwords, cookies, keys or storage-state files.
+
+Label evidence as **observed in browser**, **API-tested**, **source-read** or **unverified**. Viewports are emulated; no physical-phone testing is claimed. Historical results and commits are in [CHANGELOG.md](CHANGELOG.md), not mixed into the current setup instructions.
+
+## Limitations and roadmap
+
+- No email verification, password recovery, OAuth or MFA. Save a unique password; handles do not prove real-world identity. Single-use recovery codes remain planned until their complete lifecycle is securely implemented/tested.
+- Production extraction is deterministic. Optional model handling has fixture coverage, not a verified live-model claim. Exact quote matching verifies provenance, not technical truth.
+- No private GitHub import, granular per-source grants or membership-revocation UI yet. Restricted notes remain owner-only and are excluded from recipient briefs.
+- Free-tier hosting/database availability can pause or fail. There is no high-availability or automatic failover guarantee.
+- Physical-device QA, screen-reader usability and measured real-user validation require additional evidence. Axe automation alone does not establish WCAG conformance.
+
+Next: verified identity/account recovery, membership controls, authorised private repository access, incremental source refresh and measured extraction quality on labelled real discussions. Existing evidence boundaries must remain intact.
+
+## Submission
+
+Round 3 closes **16 November 2026, 23:59 IST**. Hard code freeze is **16 November 2026, 15:59 IST**. The team leader submits once with the working project, repository, final PDF, feature list, architecture, improvements, testing and roadmap. The form is never submitted automatically.
