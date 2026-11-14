@@ -36,3 +36,25 @@ jobs:
           name: browser-proof
           path: docs/evidence/
           retention-days: 7
+  hosted-browser:
+    # Only the dedicated proof PR may create disposable production test accounts.
+    # Stacked feature PRs use isolated local PostgreSQL and never duplicate this job.
+    if: github.event_name == 'pull_request' && github.head_ref == 'task/01-browser-proof'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      DEADEND_BROWSER_BASE_URL: https://deadend-ai-codersinpune.vercel.app
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with: {node-version: '22'}
+      - run: npm ci --no-audit --no-fund
+      - run: npx playwright install --with-deps chromium
+      - run: npm run verify:browser -- tests/browser/journeys.spec.js
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: hosted-browser-proof
+          path: docs/evidence/
+          retention-days: 7
