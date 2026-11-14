@@ -177,3 +177,13 @@ dialog{background:var(--surface)!important;border:1px solid #66716d!important;bo
 }
 @media(max-width:380px){.heroactions{flex-direction:column;align-items:flex-start}.heroactions .primary{width:100%}.feature-card,.panel,.claim,.handover-entry{padding:var(--s2)!important}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+/* Axe-confirmed contrast corrections for the source list. */
+.source-row{background:#191d1c!important;color:#e7e9e4!important}
+.source-row small,#sourceTotal{color:#bdc7c0!important}
+.source-row summary{background:#191d1c!important;color:#e7e9e4!important}
+.breadcrumbs{background:#15191b!important;color:#bdc7c0!important}
+.breadcrumbs a,.breadcrumbs span{color:#bdc7c0!important}
+.counter small{color:#bdc7c0!important}
+.empty-state{background:#191d1c!important;color:#e7e9e4!important}
+.empty-state h3{color:#e7e9e4!important}.empty-state p{color:#bdc7c0!important}
+.empty-state .action{background:#242c28!important;color:#e7e9e4!important;border-color:#66766b!important}
