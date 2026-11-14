@@ -1,0 +1,40 @@
+{
+  "sourceCommit": "bce07741ff4a5d5768bb5a7f20ab34514e7494eb",
+  "ciRun": "https://github.com/nikkushrivastava0-a11y/deadend-ai/actions/runs/43583563165",
+  "label": "observed in browser",
+  "target": "local Node + actual checked-in SQL gateway on disposable PostgreSQL through test-only RPC adapter",
+  "automatedNodeTests": 42,
+  "browserTests": 7,
+  "automatedAxeViolations": 0,
+  "auditedScreenStates": 9,
+  "physicalPhone": false,
+  "screenshots": [
+    "public-handover-1440x900.png",
+    "public-handover-390x844-reduced-motion.png",
+    "public-handover-390x844.png",
+    "public-handover-768x1024.png",
+    "sandbox-recipient.png",
+    "team-empty-1440x900.png",
+    "team-empty-390x844-reduced-motion.png",
+    "team-empty-390x844.png",
+    "team-empty-768x1024.png",
+    "team-receipt-1440x900.png",
+    "team-receipt-390x844-reduced-motion.png",
+    "team-receipt-390x844.png",
+    "team-receipt-768x1024.png",
+    "team-recipient-1440x900.png",
+    "team-recipient-390x844-reduced-motion.png",
+    "team-recipient-390x844.png",
+    "team-recipient-768x1024.png",
+    "team-reviewer-1440x900.png",
+    "team-reviewer-390x844-reduced-motion.png",
+    "team-reviewer-390x844.png",
+    "team-reviewer-768x1024.png"
+  ],
+  "limits": [
+    "Not hosted Supabase browser evidence",
+    "Injected 409/503 fixtures test UI handling only",
+    "Axe incomplete checks and screen-reader usability need human assessment",
+    "Older individual-test manifests describe only their named source revision"
+  ]
+}

@@ -1,22 +1,52 @@
 {
   "status": "passed",
-  "date": "2026-11-14T09:48:08.885Z",
+  "date": "2026-11-14T10:06:47.996Z",
   "target": "local Node server + real disposable PostgreSQL via RPC adapter",
   "physicalPhone": false,
   "tests": [
     {
-      "test": "owner \u2192 reviewer \u2192 recipient browser journeys, viewport matrix and access failures",
+      "test": "axe audits public views, team sign-in and signed-in owner workspace",
       "status": "passed",
-      "durationMs": 19334,
+      "durationMs": 3320,
+      "failure": []
+    },
+    {
+      "test": "keyboard-only public journey and team registration, workspace, invitation and review",
+      "status": "passed",
+      "durationMs": 2654,
+      "failure": []
+    },
+    {
+      "test": "complete three-role team journey using only keyboard input, with reviewer/recipient axe scans",
+      "status": "passed",
+      "durationMs": 5867,
+      "failure": []
+    },
+    {
+      "test": "UI handles stale-write 409 and database 503 without losing an unsaved draft",
+      "status": "passed",
+      "durationMs": 924,
+      "failure": []
+    },
+    {
+      "test": "owner → reviewer → recipient browser journeys, viewport matrix and access failures",
+      "status": "passed",
+      "durationMs": 18891,
       "failure": []
     },
     {
       "test": "public demo review, correction and download at all emulated sizes",
       "status": "passed",
-      "durationMs": 3888,
+      "durationMs": 3726,
+      "failure": []
+    },
+    {
+      "test": "one browser can judge all synthetic roles without any real account",
+      "status": "passed",
+      "durationMs": 1039,
       "failure": []
     }
   ],
-  "sourceCommit": "86f6533b0101c3aedd67ca99e9a93ee7dac90ebf",
-  "ciRun": "https://github.com/nikkushrivastava0-a11y/deadend-ai/actions/runs/43582148874"
+  "sourceCommit": "bce07741ff4a5d5768bb5a7f20ab34514e7494eb",
+  "ciRun": "https://github.com/nikkushrivastava0-a11y/deadend-ai/actions/runs/43583563165"
 }
