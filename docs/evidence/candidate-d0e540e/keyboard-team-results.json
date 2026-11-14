@@ -1,0 +1,18 @@
+{
+  "observedInBrowser": true,
+  "input": "Tab, Enter, native select keyboard navigation and text typing; no mouse",
+  "journey": [
+    "signup in three contexts",
+    "workspace",
+    "sample",
+    "reviewer and recipient invitations/join",
+    "dated recheck",
+    "two-source comparison",
+    "resolution",
+    "fresh approval",
+    "issue",
+    "download",
+    "acknowledge"
+  ],
+  "physicalPhone": false
+}
