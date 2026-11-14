@@ -35,7 +35,7 @@ test('owner → reviewer → recipient browser journeys, viewport matrix and acc
     await expect(owner.getByText('No sources yet.',{exact:false})).toBeVisible();await capture(owner,'team-empty-'+tag);
     const url=owner.url();
     await outsider.goto(url);await expect(outsider.locator('#team-room')).not.toContainText('Disposable browser '+tag);await expect(outsider.locator('#workspace-choice option')).not.toContainText(['Disposable browser '+tag]);
-    await owner.getByRole('button',{name:'Load fictional Stripe case'}).click();await saved(owner);await owner.reload();await expect(claim(owner)).toBeVisible();
+    await owner.getByRole('button',{name:'Load fictional Stripe case'}).click();await expect(notice(owner)).toContainText('Fictional example saved');await owner.reload();await expect(claim(owner)).toBeVisible();
     const reviewerCode=await invite(owner,'reviewer');await join(reviewer,reviewerCode);
     await outsider.locator('form[data-team=join] input').fill(reviewerCode);await outsider.getByRole('button',{name:'Join invited workspace'}).click();await expect(notice(outsider)).toContainText('already used');
     await outsider.locator('form[data-team=join] input').fill('f'.repeat(64));await outsider.getByRole('button',{name:'Join invited workspace'}).click();await expect(notice(outsider)).toContainText('invalid');
