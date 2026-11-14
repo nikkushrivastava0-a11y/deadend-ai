@@ -1,0 +1,25 @@
+[
+  {
+    "role": "owner",
+    "violations": [],
+    "incomplete": [
+      "aria-prohibited-attr",
+      "color-contrast"
+    ]
+  },
+  {
+    "role": "reviewer",
+    "violations": [],
+    "incomplete": [
+      "aria-prohibited-attr",
+      "color-contrast"
+    ]
+  },
+  {
+    "role": "recipient",
+    "violations": [],
+    "incomplete": [
+      "aria-prohibited-attr"
+    ]
+  }
+]

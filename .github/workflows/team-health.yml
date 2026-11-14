@@ -1,0 +1,16 @@
+name: Daily team health
+on:
+  schedule:
+    - cron: '17 4 * * *'
+  workflow_dispatch:
+permissions: {}
+concurrency:
+  group: daily-team-health
+  cancel-in-progress: false
+jobs:
+  health:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 3
+    steps:
+      - name: Check public application and team database reachability
+        run: curl --fail --silent --show-error --retry 2 --max-time 25 https://deadend-ai-codersinpune.vercel.app/api/health
