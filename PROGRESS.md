@@ -110,3 +110,10 @@
 - Fixed a real persistence bug: JSONB key ordering invalidated JSON.stringify equality and duplicated issued briefs. Now deep equality preserves idempotency across database round-trips; regression test included.
 - npm run check passed 38/38; GitHub CI on c222ad0 succeeded. Desktop browser inspected team sign-in page at 1363px with no document overflow. Full signed-in browser journey and physical mobile are not claimed; signed-in journey was verified through real HTTP API accounts.
 - Production release and fresh production verification are next.
+
+## Hosted production acceptance — 14 November 2026
+- PR #13 merged as fe6a32b4febb68c4573e110410bd297178ed10f7; production deployment dpl_8upeJ82H9MF3BmXSj6V4MCEkbhz6 READY on the public project domain.
+- Fresh production HTTP test with four separate disposable accounts PASSED: registration/login, one-use invitations, workspace isolation, restricted-source filtering, owner/reviewer/recipient limits, dated recheck, two-source human resolution, fresh approval, immutable brief after later rejection, duplicate issue/receipt idempotency, logout401 and durable receipt recovery after relogin. Synthetic test workspace 4ac89593-88ba-4ebc-9a2c-0d92ebecf76c.
+- All three Round 2 commitments now have a hosted implementation. npm run check: 38/38 passed; GitHub CI on final PR head faf27ad succeeded.
+- Five-page final product report visually checked, published as /DeadEnd_Round3.pdf; includes feature inventory, architecture, improvements, testing, roadmap and honest limitations. Contrast adjustment improves team form labels.
+- Browser evidence covers sign-in layout only for team mode; signed-in multi-account validation used real HTTP APIs. No physical-mobile or full signed-in browser E2E claim. No official form submission performed.

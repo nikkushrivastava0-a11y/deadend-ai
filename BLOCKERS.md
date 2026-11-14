@@ -44,3 +44,9 @@
 ## Hosted team storage implementation — 14 November
 - Dedicated Supabase database and hosted custom account/membership/session path now implemented and preview-tested end to end. This resolves the earlier lack of shared hosted storage once the verified release is promoted.
 - Remaining scope limits: no account recovery, verified email, MFA/OAuth, private GitHub import, full signed-in browser E2E or physical-phone QA. Use unique strong passwords.
+
+## Current Round 3 status — hosted production accepted
+- RESOLVED: authenticated shared hosting blocker. Dedicated database plus custom scrypt accounts, server-side roles, immutable briefs and recipient receipts are live; independent production multi-account acceptance test passed. Earlier contrary status above is historical.
+- RESOLVED: final product report, complete inventory, architecture, testing and roadmap now published as /DeadEnd_Round3.pdf.
+- Known product limits remain: account recovery/verified email/MFA/OAuth, private GitHub import, full signed-in browser and physical-phone QA. No paid plan was activated.
+- Remaining submission action: team leader must review and submit the official Round 3 form before 16 November 2026 23:59 IST. No submission has occurred automatically.
