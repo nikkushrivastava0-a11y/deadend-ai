@@ -3,7 +3,7 @@ const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&
 let selected=new URLSearchParams(location.search).get('workspace')||'',room=null,session=null;
 function notice(message,error=false){$('#team-notice').textContent=message;$('#team-notice').classList.toggle('error',error);$('#team-notice').setAttribute('role',error?'alert':'status');}
 async function request(path,data){const r=await fetch('/api/team/'+path,{method:data?'POST':'GET',headers:{'Content-Type':'application/json'},body:data?JSON.stringify(data):undefined});const b=await r.json();if(!r.ok){if(r.status===401){$('#account-panel').hidden=false;$('#workspace-panel').hidden=true;$('#logout').hidden=true;}throw Error(b.error||'Request failed');}return b;}
-const desk=(route,data)=>request('desk',{workspaceId:selected,route,data});
+const desk=(route,data)=>request('desk',{workspaceId:selected,route,data,...(!['state','handover'].includes(route)&&room?{expectedVersion:room.workspace.version}:{})});
 async function load(){
  session=await request('session');$('#account-panel').hidden=true;$('#workspace-panel').hidden=false;$('#logout').hidden=false;
  $('#signed-in').textContent='Signed in as '+session.user.username;

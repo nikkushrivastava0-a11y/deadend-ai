@@ -88,6 +88,7 @@ export async function teamHandler(req,res,{githubImport}){
  const route=input.route,data=input.data||{};
  if(route==='state')return send(res,200,{actor,workspace:{id:row.id,name:row.name,version:row.version},...view,members:actor.role==='owner'?row.members:[],recipients:actor.role==='owner'?recipients:[]});
  if(route==='handover')return send(res,200,{items:actor.role==='recipient'?[]:handoverItems(view)});
+ if(input.expectedVersion!==undefined&&input.expectedVersion!==row.version)fail('Workspace changed. Refresh before saving.',409);
  permit(actor,route==='acknowledge'?['recipient']:['owner','reviewer']);
  if(['demo','import-notes','import-github','revalidate','issue-brief'].includes(route))permit(actor,['owner']);
  let result={ok:true};

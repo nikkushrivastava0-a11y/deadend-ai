@@ -47,3 +47,11 @@ test('issued briefs freeze approved public content, version independently and re
  const r=acknowledgeBrief(db,first.id,'kanishk').receipt;assert.deepEqual(acknowledgeBrief(db,first.id,'kanishk').receipt,r);
  c.state='approved';const second=issueBrief(db,{recipient:'nitanshu'},'owner',['nitanshu']);assert.equal(second.version,2);assert.equal(first.items[0].claim,original);
 });
+
+test('brief idempotency survives database JSONB object key reordering',()=>{
+ const {db,c}=fixture();c.state='approved';const first=issueBrief(db,{recipient:'kanishk'},'owner',['kanishk']);
+ const reorder=value=>Array.isArray(value)?value.map(reorder):value&&typeof value==='object'?Object.fromEntries(Object.keys(value).sort().map(key=>[key,reorder(value[key])])):value;
+ db.briefs=JSON.parse(JSON.stringify(reorder(db.briefs)));
+ assert.equal(issueBrief(db,{recipient:'kanishk'},'owner',['kanishk']).id,first.id);
+ assert.equal(db.briefs.length,1);
+});
