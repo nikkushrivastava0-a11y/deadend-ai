@@ -7,9 +7,10 @@
     "start": "node server.js",
     "dev": "node --watch server.js",
     "test": "node --test tests/*.test.js",
-    "check": "npm run build && node --check server.js && node --check workflows.js && node --check identity.js && node --check public/workflow-ui.js && node --check engine.js && node --check public/app.js && npm test",
+    "check": "npm run build && node --check hosted-team.js && node --check public/team.js && node --check server.js && node --check workflows.js && node --check identity.js && node --check public/workflow-ui.js && node --check engine.js && node --check public/app.js && npm test",
     "build": "esbuild src/scene3d.js --bundle --minify --format=iife --platform=browser --target=es2020 --outfile=public/scene3d.bundle.js && node scripts/copy-fonts.mjs && node scripts/build-assets.mjs",
-    "prestart": "npm run build"
+    "prestart": "npm run build",
+    "verify:hosted": "node scripts/verify-hosted-team.mjs"
   },
   "engines": {
     "node": ">=20"

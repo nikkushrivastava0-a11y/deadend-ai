@@ -1,3 +1,4 @@
+import {teamHandler,hostedConfigured} from './hosted-team.js';
 import {revalidate,openDisagreement,resolveDisagreement,handoverItems,issueBrief,acknowledgeBrief,fail} from './workflows.js';
 import {loadTeam,authenticate,permit,visibleDB} from './identity.js';
 import {seal,unseal} from './capsule.js';
@@ -98,6 +99,7 @@ async function githubImport(input){
 const app=http.createServer(async(req,res)=>{
  try{
  let pathname=new URL(req.url,'http://localhost').pathname;
+ if(pathname.startsWith('/api/team/'))return teamHandler(req,res,{githubImport});
  const actor=authenticate(teamUsers,req.headers.authorization);
  if(teamUsers&&!actor){res.setHeader('WWW-Authenticate','Basic realm="DeadEnd team"');return json(res,401,{error:'Team sign-in required'});}
  if(password&&!teamUsers){
@@ -118,7 +120,7 @@ const app=http.createServer(async(req,res)=>{
   }else{session=teamUsers?sharedWorkspace():workspace(req,res);}
   let db=session.db;
   if(req.method==='POST'&&!res.snapshot)res.persistSession=session;
-  if(pathname==='/api/health')return json(res,200,{ok:true,mode:dataDir?'disk-backed session':'in-memory session',capsules:!teamUsers&&!!process.env.DEADEND_STATE_KEY,teamMode:!!teamUsers,actor,privateInstance:!!password,aiConfigured:!!process.env.OPENAI_API_KEY});
+  if(pathname==='/api/health')return json(res,200,{ok:true,hostedTeam:hostedConfigured(),mode:dataDir?'disk-backed session':'in-memory session',capsules:!teamUsers&&!!process.env.DEADEND_STATE_KEY,teamMode:!!teamUsers,actor,privateInstance:!!password,aiConfigured:!!process.env.OPENAI_API_KEY});
   if(pathname.startsWith('/api/')&&req.method==='POST'){
    permit(actor,pathname==='/api/acknowledge'?['recipient']:['owner','reviewer']);
    if(['/api/reset','/api/demo','/api/import-notes','/api/import-github','/api/revalidate','/api/issue-brief'].includes(pathname))permit(actor,['owner']);
@@ -168,7 +170,7 @@ const app=http.createServer(async(req,res)=>{
    const b=await parseBody(req);return json(res,200,{ok:true,record:acknowledgeBrief(db,b.id,actor.username)});
   }
   if(req.method!=='GET' && req.method!=='HEAD')return json(res,405,{error:'Method not allowed'});
-  const lookup={'/':'index.html','/index.html':'index.html','/workflow-ui.js':'workflow-ui.js','/app.js':'app.js','/style.css':'style.css','/immersive.css':'immersive.css','/atmosphere.css':'atmosphere.css','/matte.css':'matte.css','/site.bundle.css':'site.bundle.css','/design-system.css':'design-system.css','/site-polish.css':'site-polish.css','/about.html':'about.html','/privacy.html':'privacy.html','/404.html':'404.html','/favicon.svg':'favicon.svg','/favicon.png':'favicon.png','/team-lead.jpg':'team-lead.jpg','/apple-touch-icon.png':'apple-touch-icon.png','/og-deadend.png':'og-deadend.png','/robots.txt':'robots.txt','/sitemap.xml':'sitemap.xml','/llms.txt':'llms.txt','/LLMs.txt':'LLMs.txt','/scene3d.bundle.js':'scene3d.bundle.js','/fonts/dm-sans.woff2':'fonts/dm-sans.woff2','/fonts/space-grotesk.woff2':'fonts/space-grotesk.woff2','/fonts/space-mono-400.woff2':'fonts/space-mono-400.woff2','/fonts/space-mono-700.woff2':'fonts/space-mono-700.woff2'};
+  const lookup={'/':'index.html','/index.html':'index.html','/team':'team.html','/team.html':'team.html','/team.js':'team.js','/team.css':'team.css','/workflow-ui.js':'workflow-ui.js','/app.js':'app.js','/style.css':'style.css','/immersive.css':'immersive.css','/atmosphere.css':'atmosphere.css','/matte.css':'matte.css','/site.bundle.css':'site.bundle.css','/design-system.css':'design-system.css','/site-polish.css':'site-polish.css','/about.html':'about.html','/privacy.html':'privacy.html','/404.html':'404.html','/favicon.svg':'favicon.svg','/favicon.png':'favicon.png','/team-lead.jpg':'team-lead.jpg','/apple-touch-icon.png':'apple-touch-icon.png','/og-deadend.png':'og-deadend.png','/robots.txt':'robots.txt','/sitemap.xml':'sitemap.xml','/llms.txt':'llms.txt','/LLMs.txt':'LLMs.txt','/scene3d.bundle.js':'scene3d.bundle.js','/fonts/dm-sans.woff2':'fonts/dm-sans.woff2','/fonts/space-grotesk.woff2':'fonts/space-grotesk.woff2','/fonts/space-mono-400.woff2':'fonts/space-mono-400.woff2','/fonts/space-mono-700.woff2':'fonts/space-mono-700.woff2'};
   const file=lookup[pathname]||null;
   if(!file && pathname.startsWith('/api/'))return json(res,404,{error:'Unknown API route'});
   const target=file||'404.html';
