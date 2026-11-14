@@ -26,7 +26,8 @@ test('hosted role boundary filters raw sources, other recipients and member dire
   assert.equal((await call({route:'review',data:{}})).status,403);assert.equal(saved,0);
   assert.equal((await call({route:'state'},{origin:'https://evil.invalid'})).status,403);
   role='reviewer';out=await call({route:'state'});assert.ok(out.body.sources.every(s=>s.visibility==='public'));assert.equal(out.body.briefs.length,0);
-  role='recipient';out=await call({route:'acknowledge',data:{id:'own'}});assert.equal(out.status,409);assert.match(out.body.error,/Refresh/);
+  role='recipient';out=await call({route:'acknowledge',expectedVersion:3,data:{id:'own'}});assert.equal(out.status,409);assert.equal(saved,0);
+  out=await call({route:'acknowledge',data:{id:'own'}});assert.equal(out.status,409);assert.match(out.body.error,/Refresh/);
   failDatabase=true;out=await call({route:'state'});assert.equal(out.status,503);assert.ok(!out.body.sources,'no anonymous fallback after database failure');
  }finally{global.fetch=originalFetch;await new Promise(r=>app.close(r));}
 });

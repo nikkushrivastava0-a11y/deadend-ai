@@ -17,7 +17,7 @@ The independent database is `deadend-ai` in Mumbai. Only that dedicated project 
 1. Apply `database/hosted-team.sql` to a new dedicated Supabase project. It is an initial schema, not an idempotent reapply script.
 2. Generate a random server capability; insert only its SHA-256 digest into `deadend_private.backend_keys`. Keep the original in the hosting provider's secret manager. Do not put it in source, SQL migration history, URLs or client assets.
 3. Configure server-only `DEADEND_SUPABASE_URL`, `DEADEND_SUPABASE_KEY` (publishable API key), `DEADEND_BACKEND_KEY` (the capability). A service-role key is not required.
-4. Run `npm ci && npm run check`, then deploy the same Git commit. Team API fails closed if configuration/database access is unavailable.
+4. Run `npm ci && npm run check`, then deploy the same Git commit. For local configuration, export the server variables or use Node 22+ with `node --env-file=.env.local server.js`; plain `npm start` does not auto-load an env file. Team API fails closed if configuration/database access is unavailable.
 5. Verify using separate owner/reviewer/recipient accounts. `npm run verify:hosted` creates clearly named disposable QA accounts when the above server variables are configured. `DEADEND_TEST_URL` targets a deployed server; it must be a deployment owned by this project. Do not print passwords, cookies or environment values. The script reports only a QA prefix and workspace ID for scoped cleanup.
 
 ## Current limits
